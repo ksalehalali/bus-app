@@ -1,3 +1,5 @@
+import 'package:bus_driver/bus_driver_src/entities/route/route_data.dart';
+import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
 import 'package:bus_driver/weather_src/features/weather_page/weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,13 +25,14 @@ class MyApp extends StatelessWidget {
           headline3: textStyleWithShadow,
           headline4: textStyleWithShadow,
           headline5: textStyleWithShadow,
+         // titleSmall: const TextStyle(color: Colors.white, fontSize: 12),
           subtitle1: const TextStyle(color: Colors.white),
           bodyText2: const TextStyle(color: Colors.white),
           bodyText1: const TextStyle(color: Colors.white),
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home: const WeatherPage(city: 'London'),
+      home:  HomePage(routeData: RouteData(number: 999, startFrom: 'Maliya', endAt: 'Fahaheel', busPlateNumber: '11-25034')),
     );
   }
 }

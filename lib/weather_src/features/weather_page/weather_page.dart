@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/app_colors.dart';
 import 'current_weather.dart';
 import 'hourly_weather.dart';
