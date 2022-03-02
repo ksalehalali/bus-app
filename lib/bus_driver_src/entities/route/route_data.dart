@@ -7,6 +7,15 @@ class RouteData {
     required this.busPlateNumber,
   });
 
+
+  RouteData.fromJson(Map<String, dynamic> json) {
+    number = json['number'];
+    startFrom = json['startFrom'];
+    endAt = json['endAt'];
+    busPlateNumber = json['busPlateNumber'];
+  }
+
+
   /*
   factory WeatherData.from(Weather weather) {
     return WeatherData(
@@ -20,8 +29,8 @@ class RouteData {
   }
 */
 
-  final int? number;
-  final String? startFrom;
-  final String? endAt;
-  final String? busPlateNumber;
+  String? number;
+  String? startFrom;
+  String? endAt;
+  String? busPlateNumber;
 }

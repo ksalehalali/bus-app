@@ -1,5 +1,6 @@
 import 'package:bus_driver/bus_driver_src/entities/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
+import 'package:bus_driver/bus_driver_src/features/qrcode_scanner/scanner.dart';
 import 'package:bus_driver/weather_src/features/weather_page/weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +33,9 @@ class MyApp extends StatelessWidget {
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home:  HomePage(routeData: RouteData(number: 999, startFrom: 'Maliya', endAt: 'Fahaheel', busPlateNumber: '11-25034')),
+      home:
+      //HomePage(routeData: RouteData(number: 999, startFrom: 'Maliya', endAt: 'Fahaheel', busPlateNumber: '11-25034')),
+      Scanner(),
     );
   }
 }
