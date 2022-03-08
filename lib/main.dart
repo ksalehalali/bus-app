@@ -5,6 +5,8 @@ import 'package:bus_driver/weather_src/features/weather_page/weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'bus_driver_src/features/login/login_page.dart';
+
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -35,7 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       home:
       //HomePage(routeData: RouteData(number: 999, startFrom: 'Maliya', endAt: 'Fahaheel', busPlateNumber: '11-25034')),
-      Scanner(),
+     // Scanner(),
+      LoginPage(),
     );
   }
 }
