@@ -1,6 +1,6 @@
 import 'package:bus_driver/bus_driver_src/features/qrcode_scanner/scanner.dart';
 import 'package:flutter/material.dart';
-import '../../entities/route/route_data.dart';
+import '../../data/route/route_data.dart';
 
 class RouteInformationWidget extends StatelessWidget {
   const RouteInformationWidget({Key? key, required this.routeData, required this.widgetHeight}) : super(key: key);

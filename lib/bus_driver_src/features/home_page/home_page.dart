@@ -1,4 +1,4 @@
-import 'package:bus_driver/bus_driver_src/entities/route/route_data.dart';
+import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/route_information_widget.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/total_transaction_count_widget.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/transaction_list.dart';

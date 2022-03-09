@@ -1,4 +1,4 @@
-import 'package:bus_driver/bus_driver_src/entities/transaction/transaction_type.dart';
+import 'package:bus_driver/bus_driver_src/data/transaction/transaction_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

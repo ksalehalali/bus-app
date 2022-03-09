@@ -53,6 +53,7 @@ dev_dependencies:
   qr_code_scanner: ^0.7.0
   url_launcher: ^6.0.20
   fluttertoast: ^8.0.9
+  shared_preferences: ^2.0.13
 
 flutter_icons:
   image_path: "assets/icon/icon.png"

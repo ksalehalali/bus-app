@@ -3,7 +3,7 @@ import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:convert';
-import '../../entities/route/route_data.dart';
+import '../../data/route/route_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Scanner extends StatefulWidget {

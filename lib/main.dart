@@ -1,4 +1,4 @@
-import 'package:bus_driver/bus_driver_src/entities/route/route_data.dart';
+import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
 import 'package:bus_driver/bus_driver_src/features/qrcode_scanner/scanner.dart';
 import 'package:bus_driver/weather_src/features/weather_page/weather_page.dart';

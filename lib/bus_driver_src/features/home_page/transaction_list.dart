@@ -1,8 +1,8 @@
-import 'package:bus_driver/bus_driver_src/entities/transaction/transaction_data.dart';
+import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../weather_src/constants/app_colors.dart';
-import '../../entities/transaction/transaction_type.dart';
+import '../../data/transaction/transaction_type.dart';
 
 class TransactionListWidget extends StatelessWidget {
   TransactionListWidget({Key? key, required this.widgetHeight}) : super(key: key);
