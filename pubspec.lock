@@ -681,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  signalr_flutter:
+    dependency: "direct dev"
+    description:
+      name: signalr_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   simple_fontellico_progress_dialog:
     dependency: "direct dev"
     description:

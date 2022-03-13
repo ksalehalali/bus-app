@@ -55,6 +55,7 @@ dev_dependencies:
   fluttertoast: ^8.0.9
   shared_preferences: ^2.0.13
   simple_fontellico_progress_dialog: ^0.2.1
+  signalr_flutter: ^0.1.2
 
 flutter_icons:
   image_path: "assets/icon/icon.png"
