@@ -18,7 +18,7 @@ class TotalTransactionCountWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center ,
             children: [
-              Text('Total transaction count', style: textTheme.subtitle1,),
+              Text('Total transaction count', style: TextStyle(color: Colors.white),),
               const SizedBox(height: 5),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,9 +50,9 @@ class TotalTransactionCountItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center ,
         children: [
-          Text('$type', style: textTheme.subtitle1,),
+          Text('$type', style: TextStyle(color: Colors.white),),
           const SizedBox(height: 3),
-          Text('$count', style: textTheme.subtitle1,),
+          Text('$count', style: TextStyle(color: Colors.white),),
         ],
       ),
     );

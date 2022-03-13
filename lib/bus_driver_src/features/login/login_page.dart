@@ -1,10 +1,14 @@
-import 'dart:async';
 import 'package:bus_driver/bus_driver_src/constants/app_colors.dart';
 import 'package:bus_driver/bus_driver_src/data/models/login_credentials.dart';
+import 'package:bus_driver/bus_driver_src/data/models/login_response_dto.dart';
 import 'package:flutter/material.dart';
+import '../../data/models/login_error_response_dto.dart';
 import '../../data/network_service.dart';
 import '../../data/repository.dart';
 import '../../helper/shared_preferences.dart';
+import '../qrcode_scanner/scanner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -38,6 +42,8 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
   late final AppData _appData;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final cpi = CircularProgressIndicator();
+  final _formKey = GlobalKey<FormState>();
   bool _passwordVisible = false;
 
   @override
@@ -49,58 +55,91 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Padding(padding:  EdgeInsets.all(10), child:  Image(image: AssetImage('assets/icon/icon.png'),height: 120,
-              fit:BoxFit.contain,)),
-            Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child: const Text('Sign in', style: TextStyle(fontSize: 20),)),
-            Container(padding: const EdgeInsets.all(10), child: TextField(controller: usernameController, keyboardType: TextInputType.text, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', prefixIcon: Icon(Icons.account_box)),),),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextField(keyboardType: TextInputType.visiblePassword, controller: passwordController, obscureText: !_passwordVisible,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(_passwordVisible ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {setState(() {_passwordVisible = !_passwordVisible;});},
+    SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+
+    return Form(
+        key: _formKey,
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: ListView(
+              children: <Widget>[
+                Padding(padding:  EdgeInsets.all(10), child:  Image(image: AssetImage('assets/icon/icon.png'),height: 120,
+                  fit:BoxFit.contain,)),
+                Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child: const Text('Sign in', style: TextStyle(fontSize: 20),)),
+                Container(padding: const EdgeInsets.all(10), child: TextFormField(
+                  controller: usernameController, keyboardType: TextInputType.text, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', prefixIcon: Icon(Icons.account_box)),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Username is required!';
+                    }
+                    return null;
+                  },
+                ),),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(keyboardType: TextInputType.visiblePassword, controller: passwordController, obscureText: !_passwordVisible,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(_passwordVisible ? Icons.visibility_off : Icons.visibility),
+                        onPressed: () {setState(() {_passwordVisible = !_passwordVisible;});},
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required!';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-            ),
-           /* TextButton(
+                /* TextButton(
               onPressed: () {
                 //forgot password screen
               },
               child: const Text('Forgot Password', style: TextStyle(fontSize: 15, color: AppColors.rainBlueLight),),
             ),*/
-            Container(
-                height: 100,
-                padding: const EdgeInsets.only(top: 40, bottom: 10, left: 10, right: 10),
-                child: ElevatedButton(
-                  child: const Text('Login', style: TextStyle(fontSize: 20),),
-                  onPressed: () {
-                    final loginCredentials = LoginCredentials(userName: usernameController.text, password: passwordController.text);
-                    //Timer(Duration(seconds: 2), () {
-                      repository.login(loginCredentials).then((loginResponseDTO) {
-                        if (loginResponseDTO != null) {
-                          print("loginResponseDTO... Status: ${loginResponseDTO.status}, Description.token: ${loginResponseDTO.description!.token}");
-                          _appData.getSharedPreferencesInstance().then((pref) {
-                            _appData.setAccessToken(pref!, loginResponseDTO.description!.token).then((value) {
-                              print("loginResponseDTO... Set AccessToken result: $value");
-                              print("loginResponseDTO... Get AccessToken: ${_appData.getAccessToken(pref)}");
-                            });
-                          });
+                Container(
+                    height: 100,
+                    padding: const EdgeInsets.only(top: 40, bottom: 10, left: 10, right: 10),
+                    child: ElevatedButton(
+                      child: const Text('Login', style: TextStyle(fontSize: 20),),
+                      onPressed: ()  {
+                        if (_formKey.currentState!.validate()) {
+                          _dialog.show(message: 'Please wait...');
+
+                        final loginCredentials = LoginCredentials(userName: usernameController.text, password: passwordController.text);
+                        //Timer(Duration(seconds: 2), () {
+                        repository.login(loginCredentials).then((response) {
+                          if (response != null) {
+                            if(response is LoginResponseDTO){
+                              print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}");
+                              _appData.getSharedPreferencesInstance().then((pref) {
+                                _appData.setAccessToken(pref!, response.description!.token).then((value) {
+                                  print("loginResponseDTO... Set AccessToken result: $value");
+                                  if(value == true){
+                                   Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Scanner()),);
+                                  }
+                                });
+                              });
+                            }else if(response is LoginErrorResponseDTO){
+                              Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                              Fluttertoast.showToast(msg: "Invalid username or password!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                            }
+                          }else{
+                            Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                            Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                          }
+                        });
+                        // });
                         }
-                      });
-                   // });
-                  },
-                )
-            ),
-           /* Row(
+                      },
+                    )
+                ),
+                /* Row(
               children: <Widget>[
                 const Text('Does not have account?', style: TextStyle(fontSize: 20),),
                 TextButton(
@@ -115,7 +154,8 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
               ],
               mainAxisAlignment: MainAxisAlignment.center,
             ), */
-          ],
-        ));
+              ],
+            ))
+    );
   }
 }

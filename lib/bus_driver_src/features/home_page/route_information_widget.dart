@@ -23,11 +23,11 @@ class RouteInformationWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center ,
                     children: [
                       const SizedBox(height: 3),
-                      Text('Route ${routeData!.number}', style: textTheme.subtitle1),
+                      Text('Route ${routeData!.number}', style: TextStyle(color: Colors.white),),
                       const SizedBox(height: 3),
-                      Text('${routeData!.startFrom} to ${routeData!.endAt}', style: textTheme.subtitle1),
+                      Text('${routeData!.startFrom} to ${routeData!.endAt}', style: TextStyle(color: Colors.white),),
                       const SizedBox(height: 3),
-                      Text('Bus plate number: ${routeData!.busPlateNumber}', style: textTheme.subtitle1),
+                      Text('Bus plate number: ${routeData!.busPlateNumber}', style: TextStyle(color: Colors.white),),
                       const SizedBox(height: 3),
                     ],
                   )

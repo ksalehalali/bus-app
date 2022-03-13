@@ -1,5 +1,6 @@
 
 import 'models/login_credentials.dart';
+import 'models/login_error_response_dto.dart';
 import 'models/login_response_dto.dart';
 import 'network_service.dart';
 
@@ -39,12 +40,16 @@ class Repository {
   }
 */
 
-  Future<LoginResponseDTO?> login(LoginCredentials loginCredentials) async {
+  Future<dynamic?> login(LoginCredentials loginCredentials) async {
   //  final todoObj = { "todo": message, "isCompleted": "false" };
 
     final todoMap = await networkService.login(loginCredentials.toJson());
     if (todoMap == null) return null;
 
-    return LoginResponseDTO.fromJson(todoMap);
+    if(todoMap['status'] == true){
+      return LoginResponseDTO.fromJson(todoMap);
+    }else{
+      return LoginErrorResponseDTO.fromJson(todoMap);
+    }
   }
 }

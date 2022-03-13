@@ -54,6 +54,7 @@ dev_dependencies:
   url_launcher: ^6.0.20
   fluttertoast: ^8.0.9
   shared_preferences: ^2.0.13
+  simple_fontellico_progress_dialog: ^0.2.1
 
 flutter_icons:
   image_path: "assets/icon/icon.png"

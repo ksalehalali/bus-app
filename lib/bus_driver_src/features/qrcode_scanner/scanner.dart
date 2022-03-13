@@ -60,7 +60,7 @@ class _ScannerState extends State<Scanner> {
           final routeData = RouteData.fromJson(decodedJSON);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(routeData: routeData,)),);
         } catch(e) {
-          Fluttertoast.showToast(msg: "This QR Code invalid!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueDark, textColor: Colors.white, fontSize: 16.0);
+          Fluttertoast.showToast(msg: "Invalid QR Code!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
           controller.resumeCamera();
         }
       }else{
