@@ -1,20 +1,49 @@
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_type.dart';
+import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
+import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TotalTransactionCountWidget extends StatelessWidget {
-  const TotalTransactionCountWidget({Key? key, required this.widgetHeight, this.totalSuccessTransactionCount,  this.totalFailedTransactionCount}) : super(key: key);
+class TotalTransactionCountWidget extends StatefulWidget {
+   TotalTransactionCountWidget({Key? key, required this.widgetHeight}) : super(key: key);
   final double? widgetHeight;
-  final int? totalSuccessTransactionCount;
-  final int? totalFailedTransactionCount;
+  int totalSuccessTransactionCount = 0;
+  int totalFailedTransactionCount = 0;
+
+  @override
+  _TotalTransactionCountWidget createState() => _TotalTransactionCountWidget();
+}
+
+class _TotalTransactionCountWidget extends State<TotalTransactionCountWidget> {
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
+      setState(() {
+        //widget.totalSuccessTransactionCount++;
+        if(event.transaction.status == TransactionType.Success.name) widget.totalSuccessTransactionCount++; else widget.totalFailedTransactionCount++;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
      final textTheme = Theme.of(context).textTheme;
+/*
+     setState(() {
+       EventBusUtils.getInstance().on().listen((event) {
+         totalSuccessTransactionCount++;
+       });
+     });
+     */
+     
     return Expanded(
         flex: 2,
         child: SizedBox(
-          height: widgetHeight,
+          height: widget.widgetHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center ,
             children: [
@@ -24,9 +53,9 @@ class TotalTransactionCountWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  TotalTransactionCountItem(type: '${TransactionType.Success.name}', count: totalSuccessTransactionCount),
+                  TotalTransactionCountItem(type: '${TransactionType.Success.name}', count: widget.totalSuccessTransactionCount),//totalSuccessTransactionCount),
                   const Spacer(),
-                  TotalTransactionCountItem(type: '${TransactionType.Failed.name}', count: totalFailedTransactionCount),
+                  TotalTransactionCountItem(type: '${TransactionType.Failed.name}', count: widget.totalFailedTransactionCount),
                   const Spacer(),
                 ],
               ),

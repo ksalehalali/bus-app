@@ -1,14 +1,19 @@
+import 'package:bus_driver/bus_driver_src/constants/network_constants.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
+import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
+import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../weather_src/constants/app_colors.dart';
 import '../../data/transaction/transaction_type.dart';
+import 'package:signalr_core/signalr_core.dart';
 
-class TransactionListWidget extends StatelessWidget {
-  TransactionListWidget({Key? key, required this.widgetHeight}) : super(key: key);
+class TransactionListWidget extends StatefulWidget {
+   TransactionListWidget({Key? key, required this.widgetHeight}) : super(key: key);
   final double? widgetHeight;
 
-  final List<Transaction> transactionList = [
+   List<Transaction> transactionList = [
+    /*
     Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name),
     Transaction(username: 'Latifa Esbaitah', timestamp: 1645563124, status: TransactionType.Success.name),
     Transaction(username: 'Abdullah', timestamp: 1645563060, status: TransactionType.Failed.name),
@@ -18,7 +23,29 @@ class TransactionListWidget extends StatelessWidget {
     Transaction(username: 'Mshary Ahmed', timestamp: 1645513652, status: TransactionType.Success.name),
     Transaction(username: 'Soliman Mohammed', timestamp: 1645513532, status: TransactionType.Failed.name),
     Transaction(username: 'Saad Mousa', timestamp: 1645513352, status: TransactionType.Success.name),
+    */
   ];
+
+  @override
+  _TransactionListWidget createState() => _TransactionListWidget();
+}
+
+class _TransactionListWidget extends State<TransactionListWidget> {
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
+      setState(() {
+        widget.transactionList.add(event.transaction);
+      //  widget.transactionList.add(Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name));
+      });
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +55,19 @@ class TransactionListWidget extends StatelessWidget {
         child: Container(
             color: Colors.white,
             child: SizedBox(
-                height: widgetHeight,
+                height: widget.widgetHeight,
                 child:   new ListView.separated(
-                  itemCount: transactionList.length,
+                  itemCount: widget.transactionList.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(height: 1,),
                   itemBuilder: (BuildContext context, int index) {
-                    return TransactionRow(transaction: transactionList[index],);
+                    return TransactionRow(transaction: widget.transactionList[index],);
                   },
                 )
             )
         )
     );
   }
+
 }
 
 class TransactionRow extends StatelessWidget {
@@ -60,4 +88,3 @@ class TransactionRow extends StatelessWidget {
     );
   }
 }
-

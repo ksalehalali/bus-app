@@ -16,6 +16,6 @@ class ScreenSize{
   double getScreenHeightExcludeSafeArea(BuildContext context) {
     final double height =  getScreenHeight(context);
     final EdgeInsets padding = getScreenPadding(context);
-    return (height - padding.top - padding.bottom)/10;
+    return (height - padding.top - padding.bottom)/100;
   }
 }

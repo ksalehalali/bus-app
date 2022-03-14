@@ -8,5 +8,6 @@ class NetworkConstants{
   NetworkConstants._internal();
 
   final baseUrl = "https://route.click68.com/api";
+  final liveTransactionServerUrl = "https://route.click68.com/ChatHub";
   final headers = {"content-type" : "application/json", "accept" : "application/json"};
 }
