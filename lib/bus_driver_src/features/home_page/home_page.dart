@@ -27,22 +27,13 @@ class _HomePage extends State<HomePage> {
   late EventBus eventBus;
   int count = 0;
   HubConnection? connection;
-  bool _canVibrate = true;
-  
+
   @override
   void initState() {
     eventBus = EventBusUtils.getInstance();
     super.initState();
   }
-/*
-  Future<void> _initVibration() async {
-    bool canVibrate = await Vibrate.canVibrate;
-    setState(() {
-      _canVibrate = canVibrate;
-      _canVibrate ? debugPrint('This device can vibrate') : debugPrint('This device cannot vibrate');
-    });
-  }
-*/
+
   Future<void> _initSignalR() async {
      connection = HubConnectionBuilder().withUrl(NetworkConstants().liveTransactionServerUrl,
         HttpConnectionOptions(
@@ -65,8 +56,8 @@ class _HomePage extends State<HomePage> {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
       SignalRTransactionDTO signalRTransactionDTO = SignalRTransactionDTO.fromJson(message.first);
       eventBus.fire(OnNewTransactionEvent(Transaction(username: signalRTransactionDTO.name, createdDate: signalRTransactionDTO.time, status: signalRTransactionDTO.status)));
-      bool canVibrate = await Vibrate.canVibrate;
-      if (canVibrate == true) {Vibrate.feedback(FeedbackType.success);}
+     // bool canVibrate = await Vibrate.canVibrate;
+      //if (canVibrate == true) {Vibrate.feedback(FeedbackType.success);}
     });
 
     await connection?.start();
@@ -77,7 +68,6 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var screenSize = ScreenSize();
-   // _initVibration();
     _initSignalR();
 
     return Scaffold(
