@@ -28,6 +28,7 @@ class _HomePage extends State<HomePage> {
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   late EventBus eventBus;
   int count = 0;
+  HubConnection? connection;
  // TotalTransactionCountWidget? totalTransactionCountWidget;
   //late final AppData _appData;
   
@@ -47,7 +48,7 @@ class _HomePage extends State<HomePage> {
   }
 
   Future<void> initSignalR() async {
-    final connection = HubConnectionBuilder().withUrl(NetworkConstants().liveTransactionServerUrl,
+     connection = HubConnectionBuilder().withUrl(NetworkConstants().liveTransactionServerUrl,
         HttpConnectionOptions(
          // accessTokenFactory: () async => await liveTransactionAccessToken,
           transport: HttpTransportType.webSockets,
@@ -58,26 +59,28 @@ class _HomePage extends State<HomePage> {
             print("SignalRCore... logging.. Level: $level, Message: ${message.toString()}");
           }
         )).build();
-    connection.serverTimeoutInMilliseconds = Duration(minutes: 6).inMilliseconds;
-    connection.onclose((exception) => print("SignalRCore... onclose.. Exception: $exception"));
-    connection.onreconnected((connectionId) => print("SignalRCore... onreconnected.. ConnectionId: $connectionId"));
+    connection?.serverTimeoutInMilliseconds = Duration(minutes: 6).inMilliseconds;
+    connection?.onclose((exception) => print("SignalRCore... onclose.. Exception: $exception"));
+    connection?.onreconnected((connectionId) => print("SignalRCore... onreconnected.. ConnectionId: $connectionId"));
 
     //لسينر عدد الدفعات
-    connection.on('PaymentCount', (message) {print("SignalRCore... onPaymentCount.. Message: ${message!.first}");});
+    connection?.on('PaymentCount', (message) {print("SignalRCore... onPaymentCount.. Message: ${message!.first}");});
     //لسينر قيمه الدفعات
-    connection.on('PaymentValueCount', (message) {print("SignalRCore... onPaymentValueCount.. Message: ${message!.first}");});
+    connection?.on('PaymentValueCount', (message) {print("SignalRCore... onPaymentValueCount.. Message: ${message!.first}");});
     //لسينر الدفعه الواحده
-    connection.on('PaymentLive', (message) {
+    connection?.on('PaymentLive', (message) {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
       Data data = Data.fromJson(message.first);
-      print("SignalRCore... onPaymentLive.. Message Data: ${data.name}");
-      eventBus.fire(OnNewTransactionEvent(Transaction(username: data.name, createdTime: data.time, status: data.status)));
+      //print("SignalRCore... onPaymentLive.. Message Data: ${data.name}");
+      eventBus.fire(OnNewTransactionEvent(Transaction(username: data.name, createdDate: data.time, status: data.status)));
      // eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
     });
 
-    await connection.start();
+    await connection?.start();
 
    // await connection.invoke('SendMessage', args: ['Bob', 'Says hi!']);
+
+   // connection.stop();
   }
 
   @override
@@ -126,6 +129,12 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  @override
+  void dispose(){
+    print("SignalRCore... dispose state");
+    connection?.stop();
+    super.dispose();
+  }
 
 
 /*

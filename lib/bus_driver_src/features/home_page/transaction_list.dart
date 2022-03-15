@@ -5,6 +5,7 @@ import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../weather_src/constants/app_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../data/transaction/transaction_type.dart';
 import 'package:signalr_core/signalr_core.dart';
 
@@ -12,26 +13,13 @@ class TransactionListWidget extends StatefulWidget {
    TransactionListWidget({Key? key, required this.widgetHeight}) : super(key: key);
   final double? widgetHeight;
 
-   List<Transaction> transactionList = [
-    /*
-    Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name),
-    Transaction(username: 'Latifa Esbaitah', timestamp: 1645563124, status: TransactionType.Success.name),
-    Transaction(username: 'Abdullah', timestamp: 1645563060, status: TransactionType.Failed.name),
-    Transaction(username: 'Mshary', timestamp: 1645521392, status: TransactionType.Success.name),
-    Transaction(username: 'Soliman', timestamp: 1645521092, status: TransactionType.Failed.name),
-    Transaction(username: 'Saad', timestamp: 1645520852, status: TransactionType.Failed.name),
-    Transaction(username: 'Mshary Ahmed', timestamp: 1645513652, status: TransactionType.Success.name),
-    Transaction(username: 'Soliman Mohammed', timestamp: 1645513532, status: TransactionType.Failed.name),
-    Transaction(username: 'Saad Mousa', timestamp: 1645513352, status: TransactionType.Success.name),
-    */
-  ];
-
   @override
   _TransactionListWidget createState() => _TransactionListWidget();
 }
 
 class _TransactionListWidget extends State<TransactionListWidget> {
-
+  List<Transaction> transactionList = [];
+  final ScrollController _scrollController = ScrollController();
 
 
   @override
@@ -39,8 +27,31 @@ class _TransactionListWidget extends State<TransactionListWidget> {
     super.initState();
     EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
       setState(() {
-        widget.transactionList.add(event.transaction);
-      //  widget.transactionList.add(Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name));
+        transactionList.add(event.transaction);
+       // Fluttertoast.showToast(msg: "maxScrollExtent: ${_scrollController.position.maxScrollExtent}, minScrollExtent: ${_scrollController.position.minScrollExtent}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1,);
+      //  Fluttertoast.showToast(msg: "position: ${_scrollController.position}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1,);
+       // _scrollController.attach(position)
+/*
+        _scrollController.jumpTo(
+            transactionList.length -1
+            //_scrollController.position.maxScrollExtent,
+            //duration: Duration(milliseconds: 200),
+            //curve: Curves.easeInOut
+        );
+        */
+/*
+        _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.fastOutSlowIn);
+*/
+
+        _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent * 2,
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeInOut);
+
+        //  widget.transactionList.add(Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name));
       });
     });
   }
@@ -56,18 +67,19 @@ class _TransactionListWidget extends State<TransactionListWidget> {
             color: Colors.white,
             child: SizedBox(
                 height: widget.widgetHeight,
-                child:   new ListView.separated(
-                  itemCount: widget.transactionList.length,
+                child: new ListView.separated(
+                  itemCount: transactionList.length,
+                  controller: _scrollController,
+                  //reverse: true,
+                 // controller: ScrollController(initialScrollOffset: 1, keepScrollOffset: true),//_scrollController,
                   separatorBuilder: (BuildContext context, int index) => Divider(height: 1,),
-                  itemBuilder: (BuildContext context, int index) {
-                    return TransactionRow(transaction: widget.transactionList[index],);
-                  },
+                  itemBuilder: (BuildContext context, int index) {return TransactionRow(transaction: transactionList[index],);},
                 )
             )
         )
     );
   }
-
+  //_scrollController.scrollTo(index: 150, duration: Duration(seconds: 1));
 }
 
 class TransactionRow extends StatelessWidget {
@@ -82,7 +94,7 @@ class TransactionRow extends StatelessWidget {
         flex: 1,
         child: ListTile(
           title: new Text(transaction!.username!, style: textStyle,),
-          subtitle: new Text(transaction!.createdTime!, style: textStyle,),
+          subtitle: new Text(transaction!.time, style: textStyle,),
           leading: new Image(image: AssetImage(transaction!.statusIconPath)),
       )
     );
