@@ -1,7 +1,6 @@
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_type.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TotalTransactionCountWidget extends StatefulWidget {
@@ -16,30 +15,16 @@ class TotalTransactionCountWidget extends StatefulWidget {
 
 class _TotalTransactionCountWidget extends State<TotalTransactionCountWidget> {
 
-
-
   @override
   void initState() {
     super.initState();
     EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
-      setState(() {
-        //widget.totalSuccessTransactionCount++;
-        if(event.transaction.status == true) widget.totalSuccessTransactionCount++; else widget.totalFailedTransactionCount++;
-      });
+      setState(() {if(event.transaction.status == true) widget.totalSuccessTransactionCount++; else widget.totalFailedTransactionCount++;});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-     final textTheme = Theme.of(context).textTheme;
-/*
-     setState(() {
-       EventBusUtils.getInstance().on().listen((event) {
-         totalSuccessTransactionCount++;
-       });
-     });
-     */
-     
     return Expanded(
         flex: 2,
         child: SizedBox(
@@ -73,8 +58,6 @@ class TotalTransactionCountItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final fontWeight = FontWeight.normal;
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center ,

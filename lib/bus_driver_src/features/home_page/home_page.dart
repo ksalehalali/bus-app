@@ -1,13 +1,11 @@
 import 'package:bus_driver/bus_driver_src/data/models/signalr_transaction_dto.dart';
 import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
-import 'package:bus_driver/bus_driver_src/data/transaction/transaction_type.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/route_information_widget.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/total_transaction_count_widget.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/transaction_list.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
-import 'package:bus_driver/bus_driver_src/helper/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/network_constants.dart';
@@ -19,7 +17,6 @@ class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.routeData}) : super(key: key);
   final RouteData? routeData;
 
-
   @override
   _HomePage createState() => _HomePage();
 }
@@ -29,22 +26,11 @@ class _HomePage extends State<HomePage> {
   late EventBus eventBus;
   int count = 0;
   HubConnection? connection;
- // TotalTransactionCountWidget? totalTransactionCountWidget;
-  //late final AppData _appData;
   
   @override
   void initState() {
     eventBus = EventBusUtils.getInstance();
     super.initState();
-    
-/*
-    _appData = AppData();
-    _appData.getSharedPreferencesInstance().then((pref) {
-      final accessToken = _appData.getAccessToken(pref!);
-     // signalrCore(accessToken);
-    });
-    */
-
   }
 
   Future<void> initSignalR() async {
@@ -53,9 +39,6 @@ class _HomePage extends State<HomePage> {
          // accessTokenFactory: () async => await liveTransactionAccessToken,
           transport: HttpTransportType.webSockets,
           logging: (level, message){
-           // eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
-           // eventBus.fire(OnNewTransactionEvent());
-           // widget.eventBus.fire(OnNewTransactionEvent());
             print("SignalRCore... logging.. Level: $level, Message: ${message.toString()}");
           }
         )).build();
@@ -63,24 +46,19 @@ class _HomePage extends State<HomePage> {
     connection?.onclose((exception) => print("SignalRCore... onclose.. Exception: $exception"));
     connection?.onreconnected((connectionId) => print("SignalRCore... onreconnected.. ConnectionId: $connectionId"));
 
-    //لسينر عدد الدفعات
+    //Transactions count listener
     connection?.on('PaymentCount', (message) {print("SignalRCore... onPaymentCount.. Message: ${message!.first}");});
-    //لسينر قيمه الدفعات
+     //Transactions value listener
     connection?.on('PaymentValueCount', (message) {print("SignalRCore... onPaymentValueCount.. Message: ${message!.first}");});
-    //لسينر الدفعه الواحده
+     //Transactions listener
     connection?.on('PaymentLive', (message) {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
-      Data data = Data.fromJson(message.first);
-      //print("SignalRCore... onPaymentLive.. Message Data: ${data.name}");
-      eventBus.fire(OnNewTransactionEvent(Transaction(username: data.name, createdDate: data.time, status: data.status)));
-     // eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
+      SignalRTransactionDTO signalRTransactionDTO = SignalRTransactionDTO.fromJson(message.first);
+      eventBus.fire(OnNewTransactionEvent(Transaction(username: signalRTransactionDTO.name, createdDate: signalRTransactionDTO.time, status: signalRTransactionDTO.status)));
     });
 
     await connection?.start();
-
    // await connection.invoke('SendMessage', args: ['Bob', 'Says hi!']);
-
-   // connection.stop();
   }
 
   @override
@@ -88,10 +66,8 @@ class _HomePage extends State<HomePage> {
     final textTheme = Theme.of(context).textTheme;
     var screenSize = ScreenSize();
     initSignalR();
-   // totalTransactionCountWidget = TotalTransactionCountWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10);
 
     return Scaffold(
-     // appBar: AppBar(title: Text("Bus driver app"),),
       body: DecoratedBox(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -116,16 +92,6 @@ class _HomePage extends State<HomePage> {
           ),
         ),
       ),
-/*
-      floatingActionButton: Visibility(
-        visible: true,
-        child:  FloatingActionButton(
-          onPressed: () async {EventBusUtils.getInstance().fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan', timestamp: 1645563186, status: TransactionType.Success.name)));},
-          tooltip: 'Increment',
-          child:  Icon(Icons.add),
-        ),
-      ),
-*/
     );
   }
 
@@ -135,14 +101,4 @@ class _HomePage extends State<HomePage> {
     connection?.stop();
     super.dispose();
   }
-
-
-/*
-  @override
-  void dispose() {
-    super.dispose();
-    //Close the event event stream, otherwise it will cause memory leakage. Call the following code:
-    EventBusUtils.getInstance().destroy();
-  }
-  */
 }
