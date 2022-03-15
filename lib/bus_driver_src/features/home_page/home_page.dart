@@ -52,7 +52,7 @@ class _HomePage extends State<HomePage> {
          // accessTokenFactory: () async => await liveTransactionAccessToken,
           transport: HttpTransportType.webSockets,
           logging: (level, message){
-            eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
+           // eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
            // eventBus.fire(OnNewTransactionEvent());
            // widget.eventBus.fire(OnNewTransactionEvent());
             print("SignalRCore... logging.. Level: $level, Message: ${message.toString()}");
@@ -67,7 +67,10 @@ class _HomePage extends State<HomePage> {
     //لسينر قيمه الدفعات
     connection.on('PaymentValueCount', (message) {print("SignalRCore... onPaymentValueCount.. Message: ${message!.first}");});
     //لسينر الدفعه الواحده
-    connection.on('PaymentLive', (message) {print("SignalRCore... onPaymentLive.. Message: ${message!.first}");});
+    connection.on('PaymentLive', (message) {
+      print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
+      eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
+    });
 
     await connection.start();
 
