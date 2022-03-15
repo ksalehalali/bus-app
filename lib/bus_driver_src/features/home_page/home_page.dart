@@ -28,6 +28,8 @@ class _HomePage extends State<HomePage> {
   late EventBus eventBus;
   int count = 0;
   HubConnection? connection;
+  List<Color> currentGradientColors = AppColors.activeGradient;
+ // HubConnectionState signalRStatus = HubConnectionState.disconnected;
 
   @override
   void initState() {
@@ -41,12 +43,48 @@ class _HomePage extends State<HomePage> {
          // accessTokenFactory: () async => await liveTransactionAccessToken,
           transport: HttpTransportType.webSockets,
           logging: (level, message){
+           // HubConnectionState newStatus = connection!.state!;
+           // if(newStatus != signalRStatus){
+             // setState(() {
+                if(message.contains('HubConnection connected successfully')){
+                  eventBus.fire(OnSignalRStatusChanged(true));
+
+                  /*
+                  setState(() {
+                    currentGradientColors = AppColors.activeGradient;
+                  });
+                  */
+                }
+               // if(newStatus == HubConnectionState.connected) currentGradientColors = AppColors.activeGradient;
+               // else currentGradientColors = AppColors.inactiveGradient;
+
+               // signalRStatus = newStatus;
+             // });
+           // }
             print("SignalRCore... logging.. Level: $level, Message: ${message.toString()}");
           }
         )).build();
     connection?.serverTimeoutInMilliseconds = Duration(minutes: 6).inMilliseconds;
-    connection?.onclose((exception) => print("SignalRCore... onclose.. Exception: $exception"));
-    connection?.onreconnected((connectionId) => print("SignalRCore... onreconnected.. ConnectionId: $connectionId"));
+    connection?.onclose((exception) {
+      eventBus.fire(OnSignalRStatusChanged(false));
+     /*
+      setState(() {
+        currentGradientColors = AppColors.inactiveGradient;
+      });
+      */
+
+      print("SignalRCore... onclose.. Exception: $exception");
+    });
+    connection?.onreconnected((connectionId){
+      eventBus.fire(OnSignalRStatusChanged(true));
+     /*
+      setState(() {
+        currentGradientColors = AppColors.activeGradient;
+      });
+      */
+
+      print("SignalRCore... onreconnected.. ConnectionId: $connectionId");
+    });
 
     //Transactions count listener
     connection?.on('PaymentCount', (message) {print("SignalRCore... onPaymentCount.. Message: ${message!.first}");});
@@ -74,11 +112,11 @@ class _HomePage extends State<HomePage> {
 
     return Scaffold(
       body: DecoratedBox(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: AppColors.rainGradient,
+            colors: currentGradientColors,
           ),
         ),
         child: SafeArea(
