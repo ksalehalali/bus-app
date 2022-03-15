@@ -12,6 +12,7 @@ import '../../constants/network_constants.dart';
 import '../../constants/screen_size.dart';
 import 'package:signalr_core/signalr_core.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.routeData}) : super(key: key);
@@ -26,14 +27,23 @@ class _HomePage extends State<HomePage> {
   late EventBus eventBus;
   int count = 0;
   HubConnection? connection;
+  bool _canVibrate = true;
   
   @override
   void initState() {
     eventBus = EventBusUtils.getInstance();
     super.initState();
   }
-
-  Future<void> initSignalR() async {
+/*
+  Future<void> _initVibration() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    setState(() {
+      _canVibrate = canVibrate;
+      _canVibrate ? debugPrint('This device can vibrate') : debugPrint('This device cannot vibrate');
+    });
+  }
+*/
+  Future<void> _initSignalR() async {
      connection = HubConnectionBuilder().withUrl(NetworkConstants().liveTransactionServerUrl,
         HttpConnectionOptions(
          // accessTokenFactory: () async => await liveTransactionAccessToken,
@@ -51,10 +61,12 @@ class _HomePage extends State<HomePage> {
      //Transactions value listener
     connection?.on('PaymentValueCount', (message) {print("SignalRCore... onPaymentValueCount.. Message: ${message!.first}");});
      //Transactions listener
-    connection?.on('PaymentLive', (message) {
+    connection?.on('PaymentLive', (message) async {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
       SignalRTransactionDTO signalRTransactionDTO = SignalRTransactionDTO.fromJson(message.first);
       eventBus.fire(OnNewTransactionEvent(Transaction(username: signalRTransactionDTO.name, createdDate: signalRTransactionDTO.time, status: signalRTransactionDTO.status)));
+      bool canVibrate = await Vibrate.canVibrate;
+      if (canVibrate == true) {Vibrate.feedback(FeedbackType.success);}
     });
 
     await connection?.start();
@@ -65,7 +77,8 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var screenSize = ScreenSize();
-    initSignalR();
+   // _initVibration();
+    _initSignalR();
 
     return Scaffold(
       body: DecoratedBox(
