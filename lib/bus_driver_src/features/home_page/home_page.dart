@@ -13,6 +13,7 @@ import '../../constants/screen_size.dart';
 import 'package:signalr_core/signalr_core.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.routeData}) : super(key: key);
@@ -56,7 +57,8 @@ class _HomePage extends State<HomePage> {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
       SignalRTransactionDTO signalRTransactionDTO = SignalRTransactionDTO.fromJson(message.first);
       eventBus.fire(OnNewTransactionEvent(Transaction(username: signalRTransactionDTO.name, createdDate: signalRTransactionDTO.time, status: signalRTransactionDTO.status)));
-     // bool canVibrate = await Vibrate.canVibrate;
+      FlutterBeep.beep(signalRTransactionDTO.status!);
+      // bool canVibrate = await Vibrate.canVibrate;
       //if (canVibrate == true) {Vibrate.feedback(FeedbackType.success);}
     });
 
