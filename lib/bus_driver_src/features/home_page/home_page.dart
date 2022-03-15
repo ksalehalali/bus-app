@@ -1,3 +1,4 @@
+import 'package:bus_driver/bus_driver_src/data/models/signalr_transaction_dto.dart';
 import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_type.dart';
@@ -43,7 +44,6 @@ class _HomePage extends State<HomePage> {
     });
     */
 
-
   }
 
   Future<void> initSignalR() async {
@@ -69,7 +69,10 @@ class _HomePage extends State<HomePage> {
     //لسينر الدفعه الواحده
     connection.on('PaymentLive', (message) {
       print("SignalRCore... onPaymentLive.. Message: ${message!.first}");
-      eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
+      Data data = Data.fromJson(message.first);
+      print("SignalRCore... onPaymentLive.. Message Data: ${data.name}");
+      eventBus.fire(OnNewTransactionEvent(Transaction(username: data.name, createdTime: data.time, status: data.status)));
+     // eventBus.fire(OnNewTransactionEvent(Transaction(username: 'Abdulaziz Al-Fouzan ${count++}', timestamp: 1645563186, status: TransactionType.Success.name)));
     });
 
     await connection.start();

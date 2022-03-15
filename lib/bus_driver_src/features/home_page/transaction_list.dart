@@ -82,7 +82,7 @@ class TransactionRow extends StatelessWidget {
         flex: 1,
         child: ListTile(
           title: new Text(transaction!.username!, style: textStyle,),
-          subtitle: new Text(transaction!.formattedTime, style: textStyle,),
+          subtitle: new Text(transaction!.createdTime!, style: textStyle,),
           leading: new Image(image: AssetImage(transaction!.statusIconPath)),
       )
     );

@@ -24,7 +24,7 @@ class _TotalTransactionCountWidget extends State<TotalTransactionCountWidget> {
     EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
       setState(() {
         //widget.totalSuccessTransactionCount++;
-        if(event.transaction.status == TransactionType.Success.name) widget.totalSuccessTransactionCount++; else widget.totalFailedTransactionCount++;
+        if(event.transaction.status == true) widget.totalSuccessTransactionCount++; else widget.totalFailedTransactionCount++;
       });
     });
   }
