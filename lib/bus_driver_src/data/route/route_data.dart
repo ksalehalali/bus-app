@@ -5,7 +5,8 @@ class RouteData {
     required this.startFrom,
     required this.endAt,
     required this.busPlateNumber,
-    required this.busId
+    required this.busId,
+    required this.routeId
   });
 
 
@@ -15,6 +16,7 @@ class RouteData {
     endAt = json['endAt'];
     busPlateNumber = json['busPlateNumber'];
     busId = json['busId'];
+    routeId = json['routeId'];
   }
 
 
@@ -36,4 +38,5 @@ class RouteData {
   String? endAt;
   String? busPlateNumber;
   String? busId;
+  String? routeId;
 }

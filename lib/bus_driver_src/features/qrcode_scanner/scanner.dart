@@ -72,19 +72,21 @@ class _ScannerState extends State<Scanner> {
           final decodedJSON = json.decode(scanData.code!) as Map<String, dynamic>;
           final routeData = RouteData.fromJson(decodedJSON);
 
-          _appData.getSharedPreferencesInstance().then((pref) {
+          _appData.getSharedPreferencesInstance().then((pref) async {
             String fcmToken = _appData.getFcmToken(pref!)!;
             final driverEnterCredentials = DriverEnterCredentials(BusID: routeData.busId, FCMToken: fcmToken);
 
-            repository.driverEnter(driverEnterCredentials).then((response) {
-              if (response != null) {
-                if (response is DriverEnterOutResponseDTO) {
+            await repository.driverEnter(driverEnterCredentials).then((response) {
+              if (response != null && response is DriverEnterOutResponseDTO) {
                   if(response.description!.status == true){
                     _appData.setBusID(pref, routeData.busId).then((value) {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(routeData: routeData,)),);
                     });
+                  }else{
+                    Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
                   }
-                }
+              }else{
+                Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
               }
             });
           });

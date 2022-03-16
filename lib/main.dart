@@ -6,15 +6,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'bus_driver_src/features/login/login_page.dart';
+import 'bus_driver_src/helper/shared_preferences.dart';
+import 'bus_driver_src/data/route/route_data.dart';
 
-void main() async{
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const ProviderScope(child: MyApp()));
-}
+  // Widget nextPage = await _getNextPage();
 
+  AppData _appData = AppData();
+  await _appData.getSharedPreferencesInstance().then((pref){
+    String? busId = _appData.getBusID(pref!);
+    if(busId == null) runApp(const ProviderScope(child: MyApp(true)));
+    else runApp(const ProviderScope(child: MyApp(false)));
+  });
+
+}
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp(this.isLogin, {Key? key}) : super(key: key);
+  final bool isLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +40,23 @@ class MyApp extends StatelessWidget {
           headline3: textStyleWithShadow,
           headline4: textStyleWithShadow,
           headline5: textStyleWithShadow,
-         // titleSmall: const TextStyle(color: Colors.white, fontSize: 12),
+          // titleSmall: const TextStyle(color: Colors.white, fontSize: 12),
           subtitle1: const TextStyle(color: Colors.white),
           bodyText2: const TextStyle(color: Colors.white),
           bodyText1: const TextStyle(color: Colors.white),
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home:
-      //HomePage(routeData: RouteData(number: 999, startFrom: 'Maliya', endAt: 'Fahaheel', busPlateNumber: '11-25034')),
-     // Scanner(),
-      LoginPage(),
+      home: _getNextPage(),
     );
+  }
+
+  Widget _getNextPage() {
+    if(isLogin == true){
+      return LoginPage();
+    } else {
+      RouteData dummyRouteData = RouteData(number: 'Dummy-103', startFrom: 'Jahra', endAt: 'Maliya', busPlateNumber: '11-47463', busId: '255ac1a2-1921-463a-de86-08da0015b60c', routeId: '34addb01-2b86-49f2-13a8-08d9d82ee213');
+      return HomePage(routeData: dummyRouteData);
+    }
   }
 }

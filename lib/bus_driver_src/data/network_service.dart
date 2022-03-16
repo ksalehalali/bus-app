@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:bus_driver/bus_driver_src/constants/network_constants.dart';
 import 'package:http/http.dart';
+import '../helper/shared_preferences.dart';
 import 'models/login_credentials.dart';
 
 class NetworkService {
+  late final AppData _appData = AppData();
 
   /*
   Future<List<dynamic>> fetchTodos() async {
@@ -57,13 +59,21 @@ class NetworkService {
   }
 
   Future<Map?> driverEnter(Map<String, dynamic> driverEnterCredentialsJson) async {
-    try {
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers:NetworkConstants().headers, body: jsonEncode(driverEnterCredentialsJson));
-      return jsonDecode(response.body);
-    } catch (e) {
-      print("DriverEnterOutResponseDTO error: ${e.toString()}");
-      return null;
-    }
+    await _appData.getSharedPreferencesInstance().then((pref) async {
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      print("DriverEnterOutResponseDTO headers: $headers");
+          //.addAll('Authorization', accessToken);
+      try {
+        final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers:headers, body: jsonEncode(driverEnterCredentialsJson));
+        print("DriverEnterOutResponseDTO request: ${response.request}, response: ${response.body}");
+        return jsonDecode(response.body);
+      } catch (e) {
+        print("DriverEnterOutResponseDTO error: ${e.toString()}");
+        return null;
+      }
+    });
   }
 
   Future<Map?> driverOut(Map<String, dynamic> driverOutCredentialsJson) async {

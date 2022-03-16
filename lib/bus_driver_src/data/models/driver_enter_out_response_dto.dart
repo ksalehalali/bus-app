@@ -6,9 +6,7 @@ class DriverEnterOutResponseDTO {
 
   DriverEnterOutResponseDTO.fromJson(Map<dynamic, dynamic> json) {
     status = json['status'];
-    description = json['description'] != null
-        ? new Description.fromJson(json['description'])
-        : null;
+    description = json['description'] != null ? new Description.fromJson(json['description']) : null;
   }
 
   Map<String, dynamic> toJson() {
