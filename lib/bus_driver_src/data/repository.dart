@@ -1,4 +1,6 @@
-
+import 'models/driver_enter_credentials.dart';
+import 'models/driver_enter_out_response_dto.dart';
+import 'models/driver_out_credentials.dart';
 import 'models/login_credentials.dart';
 import 'models/login_error_response_dto.dart';
 import 'models/login_response_dto.dart';
@@ -50,6 +52,24 @@ class Repository {
       return LoginResponseDTO.fromJson(todoMap);
     }else{
       return LoginErrorResponseDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
+    final todoMap = await networkService.driverEnter(driverEnterCredentials.toJson());
+    if (todoMap == null) return null;
+
+    if(todoMap['status'] == true){
+      return DriverEnterOutResponseDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> driverOut(DriverOutCredentials driverOutCredentials) async {
+    final todoMap = await networkService.driverOut(driverOutCredentials.toJson());
+    if (todoMap == null) return null;
+
+    if(todoMap['status'] == true){
+      return DriverEnterOutResponseDTO.fromJson(todoMap);
     }
   }
 }

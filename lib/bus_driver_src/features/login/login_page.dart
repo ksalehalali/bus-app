@@ -40,7 +40,6 @@ class LoginPageStatefulWidget extends StatefulWidget {
 
 class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
   late final Repository repository;
   late final AppData _appData;
   TextEditingController usernameController = TextEditingController();
@@ -54,15 +53,18 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
     repository = Repository(networkService: NetworkService());
     _appData = AppData();
     _passwordVisible = false;
-    firebaseCloudMessaging_Listeners();
+    initFirebaseCloudMessaging();
   }
 
-  void firebaseCloudMessaging_Listeners() {
+  void initFirebaseCloudMessaging() {
     //if (Platform.isIOS) iOS_Permission();
 
-    _firebaseMessaging.getToken().then((token){
-      print('FCM Token: $token');
-      Fluttertoast.showToast(msg: "FCM Token: $token", toastLength: Toast.LENGTH_SHORT, timeInSecForIosWeb: 3);
+    _firebaseMessaging.getToken().then((fcmToken){
+      _appData.getSharedPreferencesInstance().then((pref) {
+        _appData.setFcmToken(pref!, fcmToken).then((value) {
+          print("FCM Token: $fcmToken, Set FcmToken result: $value");
+        });
+      });
     });
 /*
     _firebaseMessaging.configure(

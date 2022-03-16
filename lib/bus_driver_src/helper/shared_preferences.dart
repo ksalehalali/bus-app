@@ -20,15 +20,18 @@ class AppData{
     return await sharedPreferences.clear();
   }
 
-  String? getAccessToken(SharedPreferences sharedPreferences) {
-    return sharedPreferences.getString(SharedPreferencesConstants().accessTokenKey);
-  }
+  //AccessToken
+  String? getAccessToken(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().accessTokenKey);
+  Future<bool?> setAccessToken(SharedPreferences? sharedPreferences, String? accessToken) async => await sharedPreferences!.setString(SharedPreferencesConstants().accessTokenKey, accessToken!);
+  Future<bool?> removeAccessToken(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().accessTokenKey);
 
-  Future<bool?> setAccessToken(SharedPreferences? sharedPreferences, String? value) async{
-    return await sharedPreferences!.setString(SharedPreferencesConstants().accessTokenKey, value!);
-  }
+  //FcmToken
+  String? getFcmToken(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().fcmToken);
+  Future<bool?> setFcmToken(SharedPreferences? sharedPreferences, String? fcmToken) async => await sharedPreferences!.setString(SharedPreferencesConstants().fcmToken, fcmToken!);
+  Future<bool?> removeFcmToken(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().fcmToken);
 
-  Future<bool?> removeAccessToken(SharedPreferences sharedPreferences) async{
-     return await sharedPreferences.remove('counter');
-  }
+  //BusID
+  String? getBusID(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().busId);
+  Future<bool?> setBusID(SharedPreferences? sharedPreferences, String? busId) async => await sharedPreferences!.setString(SharedPreferencesConstants().busId, busId!);
+  Future<bool?> removeBusID(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().busId);
 }

@@ -55,4 +55,24 @@ class NetworkService {
       return null;
     }
   }
+
+  Future<Map?> driverEnter(Map<String, dynamic> driverEnterCredentialsJson) async {
+    try {
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers:NetworkConstants().headers, body: jsonEncode(driverEnterCredentialsJson));
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("DriverEnterOutResponseDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future<Map?> driverOut(Map<String, dynamic> driverOutCredentialsJson) async {
+    try {
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverOut"), headers:NetworkConstants().headers, body: jsonEncode(driverOutCredentialsJson));
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("DriverEnterOutResponseDTO error: ${e.toString()}");
+      return null;
+    }
+  }
 }
