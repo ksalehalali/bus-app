@@ -1,4 +1,4 @@
-package com.example.bus_driver
+package com.routesme.bus_driver
 
 import io.flutter.embedding.android.FlutterActivity
 

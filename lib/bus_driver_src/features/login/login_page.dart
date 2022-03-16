@@ -9,6 +9,7 @@ import '../../helper/shared_preferences.dart';
 import '../qrcode_scanner/scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -38,6 +39,8 @@ class LoginPageStatefulWidget extends StatefulWidget {
 }
 
 class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
   late final Repository repository;
   late final AppData _appData;
   TextEditingController usernameController = TextEditingController();
@@ -51,7 +54,43 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
     repository = Repository(networkService: NetworkService());
     _appData = AppData();
     _passwordVisible = false;
+    firebaseCloudMessaging_Listeners();
   }
+
+  void firebaseCloudMessaging_Listeners() {
+    //if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token){
+      print('FCM Token: $token');
+      Fluttertoast.showToast(msg: "FCM Token: $token", toastLength: Toast.LENGTH_SHORT, timeInSecForIosWeb: 3);
+    });
+/*
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+    */
+  }
+
+/*
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
+*/
 
   @override
   Widget build(BuildContext context) {

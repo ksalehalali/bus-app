@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "830460542294",
+    "project_id": "bus-driver-fa66f",
+    "storage_bucket": "bus-driver-fa66f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830460542294:android:9044e2d6877f95cbceeaf7",
+        "android_client_info": {
+          "package_name": "com.routesme.bus_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830460542294-5b3884cavl9u1op15jbran1cj9qb0sbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArPLbJ8RAg4-_jeIlXWK5gpZ7yZZgd9iU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830460542294-5b3884cavl9u1op15jbran1cj9qb0sbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
