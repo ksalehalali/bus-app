@@ -9,8 +9,8 @@ import '../../data/route/route_data.dart';
 import '../../data/repository.dart';
 import '../../data/network_service.dart';
 import '../../helper/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../login/login_page.dart';
 
 class RouteInformationWidget extends StatefulWidget {
@@ -44,6 +44,7 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
             height: widget.widgetHeight,
             child:  Row(
               children: [
+                /*
                 Expanded(
                   flex: 1,
                   child: IconButton(
@@ -51,6 +52,7 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
                     onPressed: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Scanner()),);},
                   ),
                 ),
+                */
                 Expanded(
                     flex: 4,
                     child: Column(
@@ -88,22 +90,23 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   }
 
   _logout() async {
-    _appData.getSharedPreferencesInstance().then((pref) {
-      String busId = _appData.getBusID(pref!)!;
-      final driverOutCredentials = DriverOutCredentials(BusID: busId);
-      repository.driverOut(driverOutCredentials).then((response) async {
-        if (response != null && response is DriverEnterOutResponseDTO) {
-          if(response.description!.status == true && response.description!.message == 'Seccess'){
-            await _appData.clearSharedPreferencesData(pref).then((value) => null).then((value) {
-              if(value == true) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-            });
-          }else{
-            Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
-          }
+    //_appData.getSharedPreferencesInstance().then((pref) {
+    SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+    String busId = _appData.getBusID(pref!)!;
+    final driverOutCredentials = DriverOutCredentials(BusID: busId);
+    repository.driverOut(driverOutCredentials).then((response) async {
+      if (response != null && response is DriverEnterOutResponseDTO) {
+        if(response.description!.status == true && response.description!.message == 'Seccess'){
+          await _appData.clearSharedPreferencesData(pref).then((value) => null).then((value) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+          });
         }else{
-          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+          Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
         }
-      });
+      }else{
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+      }
     });
+    //});
   }
 }

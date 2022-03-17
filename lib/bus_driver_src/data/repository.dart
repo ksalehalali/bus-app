@@ -55,15 +55,15 @@ class Repository {
     }
   }
 
-  Future<dynamic> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
-    await networkService.driverEnter(driverEnterCredentials.toJson()).then((value) {
-      print("DriverEnterOutResponseDTO todoMap: ${value}");
-      if (value == null) return null;
+  Future<dynamic?> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
+    final todoMap = await networkService.driverEnter(driverEnterCredentials.toJson());
+     // print("DriverEnterOutResponseDTO todoMap: ${todoMap}");
+      if (todoMap == null) return null;
 
-      if(value['status'] == true){
-        return DriverEnterOutResponseDTO.fromJson(value);
+      if(todoMap['status'] == true){
+        return DriverEnterOutResponseDTO.fromJson(todoMap);
       }
-    });
+
   }
 
   Future<dynamic?> driverOut(DriverOutCredentials driverOutCredentials) async {

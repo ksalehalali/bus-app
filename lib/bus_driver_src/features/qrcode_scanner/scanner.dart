@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../data/network_service.dart';
 import '../../data/repository.dart';
 import '../../helper/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Scanner extends StatefulWidget {
   @override
@@ -68,20 +69,23 @@ class _ScannerState extends State<Scanner> {
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
       if(scanData.code != null){
+        //print("DriverEnterOutResponseDTO scanData.code: ${scanData.code}");
         try{
           final decodedJSON = json.decode(scanData.code!) as Map<String, dynamic>;
           final routeData = RouteData.fromJson(decodedJSON);
 
-          _appData.getSharedPreferencesInstance().then((pref) async {
+        //  _appData.getSharedPreferencesInstance().then((pref) async {
+            SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
             String fcmToken = _appData.getFcmToken(pref!)!;
             final driverEnterCredentials = DriverEnterCredentials(BusID: routeData.busId, FCMToken: fcmToken);
-
             await repository.driverEnter(driverEnterCredentials).then((response) {
               if (response != null && response is DriverEnterOutResponseDTO) {
                   if(response.description!.status == true){
-                    _appData.setBusID(pref, routeData.busId).then((value) {
+                  //  _appData.setRouteData(pref, routeData.toJson().toString()).then((value) {
+                      _appData.setBusID(pref, routeData.busId).then((value) {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(routeData: routeData,)),);
-                    });
+                      });
+                   // });
                   }else{
                     Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
                   }
@@ -89,7 +93,7 @@ class _ScannerState extends State<Scanner> {
                 Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
               }
             });
-          });
+         // });
         } catch(e) {
           Fluttertoast.showToast(msg: "Invalid QR Code!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
           controller.resumeCamera();

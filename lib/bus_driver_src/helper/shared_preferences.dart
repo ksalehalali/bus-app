@@ -32,4 +32,11 @@ class AppData{
   String? getBusID(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().busId);
   Future<bool?> setBusID(SharedPreferences? sharedPreferences, String? busId) async => await sharedPreferences!.setString(SharedPreferencesConstants().busId, busId!);
   Future<bool?> removeBusID(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().busId);
+
+  /*
+  //Route Data
+  String? getRouteData(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().routeData);
+  Future<bool?> setRouteData(SharedPreferences? sharedPreferences, String? routeData) async => await sharedPreferences!.setString(SharedPreferencesConstants().routeData, routeData!);
+  Future<bool?> removeRouteData(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().routeData);
+  */
 }

@@ -19,19 +19,16 @@ class RouteData {
     routeId = json['routeId'];
   }
 
-
-  /*
-  factory WeatherData.from(Weather weather) {
-    return WeatherData(
-      temp: Temperature.celsius(weather.weatherParams.temp),
-      minTemp: Temperature.celsius(weather.weatherParams.tempMin),
-      maxTemp: Temperature.celsius(weather.weatherParams.tempMax),
-      description: weather.weatherInfo[0].main,
-      date: DateTime.fromMillisecondsSinceEpoch(weather.dt * 1000),
-      icon: weather.weatherInfo[0].icon,
-    );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['number'] = this.number;
+    data['startFrom'] = this.startFrom;
+    data['endAt'] = this.endAt;
+    data['busPlateNumber'] = this.busPlateNumber;
+    data['busId'] = this.busId;
+    data['routeId'] = this.routeId;
+    return data;
   }
-*/
 
   String? number;
   String? startFrom;

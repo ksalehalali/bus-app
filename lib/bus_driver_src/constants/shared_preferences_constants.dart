@@ -9,5 +9,6 @@ class SharedPreferencesConstants{
 
   final accessTokenKey = "access_token_key";
   final fcmToken = "fcm_token";
-  final busId = "bus_Id";
+  final busId = "bus_id";
+  final routeData = "route_data";
 }

@@ -3,6 +3,7 @@ import 'package:bus_driver/bus_driver_src/constants/network_constants.dart';
 import 'package:http/http.dart';
 import '../helper/shared_preferences.dart';
 import 'models/login_credentials.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkService {
   late final AppData _appData = AppData();
@@ -50,7 +51,7 @@ class NetworkService {
 
   Future<Map?> login(Map<String, dynamic> loginCredentialsJson) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/Login"), headers:NetworkConstants().headers, body: jsonEncode(loginCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/Login"), headers: NetworkConstants().headers, body: jsonEncode(loginCredentialsJson));
       return jsonDecode(response.body);
     } catch (e) {
       print("loginResponseDTO error: ${e.toString()}");
@@ -58,27 +59,30 @@ class NetworkService {
     }
   }
 
-  Future<Map?> driverEnter(Map<String, dynamic> driverEnterCredentialsJson) async {
-    await _appData.getSharedPreferencesInstance().then((pref) async {
+  Future<Map?> driverEnter(Map<String, dynamic> driverEnterCredentialsJson)  async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      print("DriverEnterOutResponseDTO headers: $headers");
-          //.addAll('Authorization', accessToken);
-      try {
-        final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers:headers, body: jsonEncode(driverEnterCredentialsJson));
-        print("DriverEnterOutResponseDTO request: ${response.request}, response: ${response.body}");
-        return jsonDecode(response.body);
-      } catch (e) {
-        print("DriverEnterOutResponseDTO error: ${e.toString()}");
-        return null;
-      }
-    });
+      //print("DriverEnterOutResponseDTO headers: $headers");
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers: headers, body: jsonEncode(driverEnterCredentialsJson));
+      print("DriverEnterOutResponseDTO...Enter request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("DriverEnterOutResponseDTO error: ${e.toString()}");
+      return null;
+    }
   }
 
   Future<Map?> driverOut(Map<String, dynamic> driverOutCredentialsJson) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverOut"), headers:NetworkConstants().headers, body: jsonEncode(driverOutCredentialsJson));
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverOut"), headers: headers, body: jsonEncode(driverOutCredentialsJson));
+      print("DriverEnterOutResponseDTO...Out request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
       print("DriverEnterOutResponseDTO error: ${e.toString()}");
