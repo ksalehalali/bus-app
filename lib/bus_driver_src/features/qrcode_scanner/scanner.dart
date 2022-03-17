@@ -83,9 +83,11 @@ class _ScannerState extends State<Scanner> {
                       });
                   }else{
                     Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+                    controller.resumeCamera();
                   }
               }else{
                 Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+                controller.resumeCamera();
               }
             });
         } catch(e) {
