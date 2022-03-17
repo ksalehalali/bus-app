@@ -1,7 +1,5 @@
 import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
-import 'package:bus_driver/bus_driver_src/features/qrcode_scanner/scanner.dart';
-import 'package:bus_driver/weather_src/features/weather_page/weather_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +10,6 @@ import 'bus_driver_src/data/route/route_data.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Widget nextPage = await _getNextPage();
 
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){

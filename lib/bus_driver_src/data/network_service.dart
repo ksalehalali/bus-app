@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:bus_driver/bus_driver_src/constants/network_constants.dart';
 import 'package:http/http.dart';
 import '../helper/shared_preferences.dart';
-import 'models/login_credentials.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkService {
@@ -65,7 +64,6 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      //print("DriverEnterOutResponseDTO headers: $headers");
       final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers: headers, body: jsonEncode(driverEnterCredentialsJson));
       print("DriverEnterOutResponseDTO...Enter request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);

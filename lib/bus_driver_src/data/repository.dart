@@ -43,11 +43,8 @@ class Repository {
 */
 
   Future<dynamic?> login(LoginCredentials loginCredentials) async {
-  //  final todoObj = { "todo": message, "isCompleted": "false" };
-
     final todoMap = await networkService.login(loginCredentials.toJson());
     if (todoMap == null) return null;
-
     if(todoMap['status'] == true){
       return LoginResponseDTO.fromJson(todoMap);
     }else{
@@ -57,9 +54,7 @@ class Repository {
 
   Future<dynamic?> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
     final todoMap = await networkService.driverEnter(driverEnterCredentials.toJson());
-     // print("DriverEnterOutResponseDTO todoMap: ${todoMap}");
       if (todoMap == null) return null;
-
       if(todoMap['status'] == true){
         return DriverEnterOutResponseDTO.fromJson(todoMap);
       }
@@ -69,7 +64,6 @@ class Repository {
   Future<dynamic?> driverOut(DriverOutCredentials driverOutCredentials) async {
     final todoMap = await networkService.driverOut(driverOutCredentials.toJson());
     if (todoMap == null) return null;
-
     if(todoMap['status'] == true){
       return DriverEnterOutResponseDTO.fromJson(todoMap);
     }

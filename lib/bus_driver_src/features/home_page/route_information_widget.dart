@@ -1,4 +1,3 @@
-import 'package:bus_driver/bus_driver_src/features/qrcode_scanner/scanner.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +89,6 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   }
 
   _logout() async {
-    //_appData.getSharedPreferencesInstance().then((pref) {
     SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
     String busId = _appData.getBusID(pref!)!;
     final driverOutCredentials = DriverOutCredentials(BusID: busId);
@@ -107,6 +105,5 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
         Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
       }
     });
-    //});
   }
 }
