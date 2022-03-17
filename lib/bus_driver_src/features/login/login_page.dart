@@ -101,7 +101,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
     return Form(
         key: _formKey,
         child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 30, bottom: 30),
             child: ListView(
               children: <Widget>[
                 Padding(padding:  EdgeInsets.all(10), child:  Image(image: AssetImage('assets/icon/icon.png'),height: 120,
@@ -143,8 +143,8 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
               child: const Text('Forgot Password', style: TextStyle(fontSize: 15, color: AppColors.rainBlueLight),),
             ),*/
                 Container(
-                    height: 100,
-                    padding: const EdgeInsets.only(top: 40, bottom: 10, left: 10, right: 10),
+                    height: 120,
+                    padding: const EdgeInsets.only(top: 60, bottom: 10, left: 10, right: 10),
                     child: ElevatedButton(
                       child: const Text('Login', style: TextStyle(fontSize: 20),),
                       onPressed: ()  {
