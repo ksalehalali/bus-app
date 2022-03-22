@@ -11,8 +11,8 @@ import 'bus_driver_src/services/push_notification_service.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
- // await Firebase.initializeApp();
-  await PushNotificationService().setupInteractedMessage();
+  await Firebase.initializeApp();
+  //await PushNotificationService().setupInteractedMessage();
 
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){
@@ -21,10 +21,14 @@ Future<void> main() async{
     else runApp(const ProviderScope(child: MyApp(false)));
   });
 
+/*
   RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
-    // App received a notification when it was killed
+    //1- App received a notification when it was killed
+    print("1- FCM Notification: initialMessage: ${initialMessage}");
   }
+  */
+
 }
 class MyApp extends StatelessWidget {
   const MyApp(this.isLogin, {Key? key}) : super(key: key);

@@ -43,12 +43,16 @@ class PushNotificationService {
 // Also handle any interaction when the app is in the background via a
     // Stream listener
     // This function is called when the app is in the background and user clicks on the notification
+    //2
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("2- FCM Notification: message: ${message}");
       // Get.toNamed(NOTIFICATIOINS_ROUTE);
+     /*
       if (message.data['type'] == 'chat') {
         // Navigator.pushNamed(context, '/chat',
         //     arguments: ChatArguments(message));
       }
+      */
     });
     await enableIOSNotifications();
     await registerNotificationListeners();
@@ -68,12 +72,15 @@ class PushNotificationService {
     var androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOSSettings = IOSInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
     var initSettings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+    //3
     flutterLocalNotificationsPlugin.initialize(initSettings, onSelectNotification: (message) async {
+      print("3- FCM Notification: message: ${message}");
           // This function handles the click in the notification when the app is in foreground
           // Get.toNamed(NOTIFICATIOINS_ROUTE);
         });
-// onMessage is called when the app is in foreground and a notification is received
+//4- onMessage is called when the app is in foreground and a notification is received
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+      print("4- FCM Notification: message: ${message}");
       // Get.find<HomeController>().getNotificationsNumber();
       print(message);
       RemoteNotification? notification = message!.notification;

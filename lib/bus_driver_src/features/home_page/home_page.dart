@@ -6,6 +6,7 @@ import 'package:bus_driver/bus_driver_src/features/home_page/total_transaction_c
 import 'package:bus_driver/bus_driver_src/features/home_page/transaction_list.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/network_constants.dart';
@@ -33,6 +34,7 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     eventBus = EventBusUtils.getInstance();
+    notificationsInitialize();
     super.initState();
   }
 
@@ -115,5 +117,60 @@ class _HomePage extends State<HomePage> {
     print("SignalRCore... dispose state");
     connection?.stop();
     super.dispose();
+  }
+
+  notificationsInitialize() {
+    requestPermission();
+    notificationsInterminatedStateInitialize() ;
+    notificationsInBackgroundStateInitialize();
+    notificationsInForegroundStateInitialize();
+  }
+
+  requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  notificationsInterminatedStateInitialize() async {
+    var message =   await FirebaseMessaging.instance.getInitialMessage() ;
+    if (message != null){
+      //showNotificationDialog(message);
+      print("NotificationTesting : notificationsInterminatedStateInitialize... Message.notification: ${message.notification!.body}");
+    }
+  }
+
+  notificationsInBackgroundStateInitialize() {
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      if (message != null) {
+       // showNotificationDialog(message);
+        print("NotificationTesting : notificationsInBackgroundStateInitialize... Message.notification: ${message.notification!.body}");
+      }
+    });
+  }
+
+  notificationsInForegroundStateInitialize() {
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message != null) {
+       // showNotificationDialog(message);
+        print("NotificationTesting : notificationsInForegroundStateInitialize... Message.notification: ${message.notification!.body}");
+      }
+    }) ;
   }
 }
