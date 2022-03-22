@@ -1,15 +1,18 @@
 import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'bus_driver_src/features/login/login_page.dart';
 import 'bus_driver_src/helper/shared_preferences.dart';
 import 'bus_driver_src/data/route/route_data.dart';
+import 'bus_driver_src/services/push_notification_service.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ // await Firebase.initializeApp();
+  await PushNotificationService().setupInteractedMessage();
 
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){
@@ -18,6 +21,10 @@ Future<void> main() async{
     else runApp(const ProviderScope(child: MyApp(false)));
   });
 
+  RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    // App received a notification when it was killed
+  }
 }
 class MyApp extends StatelessWidget {
   const MyApp(this.isLogin, {Key? key}) : super(key: key);
