@@ -1,3 +1,5 @@
+import 'models/bus_information_dto.dart';
+import 'models/bus_information_credentials.dart';
 import 'models/driver_enter_credentials.dart';
 import 'models/driver_enter_out_response_dto.dart';
 import 'models/driver_out_credentials.dart';
@@ -66,6 +68,14 @@ class Repository {
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return DriverEnterOutResponseDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> getBusInformation(BusInformationCredentials busInformationCredentials) async {
+    final todoMap = await networkService.getBusInformation(busInformationCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return BusInformationResponseDTO.fromJson(todoMap);
     }
   }
 }

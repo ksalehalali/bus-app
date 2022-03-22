@@ -1,10 +1,10 @@
-class BusInformation {
+class BusInformationResponseDTO {
   bool? status;
   Description? description;
 
-  BusInformation({this.status, this.description});
+  BusInformationResponseDTO({this.status, this.description});
 
-  BusInformation.fromJson(Map<String, dynamic> json) {
+  BusInformationResponseDTO.fromJson(Map<dynamic, dynamic> json) {
     status = json['status'];
     description = json['description'] != null ? new Description.fromJson(json['description']) : null;
   }
@@ -41,7 +41,7 @@ class Description {
         this.driverID,
         this.active});
 
-  Description.fromJson(Map<String, dynamic> json) {
+  Description.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     company = json['company'];
     applicationRoute = json['applicationRoute'] != null ? new ApplicationRoute.fromJson(json['applicationRoute']) : null;
@@ -92,7 +92,7 @@ class ApplicationRoute {
         this.company,
         this.price});
 
-  ApplicationRoute.fromJson(Map<String, dynamic> json) {
+  ApplicationRoute.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     nameEN = json['name_EN'];
     nameAR = json['name_AR'];

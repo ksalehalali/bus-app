@@ -2,9 +2,10 @@ import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../data/models/bus_information_dto.dart';
+import '../../data/models/bus_information_credentials.dart';
 import '../../data/models/driver_enter_out_response_dto.dart';
 import '../../data/models/driver_out_credentials.dart';
-import '../../data/route/route_data.dart';
 import '../../data/repository.dart';
 import '../../data/network_service.dart';
 import '../../helper/shared_preferences.dart';
@@ -22,19 +23,20 @@ class RouteInformationWidget extends StatefulWidget {
 }
 
 class _RouteInformationWidget extends State<RouteInformationWidget> {
-  late final Repository repository;
+  late final Repository _repository;
   late final AppData _appData;
-  late final  String busId;
-  late final SharedPreferences? pref;
-
+  BusInformationResponseDTO? _busInformationResponseDTO = null;
+  late final  String _busId;
+  late final SharedPreferences? _pref;
 
   @override
   void initState(){
-    repository = Repository(networkService: NetworkService());
+    _repository = Repository(networkService: NetworkService());
     _appData = AppData();
     _appData.getSharedPreferencesInstance().then((value) {
-      pref = value;
-      busId = _appData.getBusID(pref!)!;
+      _pref = value;
+      _busId = _appData.getBusID(_pref!)!;
+      getBusInformation();
     });
     EventBusUtils.getInstance().on<OnSignalRStatusChanged>().listen((event) {setState(() {widget.isSignalRActive = event.isActive; });});
     super.initState();
@@ -65,11 +67,11 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
                       mainAxisAlignment: MainAxisAlignment.center ,
                       children: [
                         const SizedBox(height: 3),
-                        Text('Route ${widget.routeData!.number}', style: TextStyle(color: Colors.white),),
+                        Text('${_busInformationResponseDTO?.description?.applicationRoute?.company}', style: TextStyle(color: Colors.white),),
                         const SizedBox(height: 3),
-                        Text('${widget.routeData!.startFrom} to ${widget.routeData!.endAt}', style: TextStyle(color: Colors.white),),
+                        Text('${_busInformationResponseDTO?.description?.applicationRoute?.nameEN} - ${_busInformationResponseDTO?.description?.applicationRoute?.fromToEN}', style: TextStyle(color: Colors.white),),
                         const SizedBox(height: 3),
-                        Text('Bus plate number: ${widget.routeData!.busPlateNumber}', style: TextStyle(color: Colors.white),),
+                        Text('Plate number: ${_busInformationResponseDTO?.description?.palteNumber}', style: TextStyle(color: Colors.white),),
                         const SizedBox(height: 3),
                         getCurrentStatus(),
                         const SizedBox(height: 3),
@@ -95,15 +97,36 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   }
 
   _logout() async {
-    final driverOutCredentials = DriverOutCredentials(BusID: busId);
-    repository.driverOut(driverOutCredentials).then((response) async {
+    final driverOutCredentials = DriverOutCredentials(BusID: _busId);
+    _repository.driverOut(driverOutCredentials).then((response) async {
       if (response != null && response is DriverEnterOutResponseDTO) {
         if(response.description!.status == true && response.description!.message == 'Seccess'){
-          await _appData.clearSharedPreferencesData(pref!).then((value) => null).then((value) {
+          await _appData.clearSharedPreferencesData(_pref!).then((value) => null).then((value) {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
           });
         }else{
           Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+        }
+      }else{
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+      }
+    });
+  }
+
+  void getBusInformation(){
+    final busInformationCredentials = BusInformationCredentials(id: '$_busId');
+    _repository.getBusInformation(busInformationCredentials).then((response) async{
+      if (response != null) {
+        if(response.status == true){
+          setState(() {
+            try{
+              _busInformationResponseDTO = response;
+            }catch(e){
+              Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+            }
+          });
+        }else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
         }
       }else{
         Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);

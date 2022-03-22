@@ -87,4 +87,19 @@ class NetworkService {
       return null;
     }
   }
+
+  Future<Map?> getBusInformation(Map<String, dynamic> busInformationCredentialsJson) async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/GetBus"), headers: headers, body: jsonEncode(busInformationCredentialsJson));
+      print("BusInformationResponseDTO... request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("BusInformationResponseDTO error: ${e.toString()}");
+      return null;
+    }
+  }
 }
