@@ -13,8 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../login/login_page.dart';
 
 class RouteInformationWidget extends StatefulWidget {
-  RouteInformationWidget({Key? key, required this.routeData, required this.widgetHeight}) : super(key: key);
-  final RouteData? routeData;
+  RouteInformationWidget({Key? key, required this.widgetHeight}) : super(key: key);
   final double? widgetHeight;
   bool isSignalRActive = false;
 
@@ -25,11 +24,18 @@ class RouteInformationWidget extends StatefulWidget {
 class _RouteInformationWidget extends State<RouteInformationWidget> {
   late final Repository repository;
   late final AppData _appData;
+  late final  String busId;
+  late final SharedPreferences? pref;
+
 
   @override
-  void initState() {
+  void initState(){
     repository = Repository(networkService: NetworkService());
     _appData = AppData();
+    _appData.getSharedPreferencesInstance().then((value) {
+      pref = value;
+      busId = _appData.getBusID(pref!)!;
+    });
     EventBusUtils.getInstance().on<OnSignalRStatusChanged>().listen((event) {setState(() {widget.isSignalRActive = event.isActive; });});
     super.initState();
   }
@@ -89,13 +95,11 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   }
 
   _logout() async {
-    SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
-    String busId = _appData.getBusID(pref!)!;
     final driverOutCredentials = DriverOutCredentials(BusID: busId);
     repository.driverOut(driverOutCredentials).then((response) async {
       if (response != null && response is DriverEnterOutResponseDTO) {
         if(response.description!.status == true && response.description!.message == 'Seccess'){
-          await _appData.clearSharedPreferencesData(pref).then((value) => null).then((value) {
+          await _appData.clearSharedPreferencesData(pref!).then((value) => null).then((value) {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
           });
         }else{

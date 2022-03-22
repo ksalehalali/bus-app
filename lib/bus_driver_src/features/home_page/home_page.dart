@@ -16,8 +16,7 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.routeData}) : super(key: key);
-  final RouteData? routeData;
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePage createState() => _HomePage();
@@ -98,7 +97,7 @@ class _HomePage extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               const SizedBox(height: 2),
-              RouteInformationWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10, routeData: widget.routeData),
+              RouteInformationWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10),
               const SizedBox(height: 2),
               TransactionListWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 80),
               const SizedBox(height: 2),

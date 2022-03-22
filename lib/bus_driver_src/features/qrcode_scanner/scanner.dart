@@ -79,7 +79,7 @@ class _ScannerState extends State<Scanner> {
               if (response != null && response is DriverEnterOutResponseDTO) {
                   if(response.description!.status == true){
                       _appData.setBusID(pref, routeData.busId).then((value) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(routeData: routeData,)),);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()),);
                       });
                   }else{
                     Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);

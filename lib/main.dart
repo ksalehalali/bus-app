@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
     if(isLogin == true){
       return LoginPage();
     } else {
-      RouteData dummyRouteData = RouteData(number: 'Dummy-103', startFrom: 'Jahra', endAt: 'Maliya', busPlateNumber: '11-47463', busId: '255ac1a2-1921-463a-de86-08da0015b60c', routeId: '34addb01-2b86-49f2-13a8-08d9d82ee213');
-      return HomePage(routeData: dummyRouteData);
+     // RouteData dummyRouteData = RouteData(number: 'Dummy-103', startFrom: 'Jahra', endAt: 'Maliya', busPlateNumber: '11-47463', busId: '255ac1a2-1921-463a-de86-08da0015b60c', routeId: '34addb01-2b86-49f2-13a8-08d9d82ee213');
+      return HomePage();
     }
   }
 }
