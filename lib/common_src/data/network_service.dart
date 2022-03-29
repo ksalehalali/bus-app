@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:bus_driver/bus_driver_src/constants/network_constants.dart';
 import 'package:http/http.dart';
-import '../helper/shared_preferences.dart';
+import '../../bus_driver_src/helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../constants/network_constants.dart';
 
 class NetworkService {
   late final AppData _appData = AppData();

@@ -1,17 +1,17 @@
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
+import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/data/network_service.dart';
+import '../../../common_src/view/login_page.dart';
 import '../../data/models/bus_information_dto.dart';
 import '../../data/models/bus_information_credentials.dart';
 import '../../data/models/driver_enter_out_response_dto.dart';
 import '../../data/models/driver_out_credentials.dart';
-import '../../data/repository.dart';
-import '../../data/network_service.dart';
+import '../../../common_src/data/repository.dart';
 import '../../helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../login/login_page.dart';
 
 class RouteInformationWidget extends StatefulWidget {
   RouteInformationWidget({Key? key, required this.widgetHeight}) : super(key: key);

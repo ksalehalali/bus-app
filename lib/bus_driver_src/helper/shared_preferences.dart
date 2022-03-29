@@ -1,4 +1,4 @@
-import 'package:bus_driver/bus_driver_src/constants/shared_preferences_constants.dart';
+import 'package:bus_driver/common_src/constants/shared_preferences_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppData{

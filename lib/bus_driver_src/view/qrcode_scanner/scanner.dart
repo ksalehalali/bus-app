@@ -1,14 +1,14 @@
-import 'package:bus_driver/bus_driver_src/constants/app_colors.dart';
-import 'package:bus_driver/bus_driver_src/view/home_page/home_page.dart';
+import 'package:bus_driver/bus_driver_src/view/home_page/driver_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:convert';
+import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/data/network_service.dart';
 import '../../data/models/driver_enter_credentials.dart';
 import '../../data/models/driver_enter_out_response_dto.dart';
 import '../../data/route/route_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../data/network_service.dart';
-import '../../data/repository.dart';
+import '../../../common_src/data/repository.dart';
 import '../../helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,7 +79,7 @@ class _ScannerState extends State<Scanner> {
               if (response != null && response is DriverEnterOutResponseDTO) {
                   if(response.description!.status == true){
                       _appData.setBusID(pref, routeData.busId).then((value) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()),);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DriverHomePage()),);
                       });
                   }else{
                     Fluttertoast.showToast(msg: "${response.description!.message}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);

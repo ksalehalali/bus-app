@@ -1,5 +1,4 @@
 import 'package:bus_driver/bus_driver_src/data/models/signalr_transaction_dto.dart';
-import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
 import 'package:bus_driver/bus_driver_src/view/home_page/route_information_widget.dart';
 import 'package:bus_driver/bus_driver_src/view/home_page/total_transaction_count_widget.dart';
@@ -8,22 +7,22 @@ import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/network_constants.dart';
-import '../../constants/screen_size.dart';
 import 'package:signalr_core/signalr_core.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/constants/network_constants.dart';
+import '../../../common_src/constants/screen_size.dart';
+
+class DriverHomePage extends StatefulWidget {
+  DriverHomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePage createState() => _HomePage();
+  _DriverHomePage createState() => _DriverHomePage();
 }
 
-class _HomePage extends State<HomePage> {
+class _DriverHomePage extends State<DriverHomePage> {
 
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   late EventBus eventBus;
