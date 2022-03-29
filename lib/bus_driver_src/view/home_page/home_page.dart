@@ -1,9 +1,9 @@
 import 'package:bus_driver/bus_driver_src/data/models/signalr_transaction_dto.dart';
 import 'package:bus_driver/bus_driver_src/data/route/route_data.dart';
 import 'package:bus_driver/bus_driver_src/data/transaction/transaction_data.dart';
-import 'package:bus_driver/bus_driver_src/features/home_page/route_information_widget.dart';
-import 'package:bus_driver/bus_driver_src/features/home_page/total_transaction_count_widget.dart';
-import 'package:bus_driver/bus_driver_src/features/home_page/transaction_list.dart';
+import 'package:bus_driver/bus_driver_src/view/home_page/route_information_widget.dart';
+import 'package:bus_driver/bus_driver_src/view/home_page/total_transaction_count_widget.dart';
+import 'package:bus_driver/bus_driver_src/view/home_page/transaction_list.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

@@ -1,5 +1,5 @@
 import 'package:bus_driver/bus_driver_src/constants/app_colors.dart';
-import 'package:bus_driver/bus_driver_src/features/home_page/home_page.dart';
+import 'package:bus_driver/bus_driver_src/view/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:convert';
