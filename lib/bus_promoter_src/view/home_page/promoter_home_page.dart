@@ -1,20 +1,17 @@
-import 'package:bus_driver/bus_driver_src/view/home_page/route_information_widget.dart';
-import 'package:bus_driver/bus_driver_src/view/home_page/total_transaction_count_widget.dart';
-import 'package:bus_driver/bus_driver_src/view/home_page/transaction_list.dart';
 import 'package:flutter/material.dart';
-import '../../common_src/constants/app_colors.dart';
-import '../../common_src/constants/screen_size.dart';
+import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/constants/screen_size.dart';
 
-class DriverHomePage extends StatefulWidget {
-  DriverHomePage({Key? key}) : super(key: key);
+class PromoterHomePage extends StatefulWidget {
+  PromoterHomePage({Key? key}) : super(key: key);
 
   @override
-  _DriverHomePage createState() => _DriverHomePage();
+  _PromoterHomePage createState() => _PromoterHomePage();
 }
 
-class _DriverHomePage extends State<DriverHomePage> {
+class _PromoterHomePage extends State<PromoterHomePage> {
 
-  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  //final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   List<Color> currentGradientColors = AppColors.activeGradient;
 
   @override
@@ -28,6 +25,7 @@ class _DriverHomePage extends State<DriverHomePage> {
     var screenSize = ScreenSize();
 
     return Scaffold(
+      appBar: getAppBar(),
       body: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -36,6 +34,7 @@ class _DriverHomePage extends State<DriverHomePage> {
             colors: currentGradientColors,
           ),
         ),
+       /*
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,6 +50,7 @@ class _DriverHomePage extends State<DriverHomePage> {
             ],
           ),
         ),
+        */
       ),
     );
   }
@@ -59,4 +59,28 @@ class _DriverHomePage extends State<DriverHomePage> {
   void dispose(){
     super.dispose();
   }
+/*
+  getAppBar() {
+    return new AppBar(
+      leading: Icon(Icons.account_circle_rounded),
+      leadingWidth: 100, // default is 56
+    );
+  }
+*/
+
+  getAppBar() {
+    return new AppBar(
+      //title: new Text("Promoter App"),
+      leading: new Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: new Material(
+          shape: new CircleBorder(),
+        ),
+      ),
+      actions: [
+        Padding(padding: const EdgeInsets.all(8.0), child: Icon(Icons.logout))
+      ],
+    );
+  }
+
 }

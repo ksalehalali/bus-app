@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../bus_promoter_src/view/home_page/promoter_home_page.dart';
 import 'login_page.dart';
 import '../../bus_driver_src/helper/shared_preferences.dart';
 import '../../bus_driver_src/data/route/route_data.dart';
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home: _getNextPage(),
+      home: PromoterHomePage()
+      //_getNextPage(),
     );
   }
 
