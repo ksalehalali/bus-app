@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:signalr_core/signalr_core.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_beep/flutter_beep.dart';
-
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/network_constants.dart';
 import '../../../common_src/constants/screen_size.dart';

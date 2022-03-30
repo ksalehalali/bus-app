@@ -40,6 +40,7 @@ dependencies:
   flutter_local_notifications: ^9.4.0
   firebase_messaging: ^11.2.11
   overlay_support: ^1.2.1
+  flutter_vector_icons: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -122,6 +123,18 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: AquinoDemo
+      fonts:
+        - asset: assets/fonts/AquinoDemo.ttf
+
+    - family: Nisebuschgardens
+      fonts:
+        - asset: assets/fonts/Nisebuschgardens.ttf
+
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/NunitoBold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 

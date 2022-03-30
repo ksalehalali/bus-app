@@ -1,4 +1,6 @@
+import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 
@@ -73,14 +75,22 @@ class _PromoterHomePage extends State<PromoterHomePage> {
       //title: new Text("Promoter App"),
       leading: new Padding(
         padding: const EdgeInsets.all(8.0),
-        child: new Material(
-          shape: new CircleBorder(),
+        child:  GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),);
+          },
+          child:  CircleAvatar(
+            radius: 55.0,
+            backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),
+          ),
         ),
-      ),
+          //shape: new CircleBorder(),
+          //child: Image.network('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),
+        ),
+
       actions: [
-        Padding(padding: const EdgeInsets.all(8.0), child: Icon(Icons.logout))
+        Padding(padding: const EdgeInsets.all(8.0), child: Icon(AntDesign.logout, color: Colors.white,))
       ],
     );
   }
-
 }
