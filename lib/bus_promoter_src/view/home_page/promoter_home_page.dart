@@ -305,8 +305,6 @@ class _PromoterHomePage extends State<PromoterHomePage> {
     );
   }
 
-
-
   @override
   void dispose(){
     super.dispose();
