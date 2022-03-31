@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class PromoterProfilePage extends StatefulWidget {
   PromoterProfilePage({Key? key}) : super(key: key);
@@ -98,6 +99,24 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                           ],
                         );
                       },
+                    ),
+                  ),
+                  SizedBox(height: 22,),
+                  Container(
+                    height: height * 0.42,
+                    width: width,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white,),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text('👇 Download 👇', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontSize: 24, fontFamily: 'Nunito',),),
+                          Divider(thickness: 2.5,),
+                          SizedBox(height: 10,),
+                          QrImage(data: 'http://routesme.com/', version: QrVersions.auto, size: 200.0, foregroundColor: Color.fromRGBO(39, 105, 171, 1),),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 30,),

@@ -27,44 +27,13 @@ class _PromoterHomePage extends State<PromoterHomePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var screenSize = ScreenSize();
-    /*
-    return Scaffold(
-      appBar: getAppBar(),
-      body: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: currentGradientColors,
-          ),
-        ),
-       /*
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const SizedBox(height: 2),
-              RouteInformationWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10),
-              const SizedBox(height: 2),
-              TransactionListWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 80),
-              const SizedBox(height: 2),
-              TotalTransactionCountWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10),
-              const SizedBox(height: 2),
-            ],
-          ),
-        ),
-        */
-      ),
-    );
-    */
 
     cryptoPortfolioItem(bool isIncoming, String name, double amount, double rate, String percentage) => Card(
           elevation: 1.0,
           child: InkWell(
             onTap: () => print("tapped"),
             child: Container(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0, right: 15.0),
+              padding: EdgeInsets.only(top: 10.0, bottom: 15.0, right: 15.0),
               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22.0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -106,21 +75,27 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                 Container(
                   decoration: BoxDecoration(gradient: LinearGradient(colors: currentGradientColors, begin: Alignment.centerLeft, end: Alignment.centerRight,),),
                   height: MediaQuery.of(context).size.height * .40,
-                  padding: EdgeInsets.only(top: 55, left: 20, right: 20),
+                  padding: EdgeInsets.only(top: 55, left: 15, right: 15),
                   child: Column(
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 25.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
-                          Text("Wallet History", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w500)),
+                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 20.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
+                          Text("Welcome Abdullah !", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w500)),
                           IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),),)
                         ],
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
                       Text(r" KWD 100.8", style: TextStyle(color: Colors.white, fontSize: 45.0, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 20),
-                      Text(r"+ $3,157.67 (23%)", style: TextStyle(color: Colors.white70, fontSize: 18.0, fontWeight: FontWeight.w300),)
+                      IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => print("Clicked to transfer money!"))
+                    ]
+                  )
+                    //  SizedBox(height: 20),
+                    //  Text(r"+ $3,157.67 (23%)", style: TextStyle(color: Colors.white70, fontSize: 18.0, fontWeight: FontWeight.w300),)
                     ],
                   ),
                 ),
@@ -129,9 +104,9 @@ class _PromoterHomePage extends State<PromoterHomePage> {
             ),
             Container(
               alignment: Alignment.topCenter,
-              padding: new EdgeInsets.only(top: MediaQuery.of(context).size.height * .25, right: 10.0, left: 10.0),
+              padding: new EdgeInsets.only(top: MediaQuery.of(context).size.height * .30, right: 10.0, left: 10.0),
               child: new Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height * .7,
                 width: MediaQuery.of(context).size.width,
                 child: ListView(
                   children: <Widget>[
@@ -148,83 +123,6 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                 ),
               ),
             ),
-            /*
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .37,
-              left: MediaQuery.of(context).size.width * .05,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 18.0,
-                    horizontal: 38.0,
-                  ),
-                  color: Color(0xFFEE112D),
-                  onPressed: () {},
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(25.0)),
-                  child: Text(
-                    "Send",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .37,
-              right: MediaQuery.of(context).size.width * .05,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 18.0,
-                    horizontal: 30.0,
-                  ),
-                  color: Color(0xFFEE112D),
-                  onPressed: () {},
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(25.0)),
-                  child: Text(
-                    "Receive",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .43,
-              left: MediaQuery.of(context).size.width * .30,
-              child: RaisedButton(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 18.0,
-                    horizontal: 34.0,
-                  ),
-                  color: Color(0xFFEE112D),
-                  onPressed: () {},
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(25.0)),
-                  child: Text(
-                    "Exchange",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .33,
-              left: MediaQuery.of(context).size.width * .40,
-              child: FloatingActionButton(
-                backgroundColor: Colors.white,
-                onPressed: null,
-                child: Icon(
-                  Icons.close,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            */
           ],
         ),
       ),
@@ -234,35 +132,6 @@ class _PromoterHomePage extends State<PromoterHomePage> {
   @override
   void dispose(){
     super.dispose();
-  }
-
-  getAppBar() {
-    return new AppBar(
-      leading: new Padding(
-        padding: const EdgeInsets.all(8.0),
-        child:  GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),);
-          },
-          child:  CircleAvatar(
-            radius: 55.0,
-            backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),
-          ),
-        ),
-        ),
-
-      actions: [
-        Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-                child:  Icon(AntDesign.logout, color: Colors.white,),
-                onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
-                }
-            )
-        )
-      ],
-    );
   }
 
   getIcon(bool isIncoming) {
