@@ -57,8 +57,9 @@ class MyApp extends StatelessWidget {
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home: PromoterHomePage()
-      //_getNextPage(),
+      home:
+      //PromoterHomePage()
+      _getNextPage(),
     );
   }
 

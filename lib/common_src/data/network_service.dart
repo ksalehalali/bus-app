@@ -103,4 +103,19 @@ class NetworkService {
       return null;
     }
   }
+
+  Future<Map?> getListPaymentWalletByBus(Map<String, dynamic> listPaymentWalletByBusCredentialsJson) async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ListPaymentWalletByBus"), headers: headers, body: jsonEncode(listPaymentWalletByBusCredentialsJson));
+      print("ListPaymentWalletByBusDTO... request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("ListPaymentWalletByBusDTO error: ${e.toString()}");
+      return null;
+    }
+  }
 }
