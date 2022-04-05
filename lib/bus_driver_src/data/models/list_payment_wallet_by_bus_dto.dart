@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ListPaymentWalletByBusDTO {
   bool? status;
   List<Description>? description;
@@ -78,4 +80,6 @@ class Description {
     data['palteNumber'] = this.palteNumber;
     return data;
   }
+
+  String get time => '${DateFormat('M/d/yyyy hh:mm:ss aa').format(DateTime.parse(date!))}';
 }

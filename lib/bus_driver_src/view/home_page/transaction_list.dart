@@ -77,7 +77,7 @@ class _TransactionListWidget extends State<TransactionListWidget> {
               ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
               listPaymentWalletByBusDTO.description?.forEach((element) {
                 setState(() {
-                  transactionList.add(Transaction(username: element.name, createdDate: element.date, status: true));
+                  transactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));
                   _scrollController.animateTo(_scrollController.position.maxScrollExtent * 2, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
                 });
               });

@@ -9,7 +9,6 @@ class Transaction {
   String? createdDate;
   final bool? status;
 
- // String get formattedTime => '${DateFormat('hh:mm:ss aa').format(DateTime.fromMillisecondsSinceEpoch(createdTime! * 1000))}';
   String get time {
     List<String> texts = createdDate!.split(' ');
     return '${texts[1]} ${texts[2]}';
