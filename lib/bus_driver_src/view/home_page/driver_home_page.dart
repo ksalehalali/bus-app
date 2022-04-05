@@ -13,6 +13,13 @@ import 'package:flutter_beep/flutter_beep.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/network_constants.dart';
 import '../../../common_src/constants/screen_size.dart';
+import '../../../common_src/data/network_service.dart';
+import '../../../common_src/data/repository.dart';
+import '../../data/models/list_payment_wallet_by_bus_credentials.dart';
+import '../../data/models/list_payment_wallet_by_bus_dto.dart';
+import '../../helper/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DriverHomePage extends StatefulWidget {
   DriverHomePage({Key? key}) : super(key: key);
@@ -22,18 +29,51 @@ class DriverHomePage extends StatefulWidget {
 }
 
 class _DriverHomePage extends State<DriverHomePage> {
-
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   late EventBus eventBus;
   int count = 0;
   HubConnection? connection;
   List<Color> currentGradientColors = AppColors.activeGradient;
+  List<Transaction> transactionList = [];
+  late final Repository _repository;
+  late final AppData _appData;
+  late final  String _busId;
+  late final SharedPreferences? _pref;
 
   @override
   void initState() {
     eventBus = EventBusUtils.getInstance();
     notificationsInitialize();
+    getPreviousTransactionList();
     super.initState();
+  }
+
+  void getPreviousTransactionList(){
+    _repository = Repository(networkService: NetworkService());
+    _appData = AppData();
+    _appData.getSharedPreferencesInstance().then((value) {
+      _pref = value;
+      _busId = _appData.getBusID(_pref!)!;
+      final listPaymentWalletByBusCredentials = ListPaymentWalletByBusCredentials(id: '$_busId', pageNumber: 1, pageSize: 500);
+      _repository.getListPaymentWalletByBus(listPaymentWalletByBusCredentials).then((response) async{
+        if (response != null) {
+          if(response.status == true){
+              try{
+                ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
+                listPaymentWalletByBusDTO.description?.forEach((element) {
+                    transactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));
+                });
+              }catch(e){
+                Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+              }
+          }else{
+            Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+          }
+        }else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+        }
+      });
+    });
   }
 
   Future<void> _initSignalR() async {
@@ -99,9 +139,9 @@ class _DriverHomePage extends State<DriverHomePage> {
               const SizedBox(height: 2),
               RouteInformationWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10),
               const SizedBox(height: 2),
-              TransactionListWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 80),
+              TransactionListWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 80, transactionList: transactionList),
               const SizedBox(height: 2),
-              TotalTransactionCountWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10),
+              TotalTransactionCountWidget(widgetHeight: screenSize.getScreenHeightExcludeSafeArea(context) * 10, totalSuccessTransactionCount: transactionList.length, totalFailedTransactionCount: 0),
               const SizedBox(height: 2),
             ],
           ),

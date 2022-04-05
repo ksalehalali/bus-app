@@ -4,10 +4,10 @@ import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
 
 class TotalTransactionCountWidget extends StatefulWidget {
-   TotalTransactionCountWidget({Key? key, required this.widgetHeight}) : super(key: key);
-  final double? widgetHeight;
-  int totalSuccessTransactionCount = 0;
-  int totalFailedTransactionCount = 0;
+   TotalTransactionCountWidget({Key? key, required this.widgetHeight, required this.totalSuccessTransactionCount, required this.totalFailedTransactionCount}) : super(key: key);
+   final double? widgetHeight;
+   int totalSuccessTransactionCount ;
+   int totalFailedTransactionCount ;
 
   @override
   _TotalTransactionCountWidget createState() => _TotalTransactionCountWidget();
