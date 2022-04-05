@@ -60,19 +60,22 @@ class _DriverHomePage extends State<DriverHomePage> {
       _repository.getListPaymentWalletByBus(listPaymentWalletByBusCredentials).then((response) async{
         if (response != null) {
           if(response.status == true){
-              try{
-
-               // setState(() {
-                  ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
-                  listPaymentWalletByBusDTO.description?.forEach((element) {
-                    previousTransactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));
-                  });
-               // });
-                setState(() {
-                  transactionList.addAll(previousTransactionList);
+              try {
+                ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
+                if(listPaymentWalletByBusDTO.description != null && listPaymentWalletByBusDTO.description!.isNotEmpty){
+                listPaymentWalletByBusDTO.description?.forEach((element) {
+                  previousTransactionList.add(Transaction(
+                      username: element.name,
+                      createdDate: element.time,
+                      status: true));
                 });
+                setState(() {
+                  transactionList.addAll(
+                      previousTransactionList.reversed.toList());
+                });
+              }
               }catch(e){
-                Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+                Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
               }
           }else{
             Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);

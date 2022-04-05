@@ -3,6 +3,7 @@ import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
 import '../../../weather_src/constants/app_colors.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class TransactionListWidget extends StatefulWidget {
    TransactionListWidget({Key? key, required this.widgetHeight, required this.transactionList}) : super(key: key);
@@ -16,13 +17,16 @@ class TransactionListWidget extends StatefulWidget {
 class _TransactionListWidget extends State<TransactionListWidget> {
   final ScrollController _scrollController = ScrollController();
 
+  final scrollDirection = Axis.vertical;
+  AutoScrollController? controller;
+
   @override
   void initState() {
     super.initState();
     EventBusUtils.getInstance().on<OnNewTransactionEvent>().listen((event) {
       setState(() {
         widget.transactionList.add(event.transaction);
-        _scrollController.animateTo(_scrollController.position.maxScrollExtent * 2, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent * 2, duration: const Duration(milliseconds: 100), curve: Curves.easeInOut);
       });
     });
   }
@@ -37,6 +41,7 @@ class _TransactionListWidget extends State<TransactionListWidget> {
             child: SizedBox(
                 height: widget.widgetHeight,
                 child: new ListView.separated(
+                  reverse: false,
                   itemCount: widget.transactionList.length,
                   controller: _scrollController,
                   separatorBuilder: (BuildContext context, int index) => Divider(height: 1,),

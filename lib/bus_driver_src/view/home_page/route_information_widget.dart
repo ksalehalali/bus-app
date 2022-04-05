@@ -16,7 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class RouteInformationWidget extends StatefulWidget {
   RouteInformationWidget({Key? key, required this.widgetHeight}) : super(key: key);
   final double? widgetHeight;
-  bool isSignalRActive = false;
+
 
   @override
   _RouteInformationWidget createState() => _RouteInformationWidget();
@@ -28,6 +28,7 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   BusInformationResponseDTO? _busInformationResponseDTO = null;
   late final  String _busId;
   late final SharedPreferences? _pref;
+  bool isSignalRActive = false;
 
   @override
   void initState(){
@@ -38,12 +39,16 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
       _busId = _appData.getBusID(_pref!)!;
       getBusInformation();
     });
-    EventBusUtils.getInstance().on<OnSignalRStatusChanged>().listen((event) {setState(() {widget.isSignalRActive = event.isActive; });});
+    EventBusUtils.getInstance().on<OnSignalRStatusChanged>().listen((event) {
+      print("SignalRCurrentStatus: ${event.isActive}");
+      setState(() {isSignalRActive = event.isActive; });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("SignalRCurrentStatus.. build(): ${isSignalRActive}");
     final textTheme = Theme.of(context).textTheme;
     return Expanded(
         flex: 2,
@@ -92,7 +97,8 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
   }
 
   Widget getCurrentStatus() {
-    if(widget.isSignalRActive) return Text('Connected', style: TextStyle(color: Colors.white),);
+    print("SignalRCurrentStatus.. getCurrentStatus: ${isSignalRActive}");
+    if(isSignalRActive) return Text('Connected', style: TextStyle(color: Colors.white),);
     else return Text('Not connected', style: TextStyle(color: AppColors.rainRedDark),);
   }
 

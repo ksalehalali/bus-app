@@ -62,9 +62,9 @@ class TotalTransactionCountItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center ,
         children: [
-          Text('$type', style: TextStyle(color: Colors.white),),
-          const SizedBox(height: 3),
-          Text('$count', style: TextStyle(color: Colors.white),),
+         // Text('$type', style: TextStyle(color: Colors.white),),
+         // const SizedBox(height: 3),
+          Text('$count', style: TextStyle(color: Colors.white, fontSize: 20),),
         ],
       ),
     );
