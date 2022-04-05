@@ -42,13 +42,15 @@ class _DriverHomePage extends State<DriverHomePage> {
 
   @override
   void initState() {
-    eventBus = EventBusUtils.getInstance();
-    notificationsInitialize();
     getPreviousTransactionList();
+    eventBus = EventBusUtils.getInstance();
+    _initSignalR();
+    notificationsInitialize();
     super.initState();
   }
 
   void getPreviousTransactionList(){
+    List<Transaction> previousTransactionList = [];
     _repository = Repository(networkService: NetworkService());
     _appData = AppData();
     _appData.getSharedPreferencesInstance().then((value) {
@@ -59,9 +61,15 @@ class _DriverHomePage extends State<DriverHomePage> {
         if (response != null) {
           if(response.status == true){
               try{
-                ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
-                listPaymentWalletByBusDTO.description?.forEach((element) {
-                    transactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));
+
+               // setState(() {
+                  ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
+                  listPaymentWalletByBusDTO.description?.forEach((element) {
+                    previousTransactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));
+                  });
+               // });
+                setState(() {
+                  transactionList.addAll(previousTransactionList);
                 });
               }catch(e){
                 Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
@@ -120,7 +128,7 @@ class _DriverHomePage extends State<DriverHomePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var screenSize = ScreenSize();
-    _initSignalR();
+
 
     return Scaffold(
       body: DecoratedBox(
