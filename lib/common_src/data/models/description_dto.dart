@@ -3,7 +3,7 @@ class DescriptionDTO {
   String? type;
   String? userName;
   String? id;
-  Null? email;
+  String? email;
   String? phoneNumber;
   List<String>? role;
   int? accessFailed;

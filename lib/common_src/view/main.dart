@@ -18,9 +18,9 @@ Future<void> main() async{
 
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){
-    String? busId = _appData.getBusID(pref!);
-    if(busId == null) runApp(const ProviderScope(child: MyApp(true)));
-    else runApp(const ProviderScope(child: MyApp(false)));
+    String? accountType = _appData.getAccountType(pref!);
+    if(accountType == null) runApp(const ProviderScope(child: MyApp(true, null)));
+    else runApp( ProviderScope(child: MyApp(false, accountType)));
   });
 
 /*
@@ -33,8 +33,9 @@ Future<void> main() async{
 
 }
 class MyApp extends StatelessWidget {
-  const MyApp(this.isLogin, {Key? key}) : super(key: key);
+  const MyApp(this.isLogin, this.accountType, {Key? key}) : super(key: key);
   final bool isLogin;
+  final String? accountType;
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +58,7 @@ class MyApp extends StatelessWidget {
           caption: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home:
-      //PromoterHomePage()
-      _getNextPage(),
+      home: _getNextPage(),
     );
   }
 
@@ -67,8 +66,12 @@ class MyApp extends StatelessWidget {
     if(isLogin == true){
       return LoginPage();
     } else {
-     // RouteData dummyRouteData = RouteData(number: 'Dummy-103', startFrom: 'Jahra', endAt: 'Maliya', busPlateNumber: '11-47463', busId: '255ac1a2-1921-463a-de86-08da0015b60c', routeId: '34addb01-2b86-49f2-13a8-08d9d82ee213');
-      return DriverHomePage();
+      switch(accountType){
+        case 'Driver': return DriverHomePage();
+        break;
+        default: return PromoterHomePage();
+        break;
+      }
     }
   }
 }

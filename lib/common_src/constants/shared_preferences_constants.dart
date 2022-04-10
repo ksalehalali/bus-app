@@ -7,6 +7,7 @@ class SharedPreferencesConstants{
 
   SharedPreferencesConstants._internal();
 
+  final accountType = "account_type";
   final accessTokenKey = "access_token_key";
   final fcmToken = "fcm_token";
   final busId = "bus_id";

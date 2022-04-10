@@ -1,6 +1,7 @@
 import 'package:bus_driver/common_src/data/models/login_credentials.dart';
 import 'package:bus_driver/common_src/data/models/login_response_dto.dart';
 import 'package:flutter/material.dart';
+import '../../bus_promoter_src/view/home_page/promoter_home_page.dart';
 import '../../weather_src/constants/app_colors.dart';
 import '../data/models/login_error_response_dto.dart';
 import '../data/network_service.dart';
@@ -156,14 +157,19 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                         repository.login(loginCredentials).then((response) {
                           if (response != null) {
                             if(response is LoginResponseDTO){
-                              print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}");
+                              String? accountType = response.description?.role?.first;
+                              print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}, AccountType: $accountType");
                               _appData.getSharedPreferencesInstance().then((pref) {
                                 _appData.setAccessToken(pref!, response.description!.token).then((value) {
-                                  print("loginResponseDTO... Set AccessToken result: $value");
-                                  if(value == true){
-                                   Navigator.of(_dialog.context!,rootNavigator: true).pop();
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Scanner()),);
-                                  }
+                                  _appData.setAccountType(pref, accountType).then((value) {
+                                    Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                                    switch(accountType){
+                                      case 'Driver': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Scanner()),);
+                                      break;
+                                      default: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PromoterHomePage()),);;
+                                      break;
+                                    }
+                                  });
                                 });
                               });
                             }else if(response is LoginErrorResponseDTO){

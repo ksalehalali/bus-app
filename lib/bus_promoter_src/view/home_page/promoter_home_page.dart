@@ -2,6 +2,7 @@ import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_p
 import 'package:bus_driver/common_src/view/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import '../../../bus_driver_src/helper/shared_preferences.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,9 +18,11 @@ class _PromoterHomePage extends State<PromoterHomePage> {
 
   //final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   List<Color> currentGradientColors = AppColors.activeGradient;
+  late final AppData _appData;
 
   @override
   void initState() {
+    _appData = AppData();
     super.initState();
   }
 
@@ -83,7 +86,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                         children: <Widget>[
                           Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 20.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
                           Text("Welcome Abdullah !", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w500)),
-                          IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),),)
+                          IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
                         ],
                       ),
                       SizedBox(height: 25),
@@ -127,6 +130,14 @@ class _PromoterHomePage extends State<PromoterHomePage> {
         ),
       ),
     );
+  }
+
+  _logout() async {
+    _appData.getSharedPreferencesInstance().then((_pref) async {
+      await _appData.clearSharedPreferencesData(_pref!).then((value) => null).then((value) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+      });
+    });
   }
 
   @override
