@@ -122,8 +122,8 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                       title: Text('Flutter Tabs Demo'),
                       bottom: TabBar(
                         tabs: [
-                          Tab(icon: Icon(Icons.contacts), text: "Incoming Wallet"),
-                          Tab(icon: Icon(Icons.camera_alt), text: "Outgoing Wallet")
+                          Tab(text: "Incoming Wallet"),
+                          Tab(text: "Outgoing Wallet")
                         ],
                       ),
                     ),
