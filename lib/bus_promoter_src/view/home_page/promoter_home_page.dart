@@ -88,7 +88,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 20.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
-                          Text("Welcome Abdullah !", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w500)),
+                          Text("Welcome Abdullah !", style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500)),
                           IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
                         ],
                       ),
@@ -105,16 +105,52 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                     ],
                   ),
                 ),
-                Container(height: MediaQuery.of(context).size.height * .75, color: Colors.grey,)
+                Container(height: MediaQuery.of(context).size.height * .6, color: Colors.grey,)
               ],
             ),
             Container(
               alignment: Alignment.topCenter,
               padding: new EdgeInsets.only(top: MediaQuery.of(context).size.height * .30, right: 10.0, left: 10.0),
               child: new Container(
-                height: MediaQuery.of(context).size.height * .7,
+                height: MediaQuery.of(context).size.height * .69,
                 width: MediaQuery.of(context).size.width,
                 child:
+
+                DefaultTabController(
+                  length: 2,
+                  child: new Scaffold(
+                    appBar: new PreferredSize(
+                      preferredSize: Size.fromHeight(kMinInteractiveDimension),
+                      child: new Container(
+                        color: AppColors.rainBlueLight,
+                        child: new SafeArea(
+                          child: Column(
+                            children: <Widget>[
+                              new Expanded(child: new Container()),
+                              new TabBar(
+                                indicatorColor: Colors.white,
+                                labelStyle: TextStyle(fontSize: 22.0,fontFamily: 'Family Name'),  //For Selected tab
+                                unselectedLabelStyle: TextStyle(fontSize: 16.0,fontFamily: 'Family Name'), //For Un-selected Tabs
+                                tabs: [
+                                  Tab(text: "Incoming"),
+                                  Tab(text: "Outgoing")
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    body: new TabBarView(
+                      children: [
+                        IncomingWallet(),
+                        OutgoingWallet(),
+                      ],
+                    ),
+                  ),
+                ),
+
+                    /*
                 DefaultTabController(
                   length: 2,
                   child: Scaffold(
@@ -122,8 +158,8 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                       title: Text('Flutter Tabs Demo'),
                       bottom: TabBar(
                         tabs: [
-                          Tab(text: "Incoming Wallet"),
-                          Tab(text: "Outgoing Wallet")
+                          Tab(text: "Incoming"),
+                          Tab(text: "Outgoing")
                         ],
                       ),
                     ),
@@ -135,7 +171,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                     ),
                   ),
                 ),
-
+*/
                 /*
                 ListView(
                   children: <Widget>[

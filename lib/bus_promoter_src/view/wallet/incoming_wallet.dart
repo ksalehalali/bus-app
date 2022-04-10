@@ -5,7 +5,7 @@ class IncomingWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-          child: Text('Incoming Wallet', style: TextStyle(fontSize: 32.0),)
+          child: Text('Incoming Wallet', style: TextStyle(fontSize: 32.0, color: Colors.black),)
       ),
     );
   }
