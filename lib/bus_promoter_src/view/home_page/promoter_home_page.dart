@@ -7,6 +7,9 @@ import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../wallet/incoming_wallet.dart';
+import '../wallet/outgoing_wallet.dart';
+
 class PromoterHomePage extends StatefulWidget {
   PromoterHomePage({Key? key}) : super(key: key);
 
@@ -111,7 +114,30 @@ class _PromoterHomePage extends State<PromoterHomePage> {
               child: new Container(
                 height: MediaQuery.of(context).size.height * .7,
                 width: MediaQuery.of(context).size.width,
-                child: ListView(
+                child:
+                DefaultTabController(
+                  length: 2,
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text('Flutter Tabs Demo'),
+                      bottom: TabBar(
+                        tabs: [
+                          Tab(icon: Icon(Icons.contacts), text: "Incoming Wallet"),
+                          Tab(icon: Icon(Icons.camera_alt), text: "Outgoing Wallet")
+                        ],
+                      ),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        IncomingWallet(),
+                        OutgoingWallet(),
+                      ],
+                    ),
+                  ),
+                ),
+
+                /*
+                ListView(
                   children: <Widget>[
                     cryptoPortfolioItem(true, "Cash", 100.800, 0.0036, "82.19"),
                     cryptoPortfolioItem(false, "Cash", 20, 126.0, "13.10"),
@@ -124,6 +150,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                     cryptoPortfolioItem(false, "Visa", 20.600, 23000, "120"),
                   ],
                 ),
+                */
               ),
             ),
           ],
