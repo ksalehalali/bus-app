@@ -1,6 +1,5 @@
 import 'package:bus_driver/bus_promoter_src/view/wallet/wallet_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common_src/constants/app_colors.dart';
 
 class IncomingWallet extends StatefulWidget {
