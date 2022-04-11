@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common_src/data/models/wallet_dto.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
+import '../charge_user_wallet/user_scanner.dart';
 import '../wallet/incoming_wallet.dart';
 import '../wallet/outgoing_wallet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -91,7 +92,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(" KWD ${_wallet?.total}", style: TextStyle(color: Colors.white, fontSize: 27.0, fontWeight: FontWeight.bold),),
-                      IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => print("Clicked to transfer money!"))
+                      IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserScanner()),))
                     ]
                   )
                     //  SizedBox(height: 20),

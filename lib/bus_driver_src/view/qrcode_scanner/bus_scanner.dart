@@ -12,12 +12,12 @@ import '../../../common_src/data/repository.dart';
 import '../../helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Scanner extends StatefulWidget {
+class BusScanner extends StatefulWidget {
   @override
-  _ScannerState createState() => _ScannerState();
+  _BusScannerState createState() => _BusScannerState();
 }
 
-class _ScannerState extends State<Scanner> {
+class _BusScannerState extends State<BusScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   late final Repository repository;

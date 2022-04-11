@@ -7,7 +7,7 @@ import '../data/models/login_error_response_dto.dart';
 import '../data/network_service.dart';
 import '../data/repository.dart';
 import '../../bus_driver_src/helper/shared_preferences.dart';
-import '../../bus_driver_src/view/qrcode_scanner/scanner.dart';
+import '../../bus_driver_src/view/qrcode_scanner/bus_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -164,7 +164,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                                   _appData.setAccountType(pref, accountType).then((value) {
                                     Navigator.of(_dialog.context!,rootNavigator: true).pop();
                                     switch(accountType){
-                                      case 'Driver': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Scanner()),);
+                                      case 'Driver': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusScanner()),);
                                       break;
                                       default: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PromoterHomePage()),);;
                                       break;
