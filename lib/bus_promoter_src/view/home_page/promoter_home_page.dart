@@ -17,8 +17,6 @@ class PromoterHomePage extends StatefulWidget {
 }
 
 class _PromoterHomePage extends State<PromoterHomePage> {
-
-  //final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   List<Color> currentGradientColors = AppColors.activeGradient;
   late final AppData _appData;
 
