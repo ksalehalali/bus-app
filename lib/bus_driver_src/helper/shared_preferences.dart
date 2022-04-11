@@ -20,8 +20,13 @@ class AppData{
 
   //AccountType
   String? getAccountType(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().accountType);
-  Future<bool?> setAccountType(SharedPreferences? sharedPreferences, String? accessToken) async => await sharedPreferences!.setString(SharedPreferencesConstants().accountType, accessToken!);
+  Future<bool?> setAccountType(SharedPreferences? sharedPreferences, String? accountType) async => await sharedPreferences!.setString(SharedPreferencesConstants().accountType, accountType!);
   Future<bool?> removeAccountType(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().accountType);
+
+  //userId
+  String? getUserId(SharedPreferences sharedPreferences) => sharedPreferences.getString(SharedPreferencesConstants().userId);
+  Future<bool?> setUserId(SharedPreferences? sharedPreferences, String? userId) async => await sharedPreferences!.setString(SharedPreferencesConstants().userId, userId!);
+  Future<bool?> removeUserId(SharedPreferences sharedPreferences) async => await sharedPreferences.remove(SharedPreferencesConstants().userId);
 
   //AccessToken
   String? getAccessToken(SharedPreferences sharedPreferences) => 'bearer ${sharedPreferences.getString(SharedPreferencesConstants().accessTokenKey)}';

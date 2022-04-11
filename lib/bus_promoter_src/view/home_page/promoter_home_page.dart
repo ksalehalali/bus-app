@@ -41,7 +41,13 @@ class _PromoterHomePage extends State<PromoterHomePage> {
           try {
             WalletDTO walletDTO = response as WalletDTO;
             if(walletDTO.wallet != null){
-              setState(() {_wallet = walletDTO.wallet;});
+              _appData.getSharedPreferencesInstance().then((pref) {
+                _appData.setUserId(pref!, walletDTO.wallet!.userId).then((value) {
+                  if(value == true){
+                    setState(() {_wallet = walletDTO.wallet;});
+                  }
+                });
+              });
             }
           }catch(e){
             Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
