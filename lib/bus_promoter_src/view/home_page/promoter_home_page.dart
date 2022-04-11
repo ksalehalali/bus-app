@@ -41,12 +41,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
           try {
             WalletDTO walletDTO = response as WalletDTO;
             if(walletDTO.wallet != null){
-             // walletDTO.wallet!.toList().forEach((element) { incomingWalletItemWidgets.add(WalletItemWidget(true, element.paymentGateway.toString(), element.value.toString(), element.time)); });
-
-              setState(() {
-                _wallet = walletDTO.wallet;
-               // _listView = ListView(children: incomingWalletItemWidgets ,);
-              });
+              setState(() {_wallet = walletDTO.wallet;});
             }
           }catch(e){
             Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
