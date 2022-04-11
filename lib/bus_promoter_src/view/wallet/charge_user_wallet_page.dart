@@ -58,31 +58,38 @@ class _ChargeUserWalletPageState extends State<ChargeUserWalletPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 30, bottom: 30),
-            child: ListView(
-              children: <Widget>[
-                Padding(padding:  EdgeInsets.all(10), child:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.blue,),),
-                Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child:  Text('Charge to ${widget.userQrCodeData?.userName}', style: TextStyle(fontSize: 20),)),
-                Container(padding: const EdgeInsets.all(10), child: TextFormField(
-                  controller: amountController, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Amount', prefixIcon: Icon(Icons.attach_money)),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Amount is required!';
-                    }
-                    return null;
-                  },
-                ),),
-                /*
-                Container(
-                    height: 120,
-                    padding: const EdgeInsets.only(top: 60, bottom: 10, left: 10, right: 10),
-                    child: ElevatedButton(
-                      child: const Text('Login', style: TextStyle(fontSize: 20),),
-                      onPressed: ()  {
-                        if (_formKey.currentState!.validate()) {
+
+    return MaterialApp(
+      // title: _title,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        //  appBar: AppBar(title: const Text(_title)),
+          body: SafeArea(
+            child: Form(
+                key: _formKey,
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 30, bottom: 30),
+                    child: ListView(
+                      children: <Widget>[
+                        Padding(padding:  EdgeInsets.all(10), child:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.blue,),),
+                        Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child:  Text('Charge to ${widget.userQrCodeData?.userName}', style: TextStyle(fontSize: 20),)),
+                        Container(padding: const EdgeInsets.all(10), child: TextFormField(
+                          controller: amountController, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Amount', prefixIcon: Icon(Icons.attach_money)),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Amount is required!';
+                            }
+                            return null;
+                          },
+                        ),),
+                        Container(
+                            height: 120,
+                            padding: const EdgeInsets.only(top: 60, bottom: 10, left: 10, right: 10),
+                            child: ElevatedButton(
+                              child: const Text('Submit', style: TextStyle(fontSize: 20),),
+                              onPressed: ()  {
+                                if (_formKey.currentState!.validate()) {
+                                  /*
                           _dialog.show(message: 'Please wait...');
 
                           final loginCredentials = LoginCredentials(userName: amountController.text, password: passwordController.text);
@@ -115,13 +122,17 @@ class _ChargeUserWalletPageState extends State<ChargeUserWalletPage> {
                             }
                           });
                           // });
-                        }
-                      },
-                    )
-                ),
-                */
-              ],
-            ))
+                          */
+                                }
+                              },
+                            )
+                        ),
+
+                      ],
+                    ))
+            ),
+          )
+      ),
     );
   }
 }
