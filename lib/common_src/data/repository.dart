@@ -12,6 +12,7 @@ import '../../bus_promoter_src/data/models/user_incoming_wallet_dto.dart';
 import 'models/login_credentials.dart';
 import 'models/login_error_response_dto.dart';
 import 'models/login_response_dto.dart';
+import 'models/wallet_dto.dart';
 import 'network_service.dart';
 
 class Repository {
@@ -90,6 +91,14 @@ class Repository {
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return ListPaymentWalletByBusDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> getUserWallet() async {
+    final todoMap = await networkService.getUserWallet();
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return WalletDTO.fromJson(todoMap);
     }
   }
 

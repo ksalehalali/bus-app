@@ -6,8 +6,12 @@ import '../../../bus_driver_src/helper/shared_preferences.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../common_src/data/models/wallet_dto.dart';
+import '../../../common_src/data/network_service.dart';
+import '../../../common_src/data/repository.dart';
 import '../wallet/incoming_wallet.dart';
 import '../wallet/outgoing_wallet.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PromoterHomePage extends StatefulWidget {
   PromoterHomePage({Key? key}) : super(key: key);
@@ -19,13 +23,43 @@ class PromoterHomePage extends StatefulWidget {
 class _PromoterHomePage extends State<PromoterHomePage> {
   List<Color> currentGradientColors = AppColors.activeGradient;
   late final AppData _appData;
+  late final Repository _repository;
+  Wallet? _wallet;
 
   @override
   void initState() {
     _appData = AppData();
+    getUserWallet();
     super.initState();
   }
 
+  void getUserWallet(){
+    _repository = Repository(networkService: NetworkService());
+    _repository.getUserWallet().then((response) async{
+      if (response != null) {
+        if(response.status == true){
+          try {
+            WalletDTO walletDTO = response as WalletDTO;
+            if(walletDTO.wallet != null){
+             // walletDTO.wallet!.toList().forEach((element) { incomingWalletItemWidgets.add(WalletItemWidget(true, element.paymentGateway.toString(), element.value.toString(), element.time)); });
+
+              setState(() {
+                _wallet = walletDTO.wallet;
+               // _listView = ListView(children: incomingWalletItemWidgets ,);
+              });
+            }
+          }catch(e){
+            Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+          }
+        }else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+        }
+      }else{
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+      }
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -47,7 +81,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 20.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
-                          Text("Welcome Abdullah !", style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500)),
+                          Text('Welcome ${_wallet?.userName} !', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
                           IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
                         ],
                       ),
@@ -55,7 +89,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(r" KWD 100.8", style: TextStyle(color: Colors.white, fontSize: 45.0, fontWeight: FontWeight.bold),),
+                      Text(" KWD ${_wallet?.total}", style: TextStyle(color: Colors.white, fontSize: 27.0, fontWeight: FontWeight.bold),),
                       IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => print("Clicked to transfer money!"))
                     ]
                   )

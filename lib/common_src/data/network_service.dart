@@ -118,6 +118,21 @@ class NetworkService {
     }
   }
 
+  Future<Map?> getUserWallet() async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await get(Uri.parse(NetworkConstants().baseUrl + "/GetWallet"), headers: headers);
+      print("WalletDTO... request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("WalletDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
   Future<Map?> getUserIncomingWalletList(Map<String, dynamic> userIncomingWalletCredentialsJson) async {
     try {
       SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
