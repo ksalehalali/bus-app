@@ -2,17 +2,17 @@ import 'package:intl/intl.dart';
 
 class UserIncomingWalletDTO {
   bool? status;
-  List<IncomingWalletItem>? incomingWalletItem;
+  List<IncomingWalletItem>? incomingWalletItems;
   int? total;
 
-  UserIncomingWalletDTO({this.status, this.incomingWalletItem, this.total});
+  UserIncomingWalletDTO({this.status, this.incomingWalletItems, this.total});
 
   UserIncomingWalletDTO.fromJson(Map<dynamic, dynamic> json) {
     status = json['status'];
     if (json['description'] != null) {
-      incomingWalletItem = <IncomingWalletItem>[];
+      incomingWalletItems = <IncomingWalletItem>[];
       json['description'].forEach((v) {
-        incomingWalletItem!.add(new IncomingWalletItem.fromJson(v));
+        incomingWalletItems!.add(new IncomingWalletItem.fromJson(v));
       });
     }
     total = json['total'];
@@ -21,8 +21,8 @@ class UserIncomingWalletDTO {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.incomingWalletItem != null) {
-      data['description'] = this.incomingWalletItem!.map((v) => v.toJson()).toList();
+    if (this.incomingWalletItems != null) {
+      data['description'] = this.incomingWalletItems!.map((v) => v.toJson()).toList();
     }
     data['total'] = this.total;
     return data;

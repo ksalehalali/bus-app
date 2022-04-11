@@ -35,8 +35,8 @@ class _IncomingWallet extends State<IncomingWallet> {
           if(response.status == true){
             try {
               UserIncomingWalletDTO userIncomingWalletDTO = response as UserIncomingWalletDTO;
-              if(userIncomingWalletDTO.incomingWalletItem != null && userIncomingWalletDTO.incomingWalletItem!.isNotEmpty){
-                userIncomingWalletDTO.incomingWalletItem!.toList().forEach((element) { incomingWalletItemWidgets.add(WalletItemWidget(true, element.paymentGateway.toString(), element.value.toString(), element.time)); });
+              if(userIncomingWalletDTO.incomingWalletItems != null && userIncomingWalletDTO.incomingWalletItems!.isNotEmpty){
+                userIncomingWalletDTO.incomingWalletItems!.toList().forEach((element) { incomingWalletItemWidgets.add(WalletItemWidget(true, element.paymentGateway.toString(), element.value.toString(), element.time)); });
 
                 setState(() {
                   _listView = ListView(children: incomingWalletItemWidgets ,);

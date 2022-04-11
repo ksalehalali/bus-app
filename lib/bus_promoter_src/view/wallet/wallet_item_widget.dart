@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-WalletItemWidget(bool isIncoming, String name, String amount, String time) => Card(
+WalletItemWidget(bool isIncoming, String? itemHeader, String amount, String time) => Card(
   elevation: 1.0,
   child: InkWell(
     onTap: () => print("tapped"),
@@ -18,7 +18,7 @@ WalletItemWidget(bool isIncoming, String name, String amount, String time) => Ca
               children: <Widget>[
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(name, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),),
+                    Text('$itemHeader', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),),
                     Text("${getSign(isIncoming)}\ $amount", style: TextStyle(fontSize: 14.0, color: getColor(isIncoming),))
                   ],
                 ),
