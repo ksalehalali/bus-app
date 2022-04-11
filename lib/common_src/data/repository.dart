@@ -5,6 +5,8 @@ import '../../bus_driver_src/data/models/driver_enter_out_response_dto.dart';
 import '../../bus_driver_src/data/models/driver_out_credentials.dart';
 import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_credentials.dart';
 import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_dto.dart';
+import '../../bus_promoter_src/data/models/charge_user_wallet_credentials.dart';
+import '../../bus_promoter_src/data/models/charge_user_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
@@ -115,6 +117,14 @@ class Repository {
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return PromoterOutgoingWalletDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> chargeUserWallet(ChargeUserWalletCredentials chargeUserWalletCredentials) async {
+    final todoMap = await networkService.chargeUserWallet(chargeUserWalletCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return ChargeUserWalletDTO.fromJson(todoMap);
     }
   }
 }

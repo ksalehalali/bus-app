@@ -4,11 +4,17 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:convert';
 import '../../../bus_driver_src/helper/shared_preferences.dart';
 import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/constants/network_constants.dart';
 import '../../../common_src/data/models/user_qrcode_data.dart';
 import '../../../common_src/data/network_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common_src/data/repository.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
+import '../../data/models/charge_user_wallet_credentials.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/models/charge_user_wallet_dto.dart';
+import '../home_page/promoter_home_page.dart';
 
 class UserScanner extends StatefulWidget {
   @override
@@ -122,14 +128,28 @@ class _UserScannerState extends State<UserScanner> {
                             padding: const EdgeInsets.only(top: 45, bottom: 10, left: 10, right: 10),
                             child: ElevatedButton(
                               child: const Text('Submit', style: TextStyle(fontSize: 20),),
-                              onPressed: ()  {
+                              onPressed: ()  async {
                                 if (_formKey.currentState!.validate()) {
                                   _dialog.show(message: 'Please wait...', textStyle: TextStyle(color: AppColors.rainBlueLight));
+                                  await _appData.getSharedPreferencesInstance().then((pref) {
+                                    String promoterId = _appData.getUserId(pref!)!;
+                                    final chargeUserWalletCredentials = ChargeUserWalletCredentials(apiKey: NetworkConstants().api_key, apiSecret: NetworkConstants().api_secret, userID: userData.userId, promoterID: promoterId, invoiceValue: double.parse(amountController.text.toString().trim()));
+                                    repository.chargeUserWallet(chargeUserWalletCredentials).then((response){
+                                      if (response != null) {
+                                      if(response is ChargeUserWalletDTO){
+                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
+                                        Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                      }
+                                      } else{
+                                        Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                                        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                      }
+                                    });
+                                  } );
 
-                                  /*
-                          final loginCredentials = LoginCredentials(userName: amountController.text, password: passwordController.text);
-                          //Timer(Duration(seconds: 2), () {
-                          repository.login(loginCredentials).then((response) {
+
+                          /*
+                          repository.login(chargeUserWalletCredentials).then((response) {
                             if (response != null) {
                               if(response is LoginResponseDTO){
                                 String? accountType = response.description?.role?.first;
@@ -156,8 +176,8 @@ class _UserScannerState extends State<UserScanner> {
                               Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
                             }
                           });
-                          // });
-                          */
+                       */
+
                                 }
                               },
                             )
