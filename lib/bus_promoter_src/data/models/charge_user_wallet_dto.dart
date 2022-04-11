@@ -1,32 +1,40 @@
 class ChargeUserWalletDTO {
   bool? status;
-  Description? description;
+  SuccessDescription? successDescription = null;
+  String? failedDescription = null;
 
-  ChargeUserWalletDTO({this.status, this.description});
+  ChargeUserWalletDTO({this.status, this.successDescription});
 
-  ChargeUserWalletDTO.fromJson(Map<dynamic, dynamic> json) {
+  ChargeUserWalletDTO.fromSuccessJson(Map<dynamic, dynamic> json) {
     status = json['status'];
-    description = json['description'] != null ? new Description.fromJson(json['description']) : null;
+    successDescription = json['description'] != null ? new SuccessDescription.fromJson(json['description']) : null;
+  }
+
+  ChargeUserWalletDTO.fromFailedJson(Map<dynamic, dynamic> json) {
+    status = json['status'];
+    failedDescription = json['description'] != null ? json['description'] : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.description != null) {
-      data['description'] = this.description!.toJson();
+    if (this.successDescription != null) {
+      data['description'] = this.successDescription!.toJson();
     }
     return data;
   }
+
+  bool? isSuccess() => status;
 }
 
-class Description {
+class SuccessDescription {
   String? total;
   String? userName;
   String? userId;
 
-  Description({this.total, this.userName, this.userId});
+  SuccessDescription({this.total, this.userName, this.userId});
 
-  Description.fromJson(Map<dynamic, dynamic> json) {
+  SuccessDescription.fromJson(Map<dynamic, dynamic> json) {
     total = json['total'];
     userName = json['userName'];
     userId = json['userId'];

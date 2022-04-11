@@ -11,8 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common_src/data/repository.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import '../../data/models/charge_user_wallet_credentials.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../data/models/charge_user_wallet_dto.dart';
 import '../home_page/promoter_home_page.dart';
 
@@ -78,7 +76,6 @@ class _UserScannerState extends State<UserScanner> {
         try{
           final decodedJSON = json.decode(scanData.code!) as Map<String, dynamic>;
           final userData = UserQrCodeData.fromJson(decodedJSON);
-         // Navigator.push(context, MaterialPageRoute(builder: (context) => ChargeUserWalletPage(userQrCodeData: userData)),);
           openBottomSheet(userData, controller);
         } catch(e) {
           Fluttertoast.showToast(msg: "Invalid QR Code!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
@@ -137,66 +134,29 @@ class _UserScannerState extends State<UserScanner> {
                                     repository.chargeUserWallet(chargeUserWalletCredentials).then((response){
                                       if (response != null) {
                                       if(response is ChargeUserWalletDTO){
-                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
-                                        Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                        if(response.isSuccess() != null){
+                                          if(response.isSuccess() == true){
+                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
+                                            Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                          }else{
+                                            Navigator.of(_dialog.context!,rootNavigator: true).pop();
+                                            Fluttertoast.showToast(msg: "${response.failedDescription.toString()}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                          }
+                                        }
                                       }
                                       } else{
                                         Navigator.of(_dialog.context!,rootNavigator: true).pop();
-                                        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                                        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
                                       }
                                     });
                                   } );
-
-
-                          /*
-                          repository.login(chargeUserWalletCredentials).then((response) {
-                            if (response != null) {
-                              if(response is LoginResponseDTO){
-                                String? accountType = response.description?.role?.first;
-                                print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}, AccountType: $accountType");
-                                _appData.getSharedPreferencesInstance().then((pref) {
-                                  _appData.setAccessToken(pref!, response.description!.token).then((value) {
-                                    _appData.setAccountType(pref, accountType).then((value) {
-                                      Navigator.of(_dialog.context!,rootNavigator: true).pop();
-                                      switch(accountType){
-                                        case 'Driver': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusScanner()),);
-                                        break;
-                                        default: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PromoterHomePage()),);;
-                                        break;
-                                      }
-                                    });
-                                  });
-                                });
-                              }else if(response is LoginErrorResponseDTO){
-                                Navigator.of(_dialog.context!,rootNavigator: true).pop();
-                                Fluttertoast.showToast(msg: "Invalid username or password!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
-                              }
-                            }else{
-                              Navigator.of(_dialog.context!,rootNavigator: true).pop();
-                              Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
-                            }
-                          });
-                       */
-
                                 }
                               },
                             )
                         ),
-
                       ],
                     ))
             ),
-            /*Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text('Modal BottomSheet'),
-                ElevatedButton(
-                  child: const Text('Close BottomSheet'),
-                  onPressed: () => Navigator.pop(context),
-                )
-              ],
-            ),*/
           ),
         );
       },

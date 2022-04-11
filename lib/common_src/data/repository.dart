@@ -124,7 +124,9 @@ class Repository {
     final todoMap = await networkService.chargeUserWallet(chargeUserWalletCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
-      return ChargeUserWalletDTO.fromJson(todoMap);
+      return ChargeUserWalletDTO.fromSuccessJson(todoMap);
+    }else if(todoMap['status'] == false){
+      return ChargeUserWalletDTO.fromFailedJson(todoMap);
     }
   }
 }
