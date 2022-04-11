@@ -30,15 +30,7 @@ class _OutgoingWallet extends State<OutgoingWallet> {
         child:
         ListView(
           children: <Widget>[
-            walletItemWidget(false, "Cash", 100.800, 0.0036, "82.19"),
-            walletItemWidget(false, "Cash", 20, 126.0, "13.10"),
-            walletItemWidget(false, "Visa", 3, 23000, "120"),
-            walletItemWidget(false, "Cash", 42.500, 0.0036, "82.19"),
-            walletItemWidget(false, "Visa", 500, 126.0, "13.10"),
-            walletItemWidget(false, "Cash", 230, 23000, "120"),
-            walletItemWidget(false, "Cash", 90, 0.0036, "82.19"),
-            walletItemWidget(false, "Visa", 33, 126.0, "13.10"),
-            walletItemWidget(false, "Visa", 20.600, 23000, "120"),
+            WalletItemWidget(false, "Cash", '100.800',"30"),
           ],
         ),
       ),

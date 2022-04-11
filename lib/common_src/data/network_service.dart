@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import '../../bus_driver_src/helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../constants/network_constants.dart';
 
 class NetworkService {
@@ -115,6 +114,21 @@ class NetworkService {
       return jsonDecode(response.body);
     } catch (e) {
       print("ListPaymentWalletByBusDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future<Map?> getUserIncomingWalletList(Map<String, dynamic> userIncomingWalletCredentialsJson) async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ListChrgingWalletByUser"), headers: headers, body: jsonEncode(userIncomingWalletCredentialsJson));
+      print("UserIncomingWalletDTO... request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("UserIncomingWalletDTO error: ${e.toString()}");
       return null;
     }
   }

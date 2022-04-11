@@ -64,15 +64,9 @@ class _DriverHomePage extends State<DriverHomePage> {
                 ListPaymentWalletByBusDTO listPaymentWalletByBusDTO = response as ListPaymentWalletByBusDTO;
                 if(listPaymentWalletByBusDTO.description != null && listPaymentWalletByBusDTO.description!.isNotEmpty){
                 listPaymentWalletByBusDTO.description?.forEach((element) {
-                  previousTransactionList.add(Transaction(
-                      username: element.name,
-                      createdDate: element.time,
-                      status: true));
-                });
+                  previousTransactionList.add(Transaction(username: element.name, createdDate: element.time, status: true));});
                 setState(() {
-                  transactionList.addAll(
-                      previousTransactionList.reversed.toList());
-                });
+                  transactionList.addAll(previousTransactionList.reversed.toList());});
               }
               }catch(e){
                 Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);

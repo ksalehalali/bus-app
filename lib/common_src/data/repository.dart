@@ -5,6 +5,8 @@ import '../../bus_driver_src/data/models/driver_enter_out_response_dto.dart';
 import '../../bus_driver_src/data/models/driver_out_credentials.dart';
 import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_credentials.dart';
 import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_dto.dart';
+import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
+import '../../bus_promoter_src/data/models/user_incoming_wallet_dto.dart';
 import 'models/login_credentials.dart';
 import 'models/login_error_response_dto.dart';
 import 'models/login_response_dto.dart';
@@ -86,6 +88,14 @@ class Repository {
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return ListPaymentWalletByBusDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> getUserIncomingWalletList(UserIncomingWalletCredentials userIncomingWalletCredentials) async {
+    final todoMap = await networkService.getUserIncomingWalletList(userIncomingWalletCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return UserIncomingWalletDTO.fromJson(todoMap);
     }
   }
 }
