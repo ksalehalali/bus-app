@@ -118,6 +118,21 @@ class NetworkService {
     }
   }
 
+  Future<Map?> getUserProfile() async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await get(Uri.parse(NetworkConstants().baseUrl + "/MyProfile"), headers: headers);
+      print("UserProfileDTO... request: ${response.request}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("UserProfileDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
   Future<Map?> getUserWallet() async {
     try {
       SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();

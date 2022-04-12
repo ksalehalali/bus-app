@@ -9,6 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common_src/data/models/wallet_dto.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
+import '../../../common_src/helper/image_loader.dart';
+import '../../data/models/user_profile_dto.dart';
 import '../charge_user_wallet/user_scanner.dart';
 import '../wallet/incoming_wallet.dart';
 import '../wallet/outgoing_wallet.dart';
@@ -25,17 +27,40 @@ class _PromoterHomePage extends State<PromoterHomePage> {
   List<Color> currentGradientColors = AppColors.activeGradient;
   late final AppData _appData;
   late final Repository _repository;
+  ProfileInformation? _profileInformation;
   Wallet? _wallet;
 
   @override
   void initState() {
     _appData = AppData();
+    _repository = Repository(networkService: NetworkService());
+    getProfileInformation();
     getUserWallet();
     super.initState();
   }
 
+  void getProfileInformation(){
+    _repository.getUserProfile().then((response) async{
+      if (response != null) {
+        if(response.status == true){
+          try {
+            UserProfileDTO profileDTO = response as UserProfileDTO;
+            if(profileDTO.profileInformation != null){
+              setState(() {_profileInformation = profileDTO.profileInformation;});
+            }
+          }catch(e){
+            Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+          }
+        }else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+        }
+      }else{
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+      }
+    });
+  }
+
   void getUserWallet(){
-    _repository = Repository(networkService: NetworkService());
     _repository.getUserWallet().then((response) async{
       if (response != null) {
         if(response.status == true){
@@ -82,8 +107,8 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child:  CircleAvatar(radius: 20.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
-                          Text('Welcome ${_wallet?.userName} !', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
+                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child: getAvatarImageWidget(_profileInformation?.image, 45.0),),),
+                          Text('Welcome ${_profileInformation?.name?.split(' ').first} !', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
                           IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
                         ],
                       ),

@@ -11,6 +11,7 @@ import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_credentials.
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_dto.dart';
+import '../../bus_promoter_src/data/models/user_profile_dto.dart';
 import 'models/login_credentials.dart';
 import 'models/login_error_response_dto.dart';
 import 'models/login_response_dto.dart';
@@ -93,6 +94,14 @@ class Repository {
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return ListPaymentWalletByBusDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic?> getUserProfile() async {
+    final todoMap = await networkService.getUserProfile();
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return UserProfileDTO.fromJson(todoMap);
     }
   }
 
