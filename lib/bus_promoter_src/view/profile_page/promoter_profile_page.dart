@@ -9,6 +9,7 @@ import '../../../common_src/widget/image_loader.dart';
 import '../../data/models/user_profile_dto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../home_page/promoter_home_page.dart';
 import 'edit_profile_page.dart';
 
 class PromoterProfilePage extends StatefulWidget {
@@ -22,6 +23,11 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
   List<Color> currentGradientColors = AppColors.activeGradient;
   late final Repository _repository;
   ProfileInformation? _profileInformation;
+/*
+  Future<bool> _onWillPop() async {
+    return (await _backButton()) ?? false;
+  }
+  */
 
   @override
   void initState() {
@@ -72,7 +78,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(icon: Icon(AntDesign.arrowleft, color: Colors.white,), onPressed: () =>  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterProfilePage()),(route) => route.settings.name == "PromoterProfilePage")),
+                      IconButton(icon: Icon(AntDesign.arrowleft, color: Colors.white,), onPressed: () =>  _backButton()),
                     ],
                   ),
                  // SizedBox(height: 10,),
@@ -218,5 +224,9 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
   @override
   void dispose(){
     super.dispose();
+  }
+
+  _backButton() {
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterHomePage()),(route) => route.settings.name == "PromoterProfilePage");
   }
 }
