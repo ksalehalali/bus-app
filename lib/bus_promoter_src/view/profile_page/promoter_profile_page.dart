@@ -124,8 +124,9 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 ),
                               ),
                             ),
-                            Positioned(top: 100, right: 20, child: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,),),
+                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () =>  print("edit avatar clicked"),)),
                             Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 110.0),),),
+                            Positioned(top: 69, right: 117, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 25,), onPressed: () =>  print("edit avatar clicked"),)),
                           ],
                         );
                       },
