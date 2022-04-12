@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../common_src/data/models/wallet_dto.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
-import '../../../common_src/helper/image_loader.dart';
+import '../../../common_src/widget/image_loader.dart';
 import '../../data/models/user_profile_dto.dart';
 import '../charge_user_wallet/user_scanner.dart';
 import '../wallet/incoming_wallet.dart';

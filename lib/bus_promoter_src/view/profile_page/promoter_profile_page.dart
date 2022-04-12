@@ -5,9 +5,11 @@ import '../../../common_src/constants/screen_size.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
-import '../../../common_src/helper/image_loader.dart';
+import '../../../common_src/widget/image_loader.dart';
 import '../../data/models/user_profile_dto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'edit_profile_page.dart';
 
 class PromoterProfilePage extends StatefulWidget {
   PromoterProfilePage({Key? key}) : super(key: key);
@@ -124,9 +126,9 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 ),
                               ),
                             ),
-                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () =>  print("edit avatar clicked"),)),
+                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(profileInformation: _profileInformation,)),),)),
                             Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 110.0),),),
-                            Positioned(top: 69, right: 117, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 25,), onPressed: () =>  print("edit avatar clicked"),)),
+                          //  Positioned(top: 69, right: 117, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 25,), onPressed: () =>  print("edit avatar clicked"),)),
                           ],
                         );
                       },
