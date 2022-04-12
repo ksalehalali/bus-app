@@ -133,6 +133,16 @@ class NetworkService {
     }
   }
 
+  Future<Map?> editUserProfile(Map<String, dynamic> editProfileCredentialsJson) async {
+    try {
+      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/EditeUser"), headers: NetworkConstants().headers, body: jsonEncode(editProfileCredentialsJson));
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("EditProfileDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
   Future<Map?> getUserWallet() async {
     try {
       SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();

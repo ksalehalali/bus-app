@@ -7,6 +7,8 @@ import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_credentials.
 import '../../bus_driver_src/data/models/list_payment_wallet_by_bus_dto.dart';
 import '../../bus_promoter_src/data/models/charge_user_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/charge_user_wallet_dto.dart';
+import '../../bus_promoter_src/data/models/edit_profile_credentials.dart';
+import '../../bus_promoter_src/data/models/edit_profile_dto.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
@@ -104,6 +106,15 @@ class Repository {
       return UserProfileDTO.fromJson(todoMap);
     }
   }
+
+  Future<dynamic?> editUserProfile(EditProfileCredentials editProfileCredentials) async {
+    final todoMap = await networkService.editUserProfile(editProfileCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return EditProfileDTO.fromJson(todoMap);
+    }
+  }
+
 
   Future<dynamic?> getUserWallet() async {
     final todoMap = await networkService.getUserWallet();

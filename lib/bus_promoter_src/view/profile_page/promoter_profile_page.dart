@@ -72,7 +72,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(icon: Icon(AntDesign.arrowleft, color: Colors.white,), onPressed: () =>  Navigator.pop(context),),
+                      IconButton(icon: Icon(AntDesign.arrowleft, color: Colors.white,), onPressed: () =>  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterProfilePage()),(route) => route.settings.name == "PromoterProfilePage")),
                     ],
                   ),
                  // SizedBox(height: 10,),
@@ -96,7 +96,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 child: Column(
                                   children: [
                                     SizedBox(height: 80,),
-                                    Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 30,),),
+                                    Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 22,),),
                                     SizedBox(height: 1,),
                                     Text('${_profileInformation?.email?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 14,),),
                                     SizedBox(height: 5,),
@@ -126,7 +126,11 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 ),
                               ),
                             ),
-                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(profileInformation: _profileInformation,)),),)),
+                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () {
+                              if(_profileInformation != null){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(profileInformation: _profileInformation!,)),);
+                              }
+                            },)),
                             Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 110.0),),),
                           //  Positioned(top: 69, right: 117, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 25,), onPressed: () =>  print("edit avatar clicked"),)),
                           ],
