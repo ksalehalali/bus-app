@@ -3,6 +3,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import '../../../common_src/data/network_service.dart';
+import '../../../common_src/data/repository.dart';
+import '../../../common_src/helper/image_loader.dart';
+import '../../data/models/user_profile_dto.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PromoterProfilePage extends StatefulWidget {
   PromoterProfilePage({Key? key}) : super(key: key);
@@ -12,13 +17,36 @@ class PromoterProfilePage extends StatefulWidget {
 }
 
 class _PromoterProfilePage extends State<PromoterProfilePage> {
-
-  //final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   List<Color> currentGradientColors = AppColors.activeGradient;
+  late final Repository _repository;
+  ProfileInformation? _profileInformation;
 
   @override
   void initState() {
+    _repository = Repository(networkService: NetworkService());
+    getProfileInformation();
     super.initState();
+  }
+
+  void getProfileInformation(){
+    _repository.getUserProfile().then((response) async{
+      if (response != null) {
+        if(response.status == true){
+          try {
+            UserProfileDTO profileDTO = response as UserProfileDTO;
+            if(profileDTO.profileInformation != null){
+              setState(() {_profileInformation = profileDTO.profileInformation;});
+            }
+          }catch(e){
+            Fluttertoast.showToast(msg: "Something wrong!..", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+          }
+        }else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+        }
+      }else{
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
+      }
+    });
   }
 
   @override
@@ -45,8 +73,8 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                       IconButton(icon: Icon(AntDesign.arrowleft, color: Colors.white,), onPressed: () =>  Navigator.pop(context),),
                     ],
                   ),
-                  SizedBox(height: 10,),
-                  Text('My Profile', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 34, fontFamily: 'Nisebuschgardens',),),
+                 // SizedBox(height: 10,),
+                //  Text('My Profile', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 34, fontFamily: 'Nisebuschgardens',),),
                   SizedBox(height: 22,),
                   Container(
                     height: height * 0.42,
@@ -60,13 +88,15 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                             Positioned(
                               bottom: 0, left: 0, right: 0,
                               child: Container(
-                                height: innerHeight * 0.72,
+                                height: innerHeight * 0.8,
                                 width: innerWidth,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white,),
                                 child: Column(
                                   children: [
                                     SizedBox(height: 80,),
-                                    Text('Abdullah Soubeih', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 35,),),
+                                    Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 30,),),
+                                    SizedBox(height: 1,),
+                                    Text('${_profileInformation?.email?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 14,),),
                                     SizedBox(height: 5,),
                                     Row(
                                       mainAxisAlignment:
@@ -95,7 +125,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                               ),
                             ),
                             Positioned(top: 100, right: 20, child: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,),),
-                            Positioned(top: 0, left: 0, right: 0, child: Center(child:  CircleAvatar(radius: 55.0, backgroundImage: NetworkImage('https://deathofhemingway.com/wp-content/uploads/2020/12/istockphoto-1045886560-612x612-1.jpg'),),),),
+                            Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 110.0),),),
                           ],
                         );
                       },

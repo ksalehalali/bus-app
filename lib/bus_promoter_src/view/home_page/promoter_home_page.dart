@@ -107,7 +107,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child: getAvatarImageWidget(_profileInformation?.image, 45.0),),),
+                          Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child: getAvatarImageWidget(_profileInformation?.image, Colors.white, 45.0),),),
                           Text('Welcome ${_profileInformation?.name?.split(' ').first} !', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
                           IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
                         ],
