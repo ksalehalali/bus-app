@@ -163,6 +163,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                     ),
                   ),
                   SizedBox(height: 30,),
+                  /*
                   Container(
                     height: height * 0.5,
                     width: width,
@@ -211,7 +212,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                         ],
                       ),
                     ),
-                  )
+                  )*/
                 ],
               ),
             ),
