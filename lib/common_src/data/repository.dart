@@ -9,6 +9,7 @@ import '../../bus_promoter_src/data/models/charge_user_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/charge_user_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/edit_profile_credentials.dart';
 import '../../bus_promoter_src/data/models/edit_profile_dto.dart';
+import '../../bus_promoter_src/data/models/edit_profile_image_dto.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
@@ -115,6 +116,15 @@ class Repository {
     }
   }
 
+  Future<dynamic?> editUserProfileImage(String imageUrl) async {
+    var map = new Map<String, dynamic>();
+    map['Image'] = imageUrl;
+    final todoMap = await networkService.editUserProfileImage(map);
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return EditProfileImageDTO.fromJson(todoMap);
+    }
+  }
 
   Future<dynamic?> getUserWallet() async {
     final todoMap = await networkService.getUserWallet();

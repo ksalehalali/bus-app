@@ -53,7 +53,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ProfileWidget(
                         imagePath: '${NetworkConstants().baseUrl}${widget.profileInformation.image}',
                         isEdit: true,
-                        onClicked: () async {},
+                        onClicked: () async {
+                          editProfileImage();
+                        },
                       ),
                       const SizedBox(height: 24),
                       Container(padding: const EdgeInsets.all(10), child: TextFormField(
@@ -107,5 +109,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
           )
       ),
     );
+  }
+
+  void editProfileImage() {
+    
   }
 }
