@@ -137,7 +137,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(profileInformation: _profileInformation!,)),);
                               }
                             },)),
-                            Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 110.0),),),
+                            Positioned(top: 0, left: 0, right: 0, child: Center(child:  getAvatarImageWidget(_profileInformation?.image, Colors.grey, 55.0),),),
                           //  Positioned(top: 69, right: 117, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 25,), onPressed: () =>  print("edit avatar clicked"),)),
                           ],
                         );

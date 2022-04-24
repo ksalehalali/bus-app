@@ -1,3 +1,4 @@
+import 'dart:io';
 import '../../bus_driver_src/data/models/bus_information_dto.dart';
 import '../../bus_driver_src/data/models/bus_information_credentials.dart';
 import '../../bus_driver_src/data/models/driver_enter_credentials.dart';
@@ -116,10 +117,20 @@ class Repository {
     }
   }
 
-  Future<dynamic?> editUserProfileImage(String imageUrl) async {
+  Future<dynamic?> editUserProfileImage(File editedImage) async {
+   /*
+    request.files.add(
+      http.MultipartFile('Image',
+          File(editedImage.path).readAsBytes().asStream(),
+          File(editedImage.path).lengthSync(),
+          filename: editedImage.path.split("/").last),
+    );
+*/
+    /*
     var map = new Map<String, dynamic>();
-    map['Image'] = imageUrl;
-    final todoMap = await networkService.editUserProfileImage(map);
+    map['Image'] = imageUrl.toString();
+    */
+    final todoMap = await networkService.editUserProfileImage(editedImage);
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
       return EditProfileImageDTO.fromJson(todoMap);

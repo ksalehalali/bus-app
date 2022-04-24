@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 import '../../bus_driver_src/helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/network_constants.dart';
+import 'package:http/http.dart' as http;
 
 class NetworkService {
   late final AppData _appData = AppData();
@@ -135,7 +137,11 @@ class NetworkService {
 
   Future<Map?> editUserProfile(Map<String, dynamic> editProfileCredentialsJson) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/EditeUser"), headers: NetworkConstants().headers, body: jsonEncode(editProfileCredentialsJson));
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/EditeUser"), headers: headers, body: jsonEncode(editProfileCredentialsJson));
       return jsonDecode(response.body);
     } catch (e) {
       print("EditProfileDTO error: ${e.toString()}");
@@ -143,12 +149,51 @@ class NetworkService {
     }
   }
 
+  /*
   Future<Map?> editUserProfileImage(Map<String, dynamic> editProfileImageJsonBody) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/EditeImage"), headers: NetworkConstants().headers, body: editProfileImageJsonBody);
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/EditeImage"), headers: headers, body: editProfileImageJsonBody);
       return jsonDecode(response.body);
     } catch (e) {
-      print("EditProfileDTO error: ${e.toString()}");
+      print("EditProfileImageDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+*/
+
+  Future<Map?> editUserProfileImage(File editedImage) async {
+    final url = Uri.parse(NetworkConstants().baseApiUrl + "/EditeImage");
+    SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+    String accessToken = _appData.getAccessToken(pref!)!;
+    var request = http.MultipartRequest('POST', url);
+    request.headers['Content-type'] ='multipart/form-data';
+    request.headers['Authorization'] = accessToken;
+
+    print("${editedImage.path}");
+
+    request.files.add(
+      http.MultipartFile('Image',
+          File(editedImage.path).readAsBytes().asStream(),
+          File(editedImage.path).lengthSync(),
+          filename: editedImage.path.split("/").last),
+    );
+
+    try {
+      var response = await request.send();
+      final res = await http.Response.fromStream(response);
+      print("ressss: ${res.body.toString()}" );
+      print("${res.statusCode}");
+
+    //  Map<String, dynamic> dep = jsonDecode(utf8.decode(res.bodyBytes));
+
+      return jsonDecode(res.body);
+    }
+    catch(e) {
+      print("EditProfileImageDTO error: ${e.toString()}");
       return null;
     }
   }

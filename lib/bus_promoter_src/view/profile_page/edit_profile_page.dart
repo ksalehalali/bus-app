@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/network_constants.dart';
@@ -9,6 +10,7 @@ import '../../../common_src/data/repository.dart';
 import '../../../common_src/widget/profile_widget.dart';
 import '../../data/models/edit_profile_credentials.dart';
 import '../../data/models/edit_profile_dto.dart';
+import '../../data/models/edit_profile_image_dto.dart';
 import '../../data/models/user_profile_dto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
@@ -54,6 +56,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     children: [
                       ProfileWidget(
                         imagePath: '${NetworkConstants().baseUrl}${widget.profileInformation.image}',
+                        isEditable: true,
                         isEdit: true,
                         onClicked: () async {
                           _showImageSelectionBottomSheet(context);
@@ -116,8 +119,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   _showImageSelectionBottomSheet(BuildContext context) {
-   // late Reference ref;
-    File? file = null;
+    File? imageFile = null;
     return showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -131,10 +133,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Spacer(flex: 4),
                     InkWell(
                       onTap: () async {
-                        var picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-                        if (picked != null) {
-                          file = File(picked.path);
-                          print('Selected image path from Gallery is: $file');
+                        var pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                        if (pickedImage != null) {
+                          imageFile = File(pickedImage.path);
+                          print('Selected image path from Gallery is: $imageFile');
+                          uploadSelectedImage(imageFile!);
                         }
                       },
                       child: Container(
@@ -151,10 +154,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Divider(color: Colors.grey,),
                     InkWell(
                       onTap: () async {
-                        var picked = await ImagePicker().pickImage(source: ImageSource.camera);
-                        if (picked != null) {
-                          file = File(picked.path);
-                          print('Selected image path from Camera is: $file');
+                        var pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+                        if (pickedImage != null) {
+                          imageFile = File(pickedImage.path);
+                          print('Selected image path from Camera is: $imageFile');
+                          uploadSelectedImage(imageFile!);
                         }
                       },
                       child: Container(
@@ -173,4 +177,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
               );
         });
   }
+
+  void uploadSelectedImage(File imageFile) {
+    repository.editUserProfileImage(imageFile).then((response) {
+      if (response != null) {
+        if(response is EditProfileImageDTO){
+          Fluttertoast.showToast(msg: "Profile image updated successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+         // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterProfilePage()),(route) => route.settings.name == "EditProfilePage");
+          //  Navigator.of(context).popUntil((route) => route.settings.name == "EditProfilePage");
+
+        }
+      }else{
+       // Navigator.of(_dialog.context!,rootNavigator: true).pop();
+        Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+      }
+    });
+  }
+
+  void _removeFile() {
+    String imageUrl = '${NetworkConstants().baseUrl}${widget.profileInformation.image}';
+    DefaultCacheManager().removeFile(imageUrl).then((value) {
+      //ignore: avoid_print
+      print('File removed');
+    }).onError((error, stackTrace) {
+      //ignore: avoid_print
+      print(error);
+    });
+    /*
+    setState(() {
+      fileStream = null;
+    });
+    */
+  }
+
 }

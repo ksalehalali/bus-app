@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
+  final bool isEditable;
   final bool isEdit;
   final VoidCallback onClicked;
 
-  const ProfileWidget({Key? key, required this.imagePath, this.isEdit = false, required this.onClicked,}) : super(key: key);
+  const ProfileWidget({Key? key, required this.imagePath, this.isEditable = false, this.isEdit = false, required this.onClicked,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +39,12 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildEditIcon(Color color) =>
-      buildCircle(color: Colors.white, all: 3,
-        child: buildCircle(color: color, all: 8,
-            child: InkWell(child: Icon(Icons.add_a_photo, color: Colors.white, size: 20), onTap: onClicked)
+  Widget buildEditIcon(Color color) => Visibility(
+        visible: isEditable,
+        child: buildCircle(color: Colors.white, all: 3,
+          child: buildCircle(color: color, all: 8,
+              child: InkWell(child: Icon(Icons.add_a_photo, color: Colors.white, size: 20), onTap: onClicked)
+          ),
         ),
       );
 
