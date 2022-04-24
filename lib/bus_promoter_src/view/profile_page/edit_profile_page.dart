@@ -56,7 +56,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         imagePath: '${NetworkConstants().baseUrl}${widget.profileInformation.image}',
                         isEdit: true,
                         onClicked: () async {
-                          editProfileImage(context);
+                          _showImageSelectionBottomSheet(context);
                         },
                       ),
                       const SizedBox(height: 24),
@@ -115,11 +115,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  void editProfileImage(BuildContext context) {
-    _showBottomSheet(context);
-  }
-
-  _showBottomSheet(context) {
+  _showImageSelectionBottomSheet(BuildContext context) {
    // late Reference ref;
     File? file = null;
     return showModalBottomSheet(
@@ -217,7 +213,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
               );
-
         });
   }
 }
