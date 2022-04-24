@@ -21,10 +21,10 @@ class UserProfileDTO {
 
 class ProfileInformation {
   String? userName;
-  Null? phone;
+  String? phone;
   String? name;
   String? email;
-  Null? image;
+  String? image;
 
   ProfileInformation({this.userName, this.phone, this.name, this.email, this.image});
 
