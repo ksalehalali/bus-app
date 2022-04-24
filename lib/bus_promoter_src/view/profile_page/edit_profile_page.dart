@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/network_constants.dart';
 import '../../../common_src/data/network_service.dart';
@@ -54,7 +56,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         imagePath: '${NetworkConstants().baseUrl}${widget.profileInformation.image}',
                         isEdit: true,
                         onClicked: () async {
-                          editProfileImage();
+                          editProfileImage(context);
                         },
                       ),
                       const SizedBox(height: 24),
@@ -113,7 +115,109 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  void editProfileImage() {
-    Fluttertoast.showToast(msg: "Edit Profile Image Clicked !", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+  void editProfileImage(BuildContext context) {
+    _showBottomSheet(context);
+  }
+
+  _showBottomSheet(context) {
+   // late Reference ref;
+    File? file = null;
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+                padding: EdgeInsets.all(20),
+                height: 210,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Select image from", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: AppColors.rainBlueLight),),
+                    Spacer(flex: 4,),
+                    InkWell(
+                      onTap: () async {
+                        var picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+                        if (picked != null) {
+                          file = File(picked.path);
+                          print('Selected image path from Gallery is: $file');
+                         // var rand = Random().nextInt(100000);
+                         // var imagename = "$rand" + basename(picked.path);
+                          //ref = FirebaseStorage.instance.ref(getImageRef(imageType)).child("$imagename");
+                          /*
+                          AlertDialog dialog = loadingAlertDialog();
+                          showDialog(context: context, builder: (context){
+                            dialogContext = context;
+                            return dialog;
+                          });
+                          */
+                          /*
+                          await ref.putFile(file!);
+                          await ref.getDownloadURL().then((value) {
+                            setState(() {
+                              if(imageType == ICON_TYPE) news!.icon = value;
+                              else news!.image = value;
+                            });
+                          });
+*/
+                          /*
+                          Navigator.pop(dialogContext!);
+                          Navigator.of(context).pop();
+                          */
+                        }
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Icon(Icons.photo_outlined, size: 30, color: AppColors.rainBlueLight,),
+                              SizedBox(width: 20),
+                              Text("Gallery", style: TextStyle(fontSize: 20, color: AppColors.rainBlueLight),)
+                            ],
+                          )),
+                    ),
+                    Divider(color: Colors.grey,),
+                    InkWell(
+                      onTap: () async {
+                        var picked = await ImagePicker().pickImage(source: ImageSource.camera);
+                        if (picked != null) {
+                          file = File(picked.path);
+                          print('Selected image path from Camera is: $file');
+                          /*
+                          var rand = Random().nextInt(100000);
+                          var imagename = "$rand" + basename(picked.path);
+                          ref = FirebaseStorage.instance.ref(getImageRef(imageType)).child("$imagename");
+                          AlertDialog dialog = loadingAlertDialog();
+                          showDialog(context: context, builder: (context){
+                            dialogContext = context;
+                            return dialog;
+                          });
+                          await ref.putFile(file!);
+                          await ref.getDownloadURL().then((value) {
+                            setState(() {
+                              if(imageType == ICON_TYPE) news!.icon = value;
+                              else news!.image = value;
+                            });
+                          });
+                          Navigator.pop(dialogContext!);
+                          Navigator.of(context).pop();
+                        */
+                        }
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera, size: 30, color: AppColors.rainBlueLight,),
+                              SizedBox(width: 20),
+                              Text("Camera", style: TextStyle(fontSize: 20, color: AppColors.rainBlueLight),)
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              );
+
+        });
   }
 }

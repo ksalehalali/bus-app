@@ -4,6 +4,7 @@
 
     <application
         android:label="Bus Driver"
+        android:requestLegacyExternalStorage="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
