@@ -128,36 +128,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Select image from", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: AppColors.rainBlueLight),),
-                    Spacer(flex: 4,),
+                    Spacer(flex: 4),
                     InkWell(
                       onTap: () async {
                         var picked = await ImagePicker().pickImage(source: ImageSource.gallery);
                         if (picked != null) {
                           file = File(picked.path);
                           print('Selected image path from Gallery is: $file');
-                         // var rand = Random().nextInt(100000);
-                         // var imagename = "$rand" + basename(picked.path);
-                          //ref = FirebaseStorage.instance.ref(getImageRef(imageType)).child("$imagename");
-                          /*
-                          AlertDialog dialog = loadingAlertDialog();
-                          showDialog(context: context, builder: (context){
-                            dialogContext = context;
-                            return dialog;
-                          });
-                          */
-                          /*
-                          await ref.putFile(file!);
-                          await ref.getDownloadURL().then((value) {
-                            setState(() {
-                              if(imageType == ICON_TYPE) news!.icon = value;
-                              else news!.image = value;
-                            });
-                          });
-*/
-                          /*
-                          Navigator.pop(dialogContext!);
-                          Navigator.of(context).pop();
-                          */
                         }
                       },
                       child: Container(
@@ -178,25 +155,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         if (picked != null) {
                           file = File(picked.path);
                           print('Selected image path from Camera is: $file');
-                          /*
-                          var rand = Random().nextInt(100000);
-                          var imagename = "$rand" + basename(picked.path);
-                          ref = FirebaseStorage.instance.ref(getImageRef(imageType)).child("$imagename");
-                          AlertDialog dialog = loadingAlertDialog();
-                          showDialog(context: context, builder: (context){
-                            dialogContext = context;
-                            return dialog;
-                          });
-                          await ref.putFile(file!);
-                          await ref.getDownloadURL().then((value) {
-                            setState(() {
-                              if(imageType == ICON_TYPE) news!.icon = value;
-                              else news!.image = value;
-                            });
-                          });
-                          Navigator.pop(dialogContext!);
-                          Navigator.of(context).pop();
-                        */
                         }
                       },
                       child: Container(
