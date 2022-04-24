@@ -109,6 +109,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                   fit:BoxFit.contain,)),
                 Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child: const Text('Sign in', style: TextStyle(fontSize: 20),)),
                 Container(padding: const EdgeInsets.all(10), child: TextFormField(
+                  textInputAction: TextInputAction.next,
                   controller: usernameController, keyboardType: TextInputType.text, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', prefixIcon: Icon(Icons.account_box)),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -119,7 +120,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                 ),),
                 Container(
                   padding: const EdgeInsets.all(10),
-                  child: TextFormField(keyboardType: TextInputType.visiblePassword, controller: passwordController, obscureText: !_passwordVisible,
+                  child: TextFormField(textInputAction: TextInputAction.done, keyboardType: TextInputType.visiblePassword, controller: passwordController, obscureText: !_passwordVisible,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Password',

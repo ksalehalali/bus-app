@@ -59,6 +59,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       const SizedBox(height: 24),
                       Container(padding: const EdgeInsets.all(10), child: TextFormField(
+                        textInputAction: TextInputAction.next,
                         style: TextStyle(color: Colors.black),
                         controller: nameController, keyboardType: TextInputType.name, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Name', prefixIcon: Icon(Icons.title)),
                         validator: (value) {
@@ -70,6 +71,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),),
                       const SizedBox(height: 24),
                       Container(padding: const EdgeInsets.all(10), child: TextFormField(
+                        textInputAction: TextInputAction.done,
                         style: TextStyle(color: Colors.black),
                         controller: emailController, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Email', prefixIcon: Icon(Icons.email)),
                         validator: (value) {
