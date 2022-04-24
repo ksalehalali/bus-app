@@ -1,6 +1,7 @@
 import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:flutter/material.dart';
 import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/constants/network_constants.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
 import '../../../common_src/widget/profile_widget.dart';
@@ -50,7 +51,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     physics: BouncingScrollPhysics(),
                     children: [
                       ProfileWidget(
-                        imagePath: 'https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?k=20&m=1045886560&s=612x612&w=0&h=JL8Dy_sRUXJo6PofsX7XkQpWjSTDhD8LuV071LMlb3Y=',
+                        imagePath: '${NetworkConstants().baseUrl}${widget.profileInformation.image}',
                         isEdit: true,
                         onClicked: () async {},
                       ),

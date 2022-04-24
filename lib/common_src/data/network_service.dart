@@ -50,7 +50,7 @@ class NetworkService {
 
   Future<Map?> login(Map<String, dynamic> loginCredentialsJson) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/Login"), headers: NetworkConstants().headers, body: jsonEncode(loginCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/Login"), headers: NetworkConstants().headers, body: jsonEncode(loginCredentialsJson));
       return jsonDecode(response.body);
     } catch (e) {
       print("loginResponseDTO error: ${e.toString()}");
@@ -64,7 +64,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverEnter"), headers: headers, body: jsonEncode(driverEnterCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/DriverEnter"), headers: headers, body: jsonEncode(driverEnterCredentialsJson));
       print("DriverEnterOutResponseDTO...Enter request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -79,7 +79,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/DriverOut"), headers: headers, body: jsonEncode(driverOutCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/DriverOut"), headers: headers, body: jsonEncode(driverOutCredentialsJson));
       print("DriverEnterOutResponseDTO...Out request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -94,7 +94,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/GetBus"), headers: headers, body: jsonEncode(busInformationCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/GetBus"), headers: headers, body: jsonEncode(busInformationCredentialsJson));
       print("BusInformationResponseDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -109,7 +109,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ListPaymentWalletByBus"), headers: headers, body: jsonEncode(listPaymentWalletByBusCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ListPaymentWalletByBus"), headers: headers, body: jsonEncode(listPaymentWalletByBusCredentialsJson));
       print("ListPaymentWalletByBusDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -124,7 +124,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await get(Uri.parse(NetworkConstants().baseUrl + "/MyProfile"), headers: headers);
+      final response = await get(Uri.parse(NetworkConstants().baseApiUrl + "/MyProfile"), headers: headers);
       print("UserProfileDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -135,7 +135,7 @@ class NetworkService {
 
   Future<Map?> editUserProfile(Map<String, dynamic> editProfileCredentialsJson) async {
     try {
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/EditeUser"), headers: NetworkConstants().headers, body: jsonEncode(editProfileCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/EditeUser"), headers: NetworkConstants().headers, body: jsonEncode(editProfileCredentialsJson));
       return jsonDecode(response.body);
     } catch (e) {
       print("EditProfileDTO error: ${e.toString()}");
@@ -149,7 +149,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await get(Uri.parse(NetworkConstants().baseUrl + "/GetWallet"), headers: headers);
+      final response = await get(Uri.parse(NetworkConstants().baseApiUrl + "/GetWallet"), headers: headers);
       print("WalletDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -164,7 +164,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ListChrgingWalletByUser"), headers: headers, body: jsonEncode(userIncomingWalletCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ListChrgingWalletByUser"), headers: headers, body: jsonEncode(userIncomingWalletCredentialsJson));
       print("UserIncomingWalletDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -179,7 +179,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ListCharcheByPromoter"), headers: headers, body: jsonEncode(promoterOutgoingWalletCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ListCharcheByPromoter"), headers: headers, body: jsonEncode(promoterOutgoingWalletCredentialsJson));
       print("PromoterOutgoingWalletDTO... request: ${response.request}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
@@ -194,7 +194,7 @@ class NetworkService {
       String accessToken = _appData.getAccessToken(pref!)!;
       Map<String, String> headers = NetworkConstants().headers;
       headers['Authorization'] = accessToken;
-      final response = await post(Uri.parse(NetworkConstants().baseUrl + "/ChargeWalletByPromoter"), headers: headers, body: jsonEncode(chargeUserWalletCredentialsJson));
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ChargeWalletByPromoter"), headers: headers, body: jsonEncode(chargeUserWalletCredentialsJson));
       print("ChargeUserWalletDTO... request: ${response.request}, body: ${jsonEncode(chargeUserWalletCredentialsJson)}, response: ${response.body}");
       return jsonDecode(response.body);
     } catch (e) {
