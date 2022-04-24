@@ -112,6 +112,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void editProfileImage() {
-    
+    Fluttertoast.showToast(msg: "Edit Profile Image Clicked !", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
   }
 }
