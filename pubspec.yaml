@@ -47,6 +47,9 @@ dependencies:
   animated_theme_switcher: ^2.0.6
   image_picker: ^0.8.5
   flutter_cache_manager: ^3.3.0
+  myfatoorah_flutter: ^2.1.5
+    # flutter_webview_plugin:
+  # git: https://github.com/snoopdoggy322/flutter_webview_plugin
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -105,6 +108,7 @@ flutter:
   assets:
    - assets/
    - assets/icon/
+   - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

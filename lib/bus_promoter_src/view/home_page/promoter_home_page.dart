@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:bus_driver/common_src/view/login_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
 import '../../../common_src/widget/image_loader.dart';
 import '../../data/models/user_profile_dto.dart';
+import '../charge_wallet/balance_calculator.dart';
 import '../charge_wallet/user_scanner.dart';
 import '../wallet/incoming_wallet.dart';
 import '../wallet/outgoing_wallet.dart';
@@ -119,7 +119,8 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(_wallet?.total != null ? 'KWD ${_wallet?.total}' : '', style: TextStyle(color: Colors.white, fontSize: 27.0, fontWeight: FontWeight.bold),),
-                      IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserScanner()),))
+                      IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserScanner()),)),
+                      IconButton(icon:  Icon(FontAwesomeIcons.circlePlus, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BalanceCalculator(chargeAmount: true,)),))
                     ]
                   )
                     //  SizedBox(height: 20),
