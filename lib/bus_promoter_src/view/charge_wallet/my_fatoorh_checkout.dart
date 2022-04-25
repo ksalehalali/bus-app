@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:myfatoorah_flutter/utils/MFCountry.dart';
 import 'package:myfatoorah_flutter/utils/MFEnvironment.dart';
-
+import '../../../bus_driver_src/helper/shared_preferences.dart';
+import '../../../common_src/constants/app_colors.dart';
+import '../../../common_src/constants/network_constants.dart';
+import '../../../common_src/data/network_service.dart';
+import '../../../common_src/data/repository.dart';
+import '../../data/models/charge_my_wallet_credentials.dart';
+import '../../data/models/charge_my_wallet_dto.dart';
 import '../../data/models/payment_gateway_success_response_dto.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../home_page/promoter_home_page.dart';
 
 class MyFatoorah {
  // final PaymentController walletController = Get.find();
@@ -26,7 +35,6 @@ class MyFatoorah {
     executePayment(context, amount, paymentMethodId);
     return request;
   }
-
   var res;
 
   //Execute Payment
@@ -59,7 +67,7 @@ class MyFatoorah {
                 //  Get.offAll(const MainScreen(currentPage: 0,))
 
 
-                  chargeMyWallet(result.response!.toJson())
+                  chargeMyWallet(context, result.response!.toJson())
 
                 }
               else
@@ -130,8 +138,35 @@ class MyFatoorah {
         isShowAppBar: true); // For Android platform o
   }
 
-  chargeMyWallet(Map<String, dynamic> json) {
+  chargeMyWallet(BuildContext context, Map<String, dynamic> json) async {
     PaymentGatewaySuccessResponseDTO paymentDTO = PaymentGatewaySuccessResponseDTO.fromJson(json);
-    print("PaymentGatewaySuccessResponseDTO.. invoiceId: ${paymentDTO.invoiceId}, invoiceReference: ${paymentDTO.invoiceReference}, invoiceStatus: ${paymentDTO.invoiceStatus}, invoiceValue: ${paymentDTO.invoiceValue}");
+   // print("PaymentGatewaySuccessResponseDTO.. invoiceId: ${paymentDTO.invoiceId}, invoiceReference: ${paymentDTO.invoiceReference}, invoiceStatus: ${paymentDTO.invoiceStatus}, invoiceValue: ${paymentDTO.invoiceValue}");
+
+    late final Repository repository = Repository(networkService: NetworkService());
+    late final AppData _appData = AppData();
+    await _appData.getSharedPreferencesInstance().then((pref) {
+      String promoterId = _appData.getUserId(pref!)!;
+      final chargeMyWalletCredentials = ChargeMyWalletCredentials(apiKey: NetworkConstants().api_key, apiSecret: NetworkConstants().api_secret, invoiceValue: paymentDTO.invoiceValue, invoiceId: paymentDTO.invoiceId, paymentGateway: 'paymentGateway');
+      repository.chargeMyWallet(chargeMyWalletCredentials).then((response){
+        if (response != null) {
+          if(response is ChargeMyWalletDTO){
+            if(response.isSuccess() != null){
+              if(response.isSuccess() == true){
+               // Navigator.of(dialog.context!,rootNavigator: true).pop();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
+                Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+              }else{
+              //  Navigator.of(dialog.context!,rootNavigator: true).pop();
+                Fluttertoast.showToast(msg: "${response.failedDescription.toString()}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+              }
+            }
+          }
+        } else{
+          //Navigator.of(dialog.context!,rootNavigator: true).pop();
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+        }
+      });
+    } );
+
   }
 }
