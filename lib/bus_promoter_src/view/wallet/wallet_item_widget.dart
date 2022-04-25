@@ -13,9 +13,6 @@ WalletItemWidget(bool isIncoming, String? methodName, String amount, String time
         children: <Widget>[
          // Padding(padding: EdgeInsets.only(left: 10.0, right: 15.0), child: getIcon(isIncoming),),
           Expanded(
-          //  child: Column(
-            //  crossAxisAlignment: CrossAxisAlignment.start,
-            //  children: <Widget>[
                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
@@ -26,31 +23,15 @@ WalletItemWidget(bool isIncoming, String? methodName, String amount, String time
                           Text("$time", style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.normal, color: Colors.grey)),
                           ]
                     ),
-
-
                     Text("${getSign(isIncoming)}\ $amount", style: TextStyle(fontSize: 14.0, color: getColor(isIncoming),))
                   ],
                 ),
-               /*
-                SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("$time", style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.normal, color: Colors.grey)),
-                    //Text("\KWD $amount", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black))
-                  ],
-                )
-             // ],
-            //),
-            flex: 3,
-            */
           ),
         ],
       ),
     ),
   ),
 );
-
 
 getIcon(bool isIncoming) {
   if(isIncoming) return Icon(FontAwesomeIcons.plus, color: Colors.green,); else return Icon(FontAwesomeIcons.minus, color: Colors.red,);
