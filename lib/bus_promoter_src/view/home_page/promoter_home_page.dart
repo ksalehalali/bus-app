@@ -146,11 +146,12 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                         child: new SafeArea(
                           child: Column(
                             children: <Widget>[
-                              new Expanded(child: new Container()),
                               new TabBar(
                                 indicatorColor: Colors.white,
-                                labelStyle: TextStyle(fontSize: 22.0,fontFamily: 'Family Name'),  //For Selected tab
-                                unselectedLabelStyle: TextStyle(fontSize: 16.0,fontFamily: 'Family Name'), //For Un-selected Tabs
+                                labelColor: Colors.white,
+                                labelStyle: TextStyle(fontSize: 18.0,fontFamily: 'Family Name'),
+                                unselectedLabelColor: Colors.grey,
+                                unselectedLabelStyle: TextStyle(fontSize: 14.0,fontFamily: 'Family Name'),
                                 tabs: [
                                   Tab(text: "Incoming"),
                                   Tab(text: "Outgoing")

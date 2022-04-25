@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-WalletItemWidget(bool isIncoming, String? itemHeader, String amount, String time) => Card(
+WalletItemWidget(bool isIncoming, String? methodName, String amount, String time) => Card(
   elevation: 1.0,
   child: InkWell(
     onTap: () => print("tapped"),
@@ -13,26 +13,37 @@ WalletItemWidget(bool isIncoming, String? itemHeader, String amount, String time
         children: <Widget>[
          // Padding(padding: EdgeInsets.only(left: 10.0, right: 15.0), child: getIcon(isIncoming),),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //  child: Column(
+            //  crossAxisAlignment: CrossAxisAlignment.start,
+            //  children: <Widget>[
+               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('$itemHeader', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('$methodName', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),),
+                          SizedBox(height: 3),
+                          Text("$time", style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.normal, color: Colors.grey)),
+                          ]
+                    ),
+
+
                     Text("${getSign(isIncoming)}\ $amount", style: TextStyle(fontSize: 14.0, color: getColor(isIncoming),))
                   ],
                 ),
+               /*
                 SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("$time", style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.normal, color: Colors.grey)),
-                    Text("\KWD $amount", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black))
+                    //Text("\KWD $amount", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black))
                   ],
                 )
-              ],
-            ),
+             // ],
+            //),
             flex: 3,
+            */
           ),
         ],
       ),
