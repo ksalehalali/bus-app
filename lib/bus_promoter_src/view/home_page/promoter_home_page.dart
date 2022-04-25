@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bus_driver/bus_promoter_src/view/profile_page/promoter_profile_page.dart';
 import 'package:bus_driver/common_src/view/login_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
 import '../../../common_src/widget/image_loader.dart';
 import '../../data/models/user_profile_dto.dart';
-import '../charge_user_wallet/user_scanner.dart';
+import '../charge_wallet/user_scanner.dart';
 import '../wallet/incoming_wallet.dart';
 import '../wallet/outgoing_wallet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -109,7 +111,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                         children: <Widget>[
                           Padding(padding: const EdgeInsets.all(8.0), child:  GestureDetector(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PromoterProfilePage()),), child: getAvatarImageWidget(_profileInformation?.image, Colors.white, 22.0),),),
                           Text(_profileInformation?.name != null ? 'Welcome ${_profileInformation?.name?.split(' ').first}!' : 'Routes', style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500)),
-                          IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _logout())
+                          IconButton(icon:  Icon(AntDesign.logout, color: Colors.white,), onPressed: () => _showLogoutConfirmationDialog(context))
                         ],
                       ),
                       SizedBox(height: 25),
@@ -178,7 +180,22 @@ class _PromoterHomePage extends State<PromoterHomePage> {
     );
   }
 
-  _logout() async {
+   _showLogoutConfirmationDialog(BuildContext context){
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>AlertDialog(
+          title: const Text('Logout', style: TextStyle(color: Colors.black),),
+          content: const Text('Are you sure you want to logout ?', style: TextStyle(color: Colors.black),),
+          actions: <Widget>[
+        TextButton(onPressed: () => Navigator.pop(context, 'Cancel'), child: const Text('No', style: TextStyle(color: AppColors.rainBlueLight),),),
+        TextButton(onPressed: () {Navigator.pop(context, 'OK'); _logout();}, child: const Text('Yes', style: TextStyle(color: AppColors.rainBlueLight),),),
+          ],
+        )
+    );
+  }
+
+        _logout() async {
     _appData.getSharedPreferencesInstance().then((_pref) async {
       await _appData.clearSharedPreferencesData(_pref!).then((value) => null).then((value) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);

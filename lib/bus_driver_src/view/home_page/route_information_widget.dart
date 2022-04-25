@@ -1,6 +1,7 @@
 import 'package:bus_driver/bus_driver_src/helper/event_bus_classes.dart';
 import 'package:bus_driver/bus_driver_src/helper/event_bus_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/view/login_page.dart';
@@ -86,8 +87,8 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    icon: new Icon(Icons.logout, color: Colors.white,),
-                    onPressed: () => _logout(),
+                    icon: new Icon(AntDesign.logout, color: Colors.white,),
+                    onPressed: () => _showLogoutConfirmationDialog(context),
                   ),
                 ),
               ],
@@ -100,6 +101,21 @@ class _RouteInformationWidget extends State<RouteInformationWidget> {
     print("SignalRCurrentStatus.. getCurrentStatus: ${isSignalRActive}");
     if(isSignalRActive) return Text('Connected', style: TextStyle(color: Colors.white),);
     else return Text('Not connected', style: TextStyle(color: AppColors.rainRedDark),);
+  }
+
+  _showLogoutConfirmationDialog(BuildContext context){
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>AlertDialog(
+          title: const Text('Logout', style: TextStyle(color: Colors.black),),
+          content: const Text('Are you sure you want to logout ?', style: TextStyle(color: Colors.black),),
+          actions: <Widget>[
+            TextButton(onPressed: () => Navigator.pop(context, 'Cancel'), child: const Text('No', style: TextStyle(color: AppColors.rainBlueLight),),),
+            TextButton(onPressed: () {Navigator.pop(context, 'OK'); _logout();}, child: const Text('Yes', style: TextStyle(color: AppColors.rainBlueLight),),),
+          ],
+        )
+    );
   }
 
   _logout() async {

@@ -90,7 +90,6 @@ class _UserScannerState extends State<UserScanner> {
 
   void openBottomSheet(UserQrCodeData userData, QRViewController controller) {
     print("ScannerBottomSheet.. opened");
-    controller.pauseCamera();
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -158,6 +157,7 @@ class _UserScannerState extends State<UserScanner> {
               if(response is ChargeUserWalletDTO){
                 if(response.isSuccess() != null){
                   if(response.isSuccess() == true){
+                    Navigator.of(dialog.context!,rootNavigator: true).pop();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
                     Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
                   }else{
