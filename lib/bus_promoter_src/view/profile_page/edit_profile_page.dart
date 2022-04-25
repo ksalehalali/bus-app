@@ -59,7 +59,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         isEditable: true,
                         isEdit: true,
                         onClicked: () async {
-                          _showImageSelectionBottomSheet(context);
+                          _showImageSelectionBottomSheet(context, _dialog);
                         },
                       ),
                       const SizedBox(height: 24),
@@ -118,7 +118,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  _showImageSelectionBottomSheet(BuildContext context) {
+  _showImageSelectionBottomSheet(BuildContext context, SimpleFontelicoProgressDialog _dialog) {
     File? imageFile = null;
     return showModalBottomSheet(
         context: context,
@@ -137,7 +137,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         if (pickedImage != null) {
                           imageFile = File(pickedImage.path);
                           print('Selected image path from Gallery is: $imageFile');
-                          uploadSelectedImage(imageFile!);
+                          uploadSelectedImage(imageFile!, _dialog);
                         }
                       },
                       child: Container(
@@ -158,7 +158,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         if (pickedImage != null) {
                           imageFile = File(pickedImage.path);
                           print('Selected image path from Camera is: $imageFile');
-                          uploadSelectedImage(imageFile!);
+                          uploadSelectedImage(imageFile!, _dialog);
                         }
                       },
                       child: Container(
@@ -178,36 +178,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
         });
   }
 
-  void uploadSelectedImage(File imageFile) {
+  void uploadSelectedImage(File imageFile, SimpleFontelicoProgressDialog _dialog) {
+    _dialog.show(message: 'Please wait...',textStyle: TextStyle(color: AppColors.rainBlueLight));
     repository.editUserProfileImage(imageFile).then((response) {
       if (response != null) {
         if(response is EditProfileImageDTO){
           Fluttertoast.showToast(msg: "Profile image updated successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+          Navigator.of(_dialog.context!,rootNavigator: true).pop();
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterProfilePage()),(route) => route.settings.name == "EditProfilePage");
          // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => PromoterProfilePage()),(route) => route.settings.name == "EditProfilePage");
           //  Navigator.of(context).popUntil((route) => route.settings.name == "EditProfilePage");
 
         }
       }else{
        // Navigator.of(_dialog.context!,rootNavigator: true).pop();
+       // Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+        Navigator.of(_dialog.context!,rootNavigator: true).pop();
         Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
       }
     });
   }
-
-  void _removeFile() {
-    String imageUrl = '${NetworkConstants().baseUrl}${widget.profileInformation.image}';
-    DefaultCacheManager().removeFile(imageUrl).then((value) {
-      //ignore: avoid_print
-      print('File removed');
-    }).onError((error, stackTrace) {
-      //ignore: avoid_print
-      print(error);
-    });
-    /*
-    setState(() {
-      fileStream = null;
-    });
-    */
-  }
-
 }
