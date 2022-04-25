@@ -61,8 +61,8 @@ class MyFatoorah {
                   //     res['InvoiceTransactions'][0]['PaymentGateway'],
                 //  Get.offAll(const MainScreen(currentPage: 0,))
 
-
-                  chargeMyWallet(context, result.response!.toJson())
+                  _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight)),
+                  chargeMyWallet(context, result.response!.toJson(), _dialog)
 
                 }
               else
@@ -133,16 +133,15 @@ class MyFatoorah {
         isShowAppBar: true); // For Android platform o
   }
 
-  chargeMyWallet(BuildContext context, Map<String, dynamic> json) async {
+  chargeMyWallet(BuildContext context, Map<String, dynamic> json, SimpleFontelicoProgressDialog _dialog) async {
     PaymentGatewaySuccessResponseDTO paymentDTO = PaymentGatewaySuccessResponseDTO.fromJson(json);
-   // print("PaymentGatewaySuccessResponseDTO.. invoiceId: ${paymentDTO.invoiceId}, invoiceReference: ${paymentDTO.invoiceReference}, invoiceStatus: ${paymentDTO.invoiceStatus}, invoiceValue: ${paymentDTO.invoiceValue}");
-
     late final Repository repository = Repository(networkService: NetworkService());
     late final AppData _appData = AppData();
     await _appData.getSharedPreferencesInstance().then((pref) {
       String promoterId = _appData.getUserId(pref!)!;
       final chargeMyWalletCredentials = ChargeMyWalletCredentials(apiKey: NetworkConstants().api_key, apiSecret: NetworkConstants().api_secret, invoiceValue: paymentDTO.invoiceValue, invoiceId: paymentDTO.invoiceId, paymentGateway: 'paymentGateway');
       repository.chargeMyWallet(chargeMyWalletCredentials).then((response){
+        Navigator.of(_dialog.context!,rootNavigator: true).pop();
         if (response != null) {
           if(response is ChargeMyWalletDTO){
             if(response.isSuccess() != null){
