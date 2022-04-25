@@ -151,7 +151,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                       child: const Text('Login', style: TextStyle(fontSize: 20),),
                       onPressed: ()  {
                         if (_formKey.currentState!.validate()) {
-                          _dialog.show(message: 'Please wait...');
+                          _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight));
 
                         final loginCredentials = LoginCredentials(userName: usernameController.text, password: passwordController.text);
                         //Timer(Duration(seconds: 2), () {
