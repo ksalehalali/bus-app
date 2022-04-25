@@ -3,6 +3,8 @@ import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:myfatoorah_flutter/utils/MFCountry.dart';
 import 'package:myfatoorah_flutter/utils/MFEnvironment.dart';
 
+import '../../data/models/payment_gateway_success_response_dto.dart';
+
 class MyFatoorah {
  // final PaymentController walletController = Get.find();
   Future initiate(BuildContext context, double amount, int paymentMethodId) async {
@@ -48,12 +50,17 @@ class MyFatoorah {
 
                   print(result.response!.toJson().toString()),
                   print("booody :: ${result.response!.toJson()}"),
+
                   // chargeSaved.invoiceId = res['InvoiceId'],
                   // chargeSaved.invoiceValue = res['InvoiceValue'],
                   // chargeSaved.createdDate = res['CreatedDate'],
                   // chargeSaved.paymentGateway =
                   //     res['InvoiceTransactions'][0]['PaymentGateway'],
                 //  Get.offAll(const MainScreen(currentPage: 0,))
+
+
+                  chargeMyWallet(result.response!.toJson())
+
                 }
               else
                 {
@@ -121,5 +128,10 @@ class MyFatoorah {
         titleColor: Colors.white, // Color(0xFFFFFFFF)
         backgroundColor: Colors.blue.shade900, // Color(0xFF000000)
         isShowAppBar: true); // For Android platform o
+  }
+
+  chargeMyWallet(Map<String, dynamic> json) {
+    PaymentGatewaySuccessResponseDTO paymentDTO = PaymentGatewaySuccessResponseDTO.fromJson(json);
+    print("PaymentGatewaySuccessResponseDTO.. invoiceId: ${paymentDTO.invoiceId}, invoiceReference: ${paymentDTO.invoiceReference}, invoiceStatus: ${paymentDTO.invoiceStatus}, invoiceValue: ${paymentDTO.invoiceValue}");
   }
 }
