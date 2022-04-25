@@ -181,7 +181,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
     );
   }
 
-   _showLogoutConfirmationDialog(BuildContext context){
+  _showLogoutConfirmationDialog(BuildContext context){
     showDialog<String>(
         context: context,
         barrierDismissible: false,
@@ -196,7 +196,7 @@ class _PromoterHomePage extends State<PromoterHomePage> {
     );
   }
 
-        _logout() async {
+  _logout() async {
     _appData.getSharedPreferencesInstance().then((_pref) async {
       await _appData.clearSharedPreferencesData(_pref!).then((value) => null).then((value) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()),);
