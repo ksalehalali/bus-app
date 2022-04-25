@@ -118,8 +118,8 @@ class _PromoterHomePage extends State<PromoterHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(_wallet?.total != null ? 'KWD ${_wallet?.total}' : '', style: TextStyle(color: Colors.white, fontSize: 27.0, fontWeight: FontWeight.bold),),
                       IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTransfer, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserScanner()),)),
+                      Text(_wallet?.total != null ? 'KWD ${_wallet?.total}' : '', style: TextStyle(color: Colors.white, fontSize: 27.0, fontWeight: FontWeight.bold),),
                       IconButton(icon:  Icon(FontAwesomeIcons.moneyBillTrendUp, color: Colors.white,), onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BalanceCalculator(chargeAmount: true,)),))
                     ]
                   )

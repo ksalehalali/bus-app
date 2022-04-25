@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:myfatoorah_flutter/model/initsession/SDKInitSessionResponse.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
+import '../../../common_src/constants/app_colors.dart';
+
 const Color colorDark = Color(0xFF374352);
 const Color colorLight = Color(0xFFe6eeff);
 
@@ -95,7 +97,7 @@ class _BalanceCalculatorState extends State<BalanceCalculator> {
           },
           child: Icon(
             Icons.close,
-            color: Colors.white,
+            color: Colors.black,
             size: 32,
           ),
         ),
@@ -250,7 +252,7 @@ class _BalanceCalculatorState extends State<BalanceCalculator> {
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
             backgroundColor: (isSend && amount >= 1 )
-                ? Colors.green
+                ? AppColors.rainBlueLight
                 : isSend
                 ? Colors.grey[600]
                 : null,
