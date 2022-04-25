@@ -11,46 +11,41 @@ import '../../data/models/charge_my_wallet_credentials.dart';
 import '../../data/models/charge_my_wallet_dto.dart';
 import '../../data/models/payment_gateway_success_response_dto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../home_page/promoter_home_page.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class MyFatoorah {
- // final PaymentController walletController = Get.find();
+  // final PaymentController walletController = Get.find();
   Future initiate(BuildContext context, double amount, int paymentMethodId) async {
+    SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
     print("MyFatoorahTesting... initiate, amount: $amount, paymentMethodId: $paymentMethodId");
     var request = new MFInitiatePaymentRequest(amount, MFCurrencyISO.KUWAIT_KWD);
+    _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight));
     MFSDK.initiatePayment(request, MFAPILanguage.EN, (MFResult<MFInitiatePaymentResponse> result) => {
               if (result.isSuccess())
                 {
                   print('charge successful'),
                   print(result.response!.toJson().toString()),
+                  setAppBar(),
+                  executePayment(context, _dialog, amount, paymentMethodId)
                 }
-              else
-                {
+              else {
                   print('charge field'),
-
                   print(result.error!.message)}
             });
-    setAppBar();
-    executePayment(context, amount, paymentMethodId);
+
     return request;
   }
   var res;
 
   //Execute Payment
-  Future executePayment(BuildContext context, double amount, int paymentMethodId) async {
+  Future executePayment(BuildContext context, SimpleFontelicoProgressDialog _dialog, double amount, int paymentMethodId) async {
+    print('executePayment');
     int paymentMethod = paymentMethodId;
 
-    var request = new MFExecutePaymentRequest(
-      paymentMethod,
-      amount,
-    );
-
-    MFSDK.executePayment(
-        context,
-        request,
-        MFAPILanguage.EN,
-        (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+    var request = new MFExecutePaymentRequest(paymentMethod, amount,);
+    MFSDK.executePayment(context, request, MFAPILanguage.EN, (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+    Navigator.of(_dialog.context!,rootNavigator: true).pop(),
               if (result.isSuccess())
                 {
                   res = result.response!.toJson(),
@@ -132,7 +127,7 @@ class MyFatoorah {
   //set app bar
   void setAppBar() {
     MFSDK.setUpAppBar(
-        title: "Routes",
+        title: "Routes Pay",
         titleColor: Colors.white, // Color(0xFFFFFFFF)
         backgroundColor: Colors.blue.shade900, // Color(0xFF000000)
         isShowAppBar: true); // For Android platform o
@@ -154,7 +149,7 @@ class MyFatoorah {
               if(response.isSuccess() == true){
                // Navigator.of(dialog.context!,rootNavigator: true).pop();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PromoterHomePage()),);
-                Fluttertoast.showToast(msg: "Transferred successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+                Fluttertoast.showToast(msg: "Your wallet has been charged successfully!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
               }else{
               //  Navigator.of(dialog.context!,rootNavigator: true).pop();
                 Fluttertoast.showToast(msg: "Error: ${response.failedDescription.toString()}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
