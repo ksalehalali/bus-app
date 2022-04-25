@@ -14,7 +14,7 @@ class IncomingWallet extends StatefulWidget {
   _IncomingWallet createState() => _IncomingWallet();
 }
 
-class _IncomingWallet extends State<IncomingWallet> {
+class _IncomingWallet extends State<IncomingWallet> with AutomaticKeepAliveClientMixin<IncomingWallet>{
   List<Color> currentGradientColors = AppColors.activeGradient;
   List<IncomingWalletItem> incomingWalletItems = [];
   List<Widget> incomingWalletItemWidgets = [];
@@ -63,4 +63,7 @@ class _IncomingWallet extends State<IncomingWallet> {
   Widget build(BuildContext context) {
     return Container(child: Center(child: _listView),);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
