@@ -170,4 +170,14 @@ class Repository {
       return ChargeUserWalletDTO.fromFailedJson(todoMap);
     }
   }
+
+  Future<dynamic?> chargeMyWallet(ChargeUserWalletCredentials chargeUserWalletCredentials) async {
+    final todoMap = await networkService.chargeMyWallet(chargeUserWalletCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return ChargeUserWalletDTO.fromSuccessJson(todoMap);
+    }else if(todoMap['status'] == false){
+      return ChargeUserWalletDTO.fromFailedJson(todoMap);
+    }
+  }
 }

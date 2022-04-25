@@ -257,4 +257,19 @@ class NetworkService {
       return null;
     }
   }
+
+  Future<Map?> chargeMyWallet(Map<String, dynamic> chargeUserWalletCredentialsJson) async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ChargeMyWallet"), headers: headers, body: jsonEncode(chargeUserWalletCredentialsJson));
+      print("ChargeUserWalletDTO... request: ${response.request}, body: ${jsonEncode(chargeUserWalletCredentialsJson)}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("ChargeUserWalletDTO error: ${e.toString()}");
+      return null;
+    }
+  }
 }
