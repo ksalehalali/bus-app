@@ -101,10 +101,10 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white,),
                                 child: Column(
                                   children: [
-                                    SizedBox(height: 80,),
+                                    SizedBox(height: 50,),
                                     Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 22,),),
-                                    SizedBox(height: 1,),
-                                    Text('${_profileInformation?.email?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 14,),),
+                                  //  SizedBox(height: 1,),
+                                    //Text('${_profileInformation?.email?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 14,),),
                                     SizedBox(height: 5,),
                                     Row(
                                       mainAxisAlignment:
@@ -157,7 +157,7 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                           Text('👇 Download 👇', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontSize: 24, fontFamily: 'Nunito',),),
                           Divider(thickness: 2.5,),
                           SizedBox(height: 10,),
-                          QrImage(data: 'http://routesme.com/', version: QrVersions.auto, size: 200.0, foregroundColor: Color.fromRGBO(39, 105, 171, 1),),
+                          QrImage(data: '${_profileInformation?.email?? 'http://routesme.com/'}', version: QrVersions.auto, size: 200.0, foregroundColor: Color.fromRGBO(39, 105, 171, 1),),
                         ],
                       ),
                     ),
