@@ -135,6 +135,21 @@ class NetworkService {
     }
   }
 
+  Future<Map?> getInstallationListByPromoter(Map<String, dynamic> installationListByPromoterCredentialsJson) async {
+    try {
+      SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+      String accessToken = _appData.getAccessToken(pref!)!;
+      Map<String, String> headers = NetworkConstants().headers;
+      headers['Authorization'] = accessToken;
+      final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/ListPromoterInstallationByPromoter"), headers: headers, body: jsonEncode(installationListByPromoterCredentialsJson));
+      print("InstallationListByPromoterDTO... request: ${response.request}, body: ${jsonEncode(installationListByPromoterCredentialsJson)}, response: ${response.body}");
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("InstallationListByPromoterDTO error: ${e.toString()}");
+      return null;
+    }
+  }
+
   Future<Map?> editUserProfile(Map<String, dynamic> editProfileCredentialsJson) async {
     try {
       SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();

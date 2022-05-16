@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import '../../../bus_driver_src/helper/shared_preferences.dart';
 import '../../../common_src/constants/app_colors.dart';
 import '../../../common_src/constants/screen_size.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../common_src/data/network_service.dart';
 import '../../../common_src/data/repository.dart';
 import '../../../common_src/widget/image_loader.dart';
+import '../../data/models/installation_list_by_promoter_credentials.dart';
+import '../../data/models/installation_list_by_promoter_dto.dart';
 import '../../data/models/user_profile_dto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -22,7 +25,9 @@ class PromoterProfilePage extends StatefulWidget {
 class _PromoterProfilePage extends State<PromoterProfilePage> {
   List<Color> currentGradientColors = AppColors.activeGradient;
   late final Repository _repository;
+  late final AppData _appData;
   ProfileInformation? _profileInformation;
+  int appInstallationCountByPromoter= 0;
 /*
   Future<bool> _onWillPop() async {
     return (await _backButton()) ?? false;
@@ -32,7 +37,9 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
   @override
   void initState() {
     _repository = Repository(networkService: NetworkService());
+    _appData = AppData();
     getProfileInformation();
+    getInstallationListByPromoter();
     super.initState();
   }
 
@@ -55,6 +62,20 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
         Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
       }
     });
+  }
+
+  getInstallationListByPromoter() async {
+    await _appData.getSharedPreferencesInstance().then((pref) {
+      String promoterId = _appData.getUserId(pref!)!;
+      final installationListByPromoterCredentials = InstallationListByPromoterCredentials(id: promoterId);
+      _repository.getInstallationListByPromoter(installationListByPromoterCredentials).then((response){
+        if (response != null) {
+          if(response is InstallationListByPromoterDTO){if(response.isSuccess() != null && response.isSuccess() == true){setState(() {appInstallationCountByPromoter = response.total!;});}}
+        } else{
+          Fluttertoast.showToast(msg: "Something wrong!", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: AppColors.rainBlueLight, textColor: Colors.white, fontSize: 16.0);
+        }
+      });
+    } );
   }
 
   @override
@@ -83,9 +104,9 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                   ),
                  // SizedBox(height: 10,),
                 //  Text('My Profile', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 34, fontFamily: 'Nisebuschgardens',),),
-                  SizedBox(height: 22,),
+                  SizedBox(height: 7,),
                   Container(
-                    height: height * 0.42,
+                    height: height * 0.26,
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         double innerHeight = constraints.maxHeight;
@@ -101,38 +122,15 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white,),
                                 child: Column(
                                   children: [
-                                    SizedBox(height: 50,),
-                                    Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 22,),),
+                                    SizedBox(height: 85,),
+                                    Text('${_profileInformation?.name?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 24,),),
                                   //  SizedBox(height: 1,),
                                     //Text('${_profileInformation?.email?? ''}', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 14,),),
-                                    SizedBox(height: 5,),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text('Orders', style: TextStyle(color: Colors.grey[700], fontFamily: 'Nunito', fontSize: 25,),),
-                                            Text('10', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 25,),),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8,),
-                                          child: Container(height: 50, width: 3, decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.grey,),),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text('Pending', style: TextStyle(color: Colors.grey[700], fontFamily: 'Nunito', fontSize: 25,),),
-                                            Text('1', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 25,),),
-                                          ],
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ),
                             ),
-                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Colors.grey[700], size: 30,), onPressed: () {
+                            Positioned(top: 90, right: 15, child: IconButton(icon: Icon(AntDesign.setting, color: Color.fromRGBO(39, 105, 171, 1), size: 30,), onPressed: () {
                               if(_profileInformation != null){
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage(profileInformation: _profileInformation!,)),);
                               }
@@ -142,6 +140,40 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                           ],
                         );
                       },
+                    ),
+                  ),
+                  SizedBox(height: 22,),
+                  Container(
+                    height: height * 0.2,
+                    width: width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Installation',
+                            style: TextStyle(
+                              color: Color.fromRGBO(39, 105, 171, 1),
+                              fontSize: 27,
+                              fontFamily: 'Nunito',
+                            ),
+                          ),
+                          Divider(
+                            thickness: 2.5,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('$appInstallationCountByPromoter', style: TextStyle(color: Color.fromRGBO(39, 105, 171, 1), fontFamily: 'Nunito', fontSize: 25,),),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 22,),
@@ -212,7 +244,8 @@ class _PromoterProfilePage extends State<PromoterProfilePage> {
                         ],
                       ),
                     ),
-                  )*/
+                  )
+                  */
                 ],
               ),
             ),

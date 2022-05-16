@@ -64,7 +64,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       const SizedBox(height: 24),
                       Container(padding: const EdgeInsets.all(10), child: TextFormField(
-                        textInputAction: TextInputAction.next,
+                        textInputAction: TextInputAction.done,
                         style: TextStyle(color: Colors.black),
                         controller: nameController, keyboardType: TextInputType.name, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Name', prefixIcon: Icon(Icons.title)),
                         validator: (value) {
@@ -74,6 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           return null;
                         },
                       ),),
+                     /*
                       const SizedBox(height: 24),
                       Container(padding: const EdgeInsets.all(10), child: TextFormField(
                         textInputAction: TextInputAction.done,
@@ -86,6 +87,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           return null;
                         },
                       ),),
+                      */
                       const SizedBox(height: 30),
                       Container(height: 120, padding: const EdgeInsets.only(top: 60, bottom: 10, left: 10, right: 10), child: ElevatedButton(
                         child: const Text('Save', style: TextStyle(fontSize: 20),),

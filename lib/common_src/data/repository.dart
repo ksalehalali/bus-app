@@ -13,6 +13,8 @@ import '../../bus_promoter_src/data/models/charge_user_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/edit_profile_credentials.dart';
 import '../../bus_promoter_src/data/models/edit_profile_dto.dart';
 import '../../bus_promoter_src/data/models/edit_profile_image_dto.dart';
+import '../../bus_promoter_src/data/models/installation_list_by_promoter_credentials.dart';
+import '../../bus_promoter_src/data/models/installation_list_by_promoter_dto.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_credentials.dart';
 import '../../bus_promoter_src/data/models/promoter_outgoing_wallet_dto.dart';
 import '../../bus_promoter_src/data/models/user_incoming_wallet_credentials.dart';
@@ -60,7 +62,7 @@ class Repository {
   }
 */
 
-  Future<dynamic?> login(LoginCredentials loginCredentials) async {
+  Future<dynamic> login(LoginCredentials loginCredentials) async {
     final todoMap = await networkService.login(loginCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -70,7 +72,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
+  Future<dynamic> driverEnter(DriverEnterCredentials driverEnterCredentials) async {
     final todoMap = await networkService.driverEnter(driverEnterCredentials.toJson());
       if (todoMap == null) return null;
       if(todoMap['status'] == true){
@@ -79,7 +81,7 @@ class Repository {
 
   }
 
-  Future<dynamic?> driverOut(DriverOutCredentials driverOutCredentials) async {
+  Future<dynamic> driverOut(DriverOutCredentials driverOutCredentials) async {
     final todoMap = await networkService.driverOut(driverOutCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -87,7 +89,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getBusInformation(BusInformationCredentials busInformationCredentials) async {
+  Future<dynamic> getBusInformation(BusInformationCredentials busInformationCredentials) async {
     final todoMap = await networkService.getBusInformation(busInformationCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -95,7 +97,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getListPaymentWalletByBus(ListPaymentWalletByBusCredentials listPaymentWalletByBusCredentials) async {
+  Future<dynamic> getListPaymentWalletByBus(ListPaymentWalletByBusCredentials listPaymentWalletByBusCredentials) async {
     final todoMap = await networkService.getListPaymentWalletByBus(listPaymentWalletByBusCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -103,7 +105,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getUserProfile() async {
+  Future<dynamic> getUserProfile() async {
     final todoMap = await networkService.getUserProfile();
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -111,7 +113,15 @@ class Repository {
     }
   }
 
-  Future<dynamic?> editUserProfile(EditProfileCredentials editProfileCredentials) async {
+  Future<dynamic> getInstallationListByPromoter(InstallationListByPromoterCredentials installationListByPromoterCredentials) async {
+    final todoMap = await networkService.getInstallationListByPromoter(installationListByPromoterCredentials.toJson());
+    if (todoMap == null) return null;
+    if(todoMap['status'] == true){
+      return InstallationListByPromoterDTO.fromJson(todoMap);
+    }
+  }
+
+  Future<dynamic> editUserProfile(EditProfileCredentials editProfileCredentials) async {
     final todoMap = await networkService.editUserProfile(editProfileCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -119,7 +129,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> editUserProfileImage(File editedImage) async {
+  Future<dynamic> editUserProfileImage(File editedImage) async {
    /*
     request.files.add(
       http.MultipartFile('Image',
@@ -139,7 +149,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getUserWallet() async {
+  Future<dynamic> getUserWallet() async {
     final todoMap = await networkService.getUserWallet();
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -147,7 +157,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getUserIncomingWalletList(UserIncomingWalletCredentials userIncomingWalletCredentials) async {
+  Future<dynamic> getUserIncomingWalletList(UserIncomingWalletCredentials userIncomingWalletCredentials) async {
     final todoMap = await networkService.getUserIncomingWalletList(userIncomingWalletCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -155,7 +165,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> getPromoterOutgoingWalletList(PromoterOutgoingWalletCredentials promoterOutgoingWalletCredentials) async {
+  Future<dynamic> getPromoterOutgoingWalletList(PromoterOutgoingWalletCredentials promoterOutgoingWalletCredentials) async {
     final todoMap = await networkService.getPromoterOutgoingWalletList(promoterOutgoingWalletCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -163,7 +173,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> chargeUserWallet(ChargeUserWalletCredentials chargeUserWalletCredentials) async {
+  Future<dynamic> chargeUserWallet(ChargeUserWalletCredentials chargeUserWalletCredentials) async {
     final todoMap = await networkService.chargeUserWallet(chargeUserWalletCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
@@ -173,7 +183,7 @@ class Repository {
     }
   }
 
-  Future<dynamic?> chargeMyWallet(ChargeMyWalletCredentials chargeMyWalletCredentials) async {
+  Future<dynamic> chargeMyWallet(ChargeMyWalletCredentials chargeMyWalletCredentials) async {
     final todoMap = await networkService.chargeMyWallet(chargeMyWalletCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
