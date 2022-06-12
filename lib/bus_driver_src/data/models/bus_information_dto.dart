@@ -20,56 +20,65 @@ class BusInformationResponseDTO {
 }
 
 class Description {
-  String? id;
+ // String? id;
   String? company;
-  ApplicationRoute? applicationRoute;
-  String? routeID;
+  //ApplicationRoute? applicationRoute;
+ // String? routeID;
   String? palteNumber;
-  String? kind;
-  dynamic? applicationDriver;
-  String? driverID;
-  bool? active;
+  String? routeName;
+ // String? kind;
+  //dynamic? applicationDriver;
+ // String? driverID;
+ // bool? active;
 
   Description(
-      {this.id,
+      {
+       // this.id,
         this.company,
-        this.applicationRoute,
-        this.routeID,
+    //    this.applicationRoute,
+      //  this.routeID,
         this.palteNumber,
-        this.kind,
-        this.applicationDriver,
-        this.driverID,
-        this.active});
+        this.routeName,
+       // this.kind,
+       // this.applicationDriver,
+      //  this.driverID,
+      //  this.active
+      });
 
   Description.fromJson(Map<dynamic, dynamic> json) {
-    id = json['id'];
+   // id = json['id'];
     company = json['company'];
-    applicationRoute = json['applicationRoute'] != null ? new ApplicationRoute.fromJson(json['applicationRoute']) : null;
-    routeID = json['routeID'];
+   // applicationRoute = json['applicationRoute'] != null ? new ApplicationRoute.fromJson(json['applicationRoute']) : null;
+    //routeID = json['routeID'];
     palteNumber = json['palteNumber'];
-    kind = json['kind'];
-    applicationDriver = json['applicationDriver'];
-    driverID = json['driverID'];
-    active = json['active'];
+    routeName = json['routeName'];
+  //  kind = json['kind'];
+  //  applicationDriver = json['applicationDriver'];
+    //driverID = json['driverID'];
+   // active = json['active'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    //data['id'] = this.id;
     data['company'] = this.company;
+   /*
     if (this.applicationRoute != null) {
       data['applicationRoute'] = this.applicationRoute!.toJson();
     }
-    data['routeID'] = this.routeID;
+    */
+   // data['routeID'] = this.routeID;
     data['palteNumber'] = this.palteNumber;
-    data['kind'] = this.kind;
-    data['applicationDriver'] = this.applicationDriver;
-    data['driverID'] = this.driverID;
-    data['active'] = this.active;
+    data['routeName'] = this.routeName;
+   // data['kind'] = this.kind;
+   // data['applicationDriver'] = this.applicationDriver;
+   // data['driverID'] = this.driverID;
+   // data['active'] = this.active;
     return data;
   }
 }
 
+/*
 class ApplicationRoute {
   String? id;
   String? nameEN;
@@ -118,3 +127,4 @@ class ApplicationRoute {
     return data;
   }
 }
+*/

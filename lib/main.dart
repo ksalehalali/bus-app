@@ -4,12 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../bus_promoter_src/view/home_page/promoter_home_page.dart';
-import 'login_page.dart';
-import '../../bus_driver_src/helper/shared_preferences.dart';
-import '../../bus_driver_src/data/route/route_data.dart';
-import '../../bus_driver_src/services/push_notification_service.dart';
-import 'login_page.dart';
+import 'bus_promoter_src/view/home_page/promoter_home_page.dart';
+import 'common_src/view/login_page.dart';
+import 'bus_driver_src/helper/shared_preferences.dart';
+import 'bus_driver_src/data/route/route_data.dart';
+import 'bus_driver_src/services/push_notification_service.dart';
+import 'common_src/view/login_page.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,8 @@ Future<void> main() async{
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){
     String? accountType = _appData.getAccountType(pref!);
-    if(accountType == null) runApp(const ProviderScope(child: MyApp(true, null)));
+    String? busId = _appData.getBusID(pref);
+    if(accountType == null || (accountType == 'Driver' && busId == null)) runApp(const ProviderScope(child: MyApp(true, null)));
     else runApp( ProviderScope(child: MyApp(false, accountType)));
   });
 
