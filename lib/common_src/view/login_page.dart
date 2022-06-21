@@ -2,7 +2,7 @@ import 'package:bus_driver/common_src/data/models/login_credentials.dart';
 import 'package:bus_driver/common_src/data/models/login_response_dto.dart';
 import 'package:flutter/material.dart';
 import '../../bus_promoter_src/view/home_page/promoter_home_page.dart';
-import '../../constants/app_colors.dart';
+import '../constants/app_colors.dart';
 import '../data/models/login_error_response_dto.dart';
 import '../data/network_service.dart';
 import '../data/repository.dart';
