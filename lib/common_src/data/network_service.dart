@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 
 class NetworkService {
   late final AppData _appData = AppData();
-
   /*
   Future<List<dynamic>> fetchTodos() async {
     try {

@@ -4,6 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'Inspector_Controllers/inspector_controller.dart';
+import 'Inspector_Controllers/payment_controller.dart';
+import 'Inspector_View/main_screen.dart';
 import 'bus_promoter_src/view/home_page/promoter_home_page.dart';
 import 'common_src/view/login_page.dart';
 import 'bus_driver_src/helper/shared_preferences.dart';
@@ -14,6 +18,8 @@ import 'common_src/view/login_page.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final inspectorController =  Get.putAsync(() async => InspectorController(),permanent: true);
+  final paymentController =  Get.putAsync(() async => PaymentController(),permanent: true);
   //await PushNotificationService().setupInteractedMessage();
 
   AppData _appData = AppData();
@@ -41,7 +47,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyleWithShadow = TextStyle(color: Colors.white, shadows: [BoxShadow(color: Colors.black12.withOpacity(0.25), spreadRadius: 1, blurRadius: 4, offset: const Offset(0, 0.5),)]);
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Bus Driver App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -69,6 +75,8 @@ class MyApp extends StatelessWidget {
     } else {
       switch(accountType){
         case 'Driver': return DriverHomePage();
+        break;
+        case 'Inspector': return const MainScreenInspector(currentPage: 0,);
         break;
         default: return PromoterHomePage();
         break;

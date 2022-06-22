@@ -1,6 +1,8 @@
 import 'package:bus_driver/common_src/data/models/login_credentials.dart';
 import 'package:bus_driver/common_src/data/models/login_response_dto.dart';
 import 'package:flutter/material.dart';
+import '../../Inspector_Controllers/current_data.dart';
+import '../../Inspector_View/main_screen.dart';
 import '../../bus_promoter_src/view/home_page/promoter_home_page.dart';
 import '../constants/app_colors.dart';
 import '../data/models/login_error_response_dto.dart';
@@ -160,12 +162,16 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                             if(response is LoginResponseDTO){
                               String? accountType = response.description?.role?.first;
                               print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}, AccountType: $accountType");
+                              myToken = response.description!.token!;
+                              userName =  response.description!.userName!;
                               _appData.getSharedPreferencesInstance().then((pref) {
                                 _appData.setAccessToken(pref!, response.description!.token).then((value) {
                                   _appData.setAccountType(pref, accountType).then((value) {
                                     Navigator.of(_dialog.context!,rootNavigator: true).pop();
                                     switch(accountType){
                                       case 'Driver': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusScanner()),);
+                                      break;
+                                      case 'Inspector': Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreenInspector(currentPage: 0,)),);
                                       break;
                                       default: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PromoterHomePage()),);;
                                       break;
