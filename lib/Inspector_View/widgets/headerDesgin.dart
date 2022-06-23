@@ -28,7 +28,7 @@ Widget Header (size){
     ),
     child: Padding(
       padding: const EdgeInsets.only(top: 19.0,bottom: 12),
-      child: Image.asset('assets/images/logo/logo_white_300.png',height: 30,width: 30,fit: BoxFit.contain,),
+      child: Image.asset('assets/images/logo_white_300.png',height: 30,width: 30,fit: BoxFit.contain,),
     )
   );
 }

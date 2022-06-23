@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bus_driver/Inspector_Controllers/current_data.dart';
 import 'package:http/http.dart';
 import '../../bus_driver_src/helper/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +53,8 @@ class NetworkService {
   Future<Map?> login(Map<String, dynamic> loginCredentialsJson) async {
     try {
       final response = await post(Uri.parse(NetworkConstants().baseApiUrl + "/Login"), headers: NetworkConstants().headers, body: jsonEncode(loginCredentialsJson));
+      //myToken = response.body['description']['token'];
+
       return jsonDecode(response.body);
     } catch (e) {
       print("loginResponseDTO error: ${e.toString()}");

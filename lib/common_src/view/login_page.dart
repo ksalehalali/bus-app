@@ -162,7 +162,7 @@ class _LoginPageStatefulWidgetState extends State<LoginPageStatefulWidget> {
                             if(response is LoginResponseDTO){
                               String? accountType = response.description?.role?.first;
                               print("loginResponseDTO... Status: ${response.status}, Description.token: ${response.description!.token}, AccountType: $accountType");
-                              myToken = response.description!.token!;
+                              print('token ,login == ::------- ${response.description!.token!}');
                               userName =  response.description!.userName!;
                               _appData.getSharedPreferencesInstance().then((pref) {
                                 _appData.setAccessToken(pref!, response.description!.token).then((value) {

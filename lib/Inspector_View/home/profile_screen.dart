@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Inspector_Controllers/globals.dart';
 import '../../Inspector_Controllers/personal_information_controller.dart';
+import '../../bus_driver_src/helper/shared_preferences.dart';
+import '../../common_src/constants/app_colors.dart';
+import '../../common_src/view/login_page.dart';
 import '../wallet/your_activities.dart';
 import '../widgets/headerDesgin.dart';
 import '../your_activities_screen.dart';
@@ -13,7 +16,55 @@ import 'personal_information.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
   final personalInfoController = Get.put(PersonalInformationController());
+//logout
+  late final AppData _appData;
+  _showLogoutConfirmationDialog(BuildContext context) {
+    _appData = AppData();
 
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text(
+            'Logout',
+            style: TextStyle(color: Colors.black),
+          ),
+          content: const Text(
+            'Are you sure you want to logout ?',
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text(
+                'No',
+                style: TextStyle(color: AppColors.rainBlueLight),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'OK');
+                _logout();
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(color: AppColors.rainBlueLight),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  _logout() async {
+    _appData.getSharedPreferencesInstance().then((_pref) async {
+      await _appData
+          .clearSharedPreferencesData(_pref!)
+          .then((value) => null)
+          .then((value) {
+            Get.offAll(()=> LoginPage());
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final screenSize = Get.size;
@@ -220,6 +271,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: Colors.red,
                                     ),
                                     onPressed: ()async {
+                                      _showLogoutConfirmationDialog(context);
                                       SharedPreferences prefs = await SharedPreferences.getInstance();
                                       print(prefs.getString('token'));
                                       prefs.remove('token');

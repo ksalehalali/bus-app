@@ -59,10 +59,10 @@ class _WalletScreenState extends State<WalletScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                       Text(
                         'Available Balance',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w500),
+                            fontSize: 15, fontWeight: FontWeight.w500,color: Colors.grey[800]),
                       ),
                       SizedBox(
                         height: 5.0,
@@ -71,8 +71,8 @@ class _WalletScreenState extends State<WalletScreen> {
                         () => walletController.gotMyBalance.value == true
                             ? Text(
                                 walletController.myBalance.value,
-                                style: const TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold,color: Colors.grey[800]),
                               )
                             : const SizedBox(
                                 height: 18,
@@ -103,10 +103,10 @@ class _WalletScreenState extends State<WalletScreen> {
                         const SizedBox(
                           height: 5.0,
                         ),
-                        const Text(
+                        Text(
                           'Add Credit',
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                              fontSize: 17, fontWeight: FontWeight.bold,color: Colors.grey[800]),
                         )
                       ],
                     ),

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'Inspector_Controllers/current_data.dart';
 import 'Inspector_Controllers/inspector_controller.dart';
 import 'Inspector_Controllers/payment_controller.dart';
 import 'Inspector_View/main_screen.dart';
@@ -37,6 +38,8 @@ Future<void> main() async{
     print("1- FCM Notification: initialMessage: ${initialMessage}");
   }
   */
+
+
 
 }
 class MyApp extends StatelessWidget {

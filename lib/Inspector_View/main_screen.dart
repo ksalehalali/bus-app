@@ -2,7 +2,9 @@ import 'package:bus_driver/bus_driver_src/helper/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
+import 'package:get_storage/get_storage.dart';
+import '../../bus_driver_src/helper/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Inspector_Controllers/current_data.dart';
 import '../Inspector_Controllers/globals.dart';
 import '../Inspector_Controllers/inspector_controller.dart';
@@ -34,33 +36,28 @@ class _MainScreenInspectorState extends State<MainScreenInspector> {
   Widget currentScreen = const HomePage();
   final InspectorController inspectorController = Get.find();
 
+  var box = GetStorage();
 
   int? currentTp = 0;
-@override
+  late final AppData _appData = AppData();
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    getToken();
-
+    getAccessToken();
       setState(() {
         currentScreen = screens[widget.currentPage];
         currentTp = widget.currentPage;
 
     });
   }
-  getToken()async{
-    late final AppData _appData = AppData();
-    var prefe =  await _appData.getSharedPreferencesInstance();
-    String accessToken = _appData.getAccessToken(prefe!)!;
-    myToken =accessToken;
-    print("token --======= $myToken");
-    inspectorController.getInspectorBusesChecked();
-
+  getAccessToken()async{
+    SharedPreferences? pref =  await _appData.getSharedPreferencesInstance();
+    String accessToken = _appData.getAccessToken(pref!)!;
+    myToken = accessToken;
+    print('....................acc $myToken');
   }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(

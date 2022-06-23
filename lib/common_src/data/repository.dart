@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:bus_driver/Inspector_Controllers/current_data.dart';
+import 'package:get_storage/get_storage.dart';
+
 import '../../bus_driver_src/data/models/bus_information_dto.dart';
 import '../../bus_driver_src/data/models/bus_information_credentials.dart';
 import '../../bus_driver_src/data/models/driver_enter_credentials.dart';
@@ -66,6 +69,9 @@ class Repository {
     final todoMap = await networkService.login(loginCredentials.toJson());
     if (todoMap == null) return null;
     if(todoMap['status'] == true){
+      // var box = GetStorage();
+      // box.write('myToken',todoMap['description']['token'] );
+
       return LoginResponseDTO.fromJson(todoMap);
     }else{
       return LoginErrorResponseDTO.fromJson(todoMap);

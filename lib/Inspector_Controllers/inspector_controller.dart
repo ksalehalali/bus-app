@@ -18,6 +18,7 @@ class InspectorController extends GetxController{
   var gotTicketsChecked =false.obs;
 var ticketIdScanned =''.obs;
 
+
   Future getBusData(String busId)async{
 
     var headers = {
@@ -41,7 +42,7 @@ var ticketIdScanned =''.obs;
       openCam.value =false;
       getInspectorBusesChecked();
       busScanned.value =true;
-      await checkBus();
+      await checkBus(busId);
       Get.to(()=>  const MainScreenInspector( currentPage: 2,));
       update();
     }else{
@@ -133,7 +134,7 @@ update();
   //get inspector buses checked
 Future getInspectorBusesChecked()async{
     gotBusesChecked.value =false ;
-    print('token is ==--== $myToken');
+    print('token is ==-getInspectorBusesChecked-== $myToken');
   var headers = {
     'Authorization': myToken,
     'Content-Type': 'application/json'
@@ -163,14 +164,14 @@ update();
 }
 
   //check  bus
-  Future checkBus()async{
+  Future checkBus(String busId)async{
     var headers = {
       'Authorization': '$myToken',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/InspectionBus'));
     request.body = json.encode({
-      "id":"76ae4d9d-9fff-40cf-f7db-08da3d58147f"
+      "id":'299053ab-4f9b-4d44-52c9-08da1620ad87'
     });
     request.headers.addAll(headers);
 
@@ -179,7 +180,7 @@ update();
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
-      print('payments for bus  :: ${json}');
+      print('bus checked  :: ${json}');
       paymentsForBus.value = data;
 update();
     }
@@ -213,6 +214,8 @@ update();
 
     }
     else {
+      print('get tickets checked error :: ${json}');
+
       print(response.reasonPhrase);
     }
 

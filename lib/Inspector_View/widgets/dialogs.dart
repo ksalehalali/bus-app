@@ -173,7 +173,7 @@ class CustomDialogTickets extends StatelessWidget {
         children: [
           Container(
               padding:
-              EdgeInsets.only(top: 66.0, bottom: 16.0, left: 15.0, right: 15.0),
+              EdgeInsets.only(top: 66.0, bottom: 16.0, left: 4.0, right:4.0),
               margin: EdgeInsets.only(top: 34.0),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -201,57 +201,60 @@ class CustomDialogTickets extends StatelessWidget {
                         ),
                       ),
                     failed ==false? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                       mainAxisAlignment: MainAxisAlignment.center,
                        children:  [
-                         const SizedBox(
+                          SizedBox(
                            height: 22.0,
                          ),
-                         const Text(
+                          Text(
                            'Ticket Id ',
-                           style: TextStyle(fontSize: 13),
+                           style: TextStyle(fontSize: 13,color:Colors.green[700]),
                          ),
                           Text(
                            inspectorController.ticketIdScanned.value.toString(),
                            style: TextStyle(
-                             fontSize: 14,
+                             fontSize: 12,
                              fontWeight: FontWeight.bold,
+                               color:Colors.green[700]
                            ),
                            maxLines: 1,
                          ),
                          const SizedBox(
                            height: 19.0,
                          ),
-                         const Text(
+                          Text(
                            'User ',
-                           style: TextStyle(fontSize: 14),
+                           style: TextStyle(fontSize: 14,color:Colors.green[700]),
                          ),
                          Text(
                            '${inspectorController.ticketChecked.value['userName']}',
-                           style: const TextStyle(
-                               fontSize: 16, fontWeight: FontWeight.bold),
+                           style: TextStyle(
+                               fontSize: 16, fontWeight: FontWeight.bold,color:Colors.green[700]),
                          ),
                          const SizedBox(
                            height: 19.0,
                          ),
-                         const Text(
+                          Text(
                            'Date ',
-                           style: TextStyle(fontSize: 14),
+                           style: TextStyle(fontSize: 14,color:Colors.green[700]),
                          ),
                          Text(
                            '${inspectorController.ticketChecked.value['paymentDate']}',
-                           style: const TextStyle(
-                               fontSize: 16, fontWeight: FontWeight.bold),
+                           style: TextStyle(
+                               fontSize: 16, fontWeight: FontWeight.bold,color:Colors.green[700]),
                          ),
                          const SizedBox(
                            height: 12.0,
                          ),
-                         const Text(
+                          Text(
                            'Amount ',
-                           style: TextStyle(fontSize: 14),
+                           style: TextStyle(fontSize: 14,color:Colors.green[700]),
                          ),
-                         const Text(
+                          Text(
                            '0.350',
                            style: TextStyle(
-                               fontSize: 16, fontWeight: FontWeight.bold),
+                               fontSize: 16, fontWeight: FontWeight.bold,color:Colors.green[700]),
                          ),
                        ],
                      ):Container(),

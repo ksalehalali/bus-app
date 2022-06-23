@@ -3,6 +3,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../Inspector_Controllers/consts.dart';
 import '../../Inspector_Controllers/globals.dart';
@@ -26,9 +27,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final Repository _repository;
   ProfileInformation? _profileInformation;
+  var box = GetStorage();
+
   @override
   initState() {
     super.initState();
+    myToken = 'bearer ${box.read('myToken')}';
+
     _repository = Repository(networkService: NetworkService());
     getProfileInformation();
 
@@ -39,8 +44,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void _onTextChanged() {
     setState(() {
+      print(_tabController!.index);
       tabIndex = _tabController!.index;
     });
+    if(_tabController!.index ==1){
+      inspectorController.getInspectorBusesChecked();
+    }
   }
 
   @override
@@ -64,6 +73,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   //get profile
   void getProfileInformation() {
+
     _repository.getUserProfile().then((response) async {
       if (response != null) {
         if (response.status == true) {
@@ -234,7 +244,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ListTile(
                             leading:Text('${index+1}',style: TextStyle(color: Colors.black,fontSize: 16),),
                             title: Text('${inspectorController.inspectorBusesChecked.value[index]['company']}',style: TextStyle(color: Colors.black),),
-                            subtitle:  Text("Plate Number : ${inspectorController.inspectorBusesChecked[index]['palteNumber']}",style: TextStyle(height: 2),),
+                            subtitle:  Text("Plate Number : ${inspectorController.inspectorBusesChecked[index]['palteNumber']}",style: TextStyle(height: 2,color: Colors.black),),
                             trailing:  Text("Route : ${inspectorController.inspectorBusesChecked[index]['route']}",style: TextStyle(color:Colors.red,fontWeight: FontWeight.w600),),
                             onTap: (){
 
@@ -262,7 +272,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ]),
           color: Colors.white),
       child: Scaffold(
-        backgroundColor: routes_color,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,

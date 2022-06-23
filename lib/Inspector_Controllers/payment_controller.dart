@@ -26,7 +26,7 @@ class PaymentController extends GetxController {
 
   Future<bool> pay(bool isDirect) async {
     var headers = {
-      'Authorization': 'bearer $myToken',
+      'Authorization': '$myToken',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/PaymentMyWallet'));
@@ -90,7 +90,7 @@ update();
   Future<bool> recharge({required double invoiceValue,required int invoiceId,required String paymentGateway}) async {
     var headers = {
       'Authorization':
-          'bearer $myToken',
+          '$myToken',
       'Content-Type': 'application/json'
     };
     var request = http.Request(
@@ -119,17 +119,18 @@ update();
   Future getMyWallet() async {
     var headers = {
       'Authorization':
-          'bearer $myToken'
+          '$myToken'
     };
     var url =  Uri.parse('https://route.click68.com/api/GetWallet');
     var res = await  http.get(url,headers: headers);
-    print(res.body);
+    print('get wallet body ${res.reasonPhrase}');
     var jsonResponse = jsonDecode(res.body);
     if (res.statusCode == 200) {
       gotMyBalance.value = true;
       myBalance.value = jsonResponse['description']['total'];
       print(res.body);
     } else {
+      print('error get wallet ${res.statusCode}');
       print(res.reasonPhrase);
     }
 
@@ -144,7 +145,7 @@ update();
 
 
     var headers = {
-      'Authorization': 'bearer $myToken',
+      'Authorization': '$myToken',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ListChrgingWalletByUser'));
@@ -189,7 +190,7 @@ update();
 
     payments.clear() ;
     var headers = {
-      'Authorization': 'bearer $myToken',
+      'Authorization': '$myToken',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ListPaymentWalletByUser'));
@@ -205,7 +206,6 @@ update();
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
       totalOfMyPayments.value = json['total'];
-print('payment ::${data[0]}');
       for(int i =0; i < data.length; i++){
         payments.add(
                 PaymentSaved (
@@ -220,6 +220,7 @@ print('payment ::${data[0]}');
         );
 
       }
+      print('payments --==:: ${payments.value}');
       gotPayments.value =true;
       update();
 

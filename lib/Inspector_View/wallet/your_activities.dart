@@ -149,7 +149,7 @@ class _YourActivitiesScreenState extends State<YourActivitiesScreen> {
                       SizedBox(
                         height: screenSize.height * 0.1 - 62,
                       ),
-                      Obx(()=> (inspectorController.gotBusesChecked.value==false)?Center(child: Image.asset('assets/images/Logo animated-loop-fast.gif',fit: BoxFit.fill,color: routes_color,),):Container()),
+                    //  Obx(()=> (inspectorController.gotBusesChecked.value==false)?Center(child: Image.asset('assets/images/Logo animated-loop-fast.gif',fit: BoxFit.fill,color: routes_color,),):Container()),
                       showBusesChecked?SizedBox(
                           height: screenSize.height-200,
                           child: Padding(
@@ -162,7 +162,7 @@ class _YourActivitiesScreenState extends State<YourActivitiesScreen> {
                                       ListTile(
                                   leading:Text('${index+1}',style: TextStyle(color: Colors.black,fontSize: 16),),
                                         title: Text('${inspectorController.inspectorBusesChecked.value[index]['company']}',style: TextStyle(color: Colors.black),),
-                                        subtitle:  Text("Plate Number : ${inspectorController.inspectorBusesChecked[index]['palteNumber']}",style: TextStyle(height: 2),),
+                                        subtitle:  Text("Plate Number : ${inspectorController.inspectorBusesChecked[index]['palteNumber']}",style: TextStyle(height: 2,color: Colors.black),),
                                         trailing:  Text("Route : ${inspectorController.inspectorBusesChecked[index]['route']}",style: TextStyle(color:Colors.red,fontWeight: FontWeight.w600),),
                                         onTap: (){
 
