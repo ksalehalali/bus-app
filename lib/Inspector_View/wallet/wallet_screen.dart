@@ -18,7 +18,6 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   final PaymentController walletController = Get.find();
   int navIndex = 2;
-  final box = GetStorage();
   bool? thereIsCard = false;
   var wallet;
   Color? _color = routes_color;

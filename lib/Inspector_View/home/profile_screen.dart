@@ -9,7 +9,6 @@ import '../../common_src/constants/app_colors.dart';
 import '../../common_src/view/login_page.dart';
 import '../wallet/your_activities.dart';
 import '../widgets/headerDesgin.dart';
-import '../your_activities_screen.dart';
 import 'personal_information.dart';
 
 

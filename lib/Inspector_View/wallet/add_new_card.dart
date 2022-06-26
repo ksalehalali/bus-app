@@ -11,7 +11,6 @@ class AddNewCardScreen extends StatefulWidget {
 }
 
 class _AddNewCardScreenState extends State<AddNewCardScreen> {
-  final box = GetStorage();
 
   @override
   void dispose() {

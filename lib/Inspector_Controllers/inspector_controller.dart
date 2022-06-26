@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../Inspector_View/main_screen.dart';
 import '../Inspector_View/widgets/dialogs.dart';
+import '../common_src/constants/app_colors.dart';
 import 'current_data.dart';
+import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 class InspectorController extends GetxController{
   var openCam =false.obs;
@@ -19,7 +21,7 @@ class InspectorController extends GetxController{
 var ticketIdScanned =''.obs;
 
 
-  Future getBusData(String busId)async{
+  Future getBusData(String busId,BuildContext context)async{
 
     var headers = {
       'Authorization': '$myToken',
@@ -40,7 +42,7 @@ var ticketIdScanned =''.obs;
       busScannedData.value =data;
       print("bus data :: ${data}");
       openCam.value =false;
-      getInspectorBusesChecked();
+      getInspectorBusesChecked(context);
       busScanned.value =true;
       await checkBus(busId);
       Get.to(()=>  const MainScreenInspector( currentPage: 2,));
@@ -75,6 +77,7 @@ var ticketIdScanned =''.obs;
       var json = jsonDecode(await response.stream.bytesToString());
       ticketChecked.value =json;
       var data = json['description'];
+      print('scanned ticket data ..------ $data');
       ticketChecked.value =data;
 
       if(json['status'] ==true){
@@ -132,8 +135,11 @@ update();
   }
 
   //get inspector buses checked
-Future getInspectorBusesChecked()async{
-    gotBusesChecked.value =false ;
+Future getInspectorBusesChecked(BuildContext context)async{
+  SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+  _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight));
+
+  gotBusesChecked.value =false ;
     print('token is ==-getInspectorBusesChecked-== $myToken');
   var headers = {
     'Authorization': myToken,
@@ -155,6 +161,7 @@ Future getInspectorBusesChecked()async{
     inspectorBusesChecked.value = data;
     gotBusesChecked.value =true ;
 update();
+    Navigator.of(_dialog.context!,rootNavigator: true).pop();
 
   }
   else {
@@ -190,8 +197,11 @@ update();
 
   }
 
-  Future getTicketsChecked()async{
+  Future getTicketsChecked(BuildContext context)async{
     gotTicketsChecked.value =false;
+    SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
+    _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight));
+
     var headers = {
       'Authorization': '$myToken',
       'Content-Type': 'application/json'
@@ -211,6 +221,8 @@ update();
       print('tickets checked  :: ${json}');
       inspectorTicketsChecked.value = data;
       gotTicketsChecked.value =true;
+      update();
+      Navigator.of(_dialog.context!,rootNavigator: true).pop();
 
     }
     else {

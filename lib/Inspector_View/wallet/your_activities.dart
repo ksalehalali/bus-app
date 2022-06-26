@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -23,12 +25,13 @@ class _YourActivitiesScreenState extends State<YourActivitiesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    inspectorController.getInspectorBusesChecked();
-    inspectorController.getTicketsChecked();
+    Timer(300.milliseconds, () {
+      inspectorController.getInspectorBusesChecked(context);
+      inspectorController.getTicketsChecked(context);
+    });
 
   }
   int navIndex = 2;
-  final box = GetStorage();
   bool? thereIsCard = false;
   var wallet;
   Color? _color = routes_color;
@@ -151,7 +154,7 @@ class _YourActivitiesScreenState extends State<YourActivitiesScreen> {
                       ),
                     //  Obx(()=> (inspectorController.gotBusesChecked.value==false)?Center(child: Image.asset('assets/images/Logo animated-loop-fast.gif',fit: BoxFit.fill,color: routes_color,),):Container()),
                       showBusesChecked?SizedBox(
-                          height: screenSize.height-200,
+                          height: screenSize.height-100,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 122.0),
                             child: CustomScrollView(
@@ -180,22 +183,19 @@ class _YourActivitiesScreenState extends State<YourActivitiesScreen> {
                       ):Container(),
 
                       showTicketsChecked?SizedBox(
-                          height: screenSize.height-200,
+                          height: screenSize.height-100,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 122.0),
                             child: CustomScrollView(
                               slivers: [
                                 Obx(()=> SliverList(delegate: SliverChildBuilderDelegate((context,index){
-                                  // print( DateFormat('yyyy-MM-dd-HH:mm').format(walletController.allTrans[0].time as DateTime));
-                                  //final sortedCars = walletController.allTrans..sort((a, b) => a.time!.compareTo(b.time!));
-                                  //print(sortedCars);
                                   return Column(
                                     children: [
                                       ListTile(
                                         leading:Text('${index+1}',style: TextStyle(color: Colors.black,fontSize: 16),),
                                         title: Text(inspectorController.inspectorTicketsChecked.value[index]['name'].toString(),style: TextStyle(color: Colors.black),),
-                                        //subtitle:  Text(DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(walletController.recharges[index].createdDate!)),style: TextStyle(height: 2),),
-                                  subtitle:Text(inspectorController.inspectorTicketsChecked.value[index]['userID'],style: TextStyle(color:routes_color,fontWeight: FontWeight.w600,fontSize:11),),
+                                        subtitle:  Text(DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(inspectorController.inspectorTicketsChecked.value[index]['date'])),style: TextStyle(height: 2,color: Colors.grey[600]),),
+                                  //subtitle:Text(inspectorController.inspectorTicketsChecked.value[index]['userID'],style: TextStyle(color:routes_color,fontWeight: FontWeight.w600,fontSize:11),),
                                   trailing:  Text(inspectorController.inspectorTicketsChecked.value[index]['phone'],style: TextStyle(color:routes_color,fontWeight: FontWeight.w600),),
                                       ),
                                       Divider(thickness: 1,height: 10,)

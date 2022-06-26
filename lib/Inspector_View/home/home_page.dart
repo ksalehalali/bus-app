@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       tabIndex = _tabController!.index;
     });
     if(_tabController!.index ==1){
-      inspectorController.getInspectorBusesChecked();
+      inspectorController.getInspectorBusesChecked(context);
     }
   }
 

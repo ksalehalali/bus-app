@@ -107,11 +107,11 @@ class _BusDetailsState extends State<BusDetails> {
                       const SizedBox(
                         height: 4.0,
                       ),
-                      // Text(
-                      //   inspectorController.busScanned.value==true?'${inspectorController.busScannedData['applicationRoute']['from_To_EN']}':'',
-                      //   style: const TextStyle(
-                      //       fontSize: 16, fontWeight: FontWeight.bold),
-                      // ),
+                      Text(
+                        inspectorController.busScanned.value==true?'${inspectorController.busScannedData['fromto']}':'',
+                        style:  TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,color: Colors.grey[600]),
+                      ),
                       dividerDesign(),
 
                       const SizedBox(

@@ -90,7 +90,7 @@ class _QRScannerState extends State<QRScanner> {
      if(widget.scanType =='Bus'){
        var busId = json['busId'];
        var b = json['busId'];
-       inspectorController.getBusData(busId);
+       inspectorController.getBusData(busId,context);
      }else if(widget.scanType =='Ticket'){
        var userId = json['userId'];
        var paymentId = json['paymentId'];

@@ -2,6 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:myfatoorah_flutter/model/initpayment/MFInitiatePaymentRequest.dart';
+import 'package:myfatoorah_flutter/model/initpayment/SDKInitiatePaymentResponse.dart';
+import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
+import 'package:myfatoorah_flutter/utils/MFAPILanguage.dart';
+import 'package:myfatoorah_flutter/utils/MFCurrencyISO.dart';
+import 'package:myfatoorah_flutter/utils/MFResult.dart';
 
 import '../../Inspector_Controllers/current_data.dart';
 import '../../Inspector_Controllers/payment/check_out.dart';
@@ -14,6 +20,18 @@ Future<void> showOptionsCardsDialog(context) async {
   MyFatoorah myFatoorh = MyFatoorah();
 
   final String mAPIKey = "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
+  var request = new MFInitiatePaymentRequest(0.100, MFCurrencyISO.KUWAIT_KWD);
+
+  MFSDK.initiatePayment(request, MFAPILanguage.EN,
+          (MFResult<MFInitiatePaymentResponse> result) => {
+
+        if(result.isSuccess()) {
+          print(result.response!.toJson().toString())
+        }
+        else {
+          print(result.error!.message)
+        }
+      });
 
   return await showDialog(
       context: context,
@@ -22,6 +40,7 @@ Future<void> showOptionsCardsDialog(context) async {
         double? kNetPos = 600;
 
         return StatefulBuilder(builder: (context, setState) {
+
           Timer(Duration(milliseconds: 2), () {
             setState(() {
               kNetPos = 290.0;
@@ -73,13 +92,11 @@ Future<void> showOptionsCardsDialog(context) async {
                                       color: Colors.grey.shade300),
                                   child: InkWell(
                                     onTap: () {
-                                      setState(() {
                                         value = 1;
                                         print(value);
+                                        print('init value ');
+                                        myFatoorh.initiate(context, paySaved.value!.toDouble(),1);
 
-                                        myFatoorh.initiate(context, chargeSaved.invoiceValue!.toDouble(),1);
-
-                                      });
                                     },
                                     child: Center(
                                       child: Padding(
@@ -110,7 +127,8 @@ Future<void> showOptionsCardsDialog(context) async {
                                       color: Colors.grey.shade300),
                                   child: InkWell(
                                     onTap: () {
-                                      myFatoorh.initiate(context, chargeSaved.invoiceValue!.toDouble(),2);
+                                      print('init value ${paySaved.value!.toDouble()}');
+                                      myFatoorh.initiate(context, paySaved.value!.toDouble(),2);
 
                                       // Navigator.of(context).push(
                                       //     MaterialPageRoute(
@@ -146,7 +164,7 @@ Future<void> showOptionsCardsDialog(context) async {
                                     onTap: () {
                                         value = 1;
                                         print(value);
-                                        myFatoorh.initiate(context, chargeSaved.invoiceValue!.toDouble(),2);
+                                        myFatoorh.initiate(context, paySaved.value!.toDouble(),2);
 
                                     },
                                     child: Padding(
