@@ -24,6 +24,7 @@ class _UserScannerState extends State<UserScanner> {
   QRViewController? controller;
   late final Repository repository;
   late final AppData _appData;
+  bool _isPaymentBottomSheetOpened = false;
   final _formKey = GlobalKey<FormState>();
   TextEditingController amountController = TextEditingController();
 
@@ -73,7 +74,7 @@ class _UserScannerState extends State<UserScanner> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
-      if(scanData.code != null){
+      if(scanData.code != null && !_isPaymentBottomSheetOpened){
         try{
           final decodedJSON = json.decode(scanData.code!) as Map<String, dynamic>;
           final userData = UserQrCodeData.fromJson(decodedJSON);
@@ -89,19 +90,19 @@ class _UserScannerState extends State<UserScanner> {
   }
 
   void openBottomSheet(UserQrCodeData userData, QRViewController controller) {
-    print("ScannerBottomSheet.. opened");
-    showModalBottomSheet<void>(
+    _isPaymentBottomSheetOpened = true;
+    Future<void> bottomSheetAwaitClose = showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context, barrierDimisable:  false);
         return Container(
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.9,
           color: Colors.white,
           child: Center(
             child: Form(
                 key: _formKey,
                 child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 30),
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 50),
                     child: ListView(
                       children: <Widget>[
                         Row(
@@ -112,12 +113,22 @@ class _UserScannerState extends State<UserScanner> {
                             Container(alignment: Alignment.center, padding: const EdgeInsets.all(10), child:  Text('Charge to ${userData.userName}', style: TextStyle(fontSize: 20, color: AppColors.rainBlueLight),)),
                           ],
                         ),
-                        Container(padding: EdgeInsets.only(top: 12, right: 12, left: 12, bottom: MediaQuery.of(context).viewInsets.bottom), child: TextFormField(
+                        Container(padding: EdgeInsets.only(top: 12, right: 12, left: 12, bottom: MediaQuery.of(context).viewInsets.bottom), child:
+                        TextFormField(
                           autofocus: true,
                           textInputAction: TextInputAction.send,
                           onFieldSubmitted: (val) => submitPayment(_dialog, userData),
                           style: TextStyle(color: AppColors.rainBlueLight),
-                          controller: amountController, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Amount', prefixIcon: Icon(FontAwesomeIcons.moneyBill)),
+                          controller: amountController, keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Amount',
+                              prefixIcon: Icon(FontAwesomeIcons.moneyBill),
+                              suffixIcon: IconButton(
+                                onPressed: () => submitPayment(_dialog, userData),
+                                icon: Icon(Icons.send),
+                              ),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Amount is required!';
@@ -125,24 +136,17 @@ class _UserScannerState extends State<UserScanner> {
                             return null;
                           },
                         ),),
-                        /*
-                        Container(
-                            height: 120,
-                            padding: const EdgeInsets.only(top: 45, bottom: 10, left: 10, right: 10),
-                            child: ElevatedButton(
-                              child: const Text('Submit', style: TextStyle(fontSize: 20),),
-                              onPressed: () => submitPayment(_dialog, userData) ,
-                            )
-                        ),
-                        */
                       ],
                     ))
             ),
           ),
         );
       },
-    ).whenComplete(() => {
-      controller.resumeCamera()
+    );
+
+    bottomSheetAwaitClose.then((void value) {
+      _isPaymentBottomSheetOpened = false;
+      controller.resumeCamera();
     });
   }
 
