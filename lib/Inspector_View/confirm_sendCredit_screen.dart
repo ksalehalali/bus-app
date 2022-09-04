@@ -15,6 +15,7 @@ class ConfirmSend extends StatefulWidget {
 class _ConfirmSendState extends State<ConfirmSend> {
 
   final InspectorController inspectorController = Get.find();
+  final screenSize = Get.size;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +52,10 @@ class _ConfirmSendState extends State<ConfirmSend> {
               padding: const EdgeInsets.only(left: 4.0,top: 15,bottom:15),
               child: Row(
                 children: [
-                  const Text('User Id : ',style:TextStyle(fontSize:16,color: Colors.black87,fontWeight:FontWeight.w400)),
-                  Text(' ${paySaved.uid}',style:const TextStyle(fontSize:14,color: Colors.black,fontWeight:FontWeight.w800)),
+                  Text('User Id : ',overflow: TextOverflow.ellipsis,style:TextStyle(fontSize:16,color: Colors.black87,fontWeight:FontWeight.w400)),
+        SizedBox(
+          width:screenSize.width *0.8-32,
+          child: Text(' ${paySaved.uid}',style:const TextStyle(fontSize:14,color: Colors.black,fontWeight:FontWeight.w800))),
                 ],
               ),
             ),

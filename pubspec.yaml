@@ -93,11 +93,11 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
 
-#dependency_overrides:
-  #qr_code_scanner:
-    #git:
-      #url: https://github.com/X-SLAYER/qr_code_scanner.git
-      #ref: flutter-beta
+dependency_overrides:
+  qr_code_scanner:
+    git:
+      url: https://github.com/X-SLAYER/qr_code_scanner.git
+      ref: flutter-beta
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -42,10 +42,10 @@ var ticketIdScanned =''.obs;
       busScannedData.value =data;
       print("bus data :: ${data}");
       openCam.value =false;
-      getInspectorBusesChecked(context);
+      //getInspectorBusesChecked(context);
       busScanned.value =true;
       await checkBus(busId);
-      Get.to(()=>  const MainScreenInspector( currentPage: 2,));
+      Get.offAll(()=>  const MainScreenInspector( currentPage: 2,));
       update();
     }else{
       busScanned.value =false;
@@ -100,15 +100,15 @@ update();
   Future sendCreditRequest()async{
 
     var headers = {
-      'Authorization': '$myToken',
+      'Authorization': myToken,
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ChargeWalletByPromoter'));
+    var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ChargeWalletByInspector'));
     request.body = json.encode({
       "api_key": "\$FhlF]3;.OIic&{>H;_DeW}|:wQ,A8",
       "api_secret": "Z~P7-_/i!=}?BIwAd*S67LBzUo4O^G",
       "UserID": paySaved.uid,
-      "PromoterID": "1d31cd22-d1a7-453d-a0e8-43aebe2d7fba",
+      "invoiceId": "",
       "invoiceValue": paySaved.value
     });
     request.headers.addAll(headers);
@@ -162,6 +162,7 @@ Future getInspectorBusesChecked(BuildContext context)async{
     gotBusesChecked.value =true ;
 update();
     Navigator.of(_dialog.context!,rootNavigator: true).pop();
+   // Get.offAll(MainScreenInspector(currentPage: 0));
 
   }
   else {
@@ -203,7 +204,7 @@ update();
     _dialog.show(message: 'Please wait...', indicatorColor: AppColors.rainBlueLight, textStyle: TextStyle(color: AppColors.rainBlueLight));
 
     var headers = {
-      'Authorization': '$myToken',
+      'Authorization': myToken,
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ListInspictionUserByInspector'));

@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-    myToken = 'bearer ${box.read('myToken')}';
+    //myToken = 'bearer ${box.read('myToken')}';
 
     _repository = Repository(networkService: NetworkService());
     getProfileInformation();

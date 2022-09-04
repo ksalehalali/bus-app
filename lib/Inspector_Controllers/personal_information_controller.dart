@@ -91,7 +91,7 @@ class PersonalInformationController extends GetxController {
     var head = {
       "Accept": "application/json",
       "content-type":"application/json",
-      "Authorization": "$token"
+      "Authorization": myToken
     };
 
     var jsonBody =  {
@@ -156,7 +156,7 @@ class PersonalInformationController extends GetxController {
         'POST', url
     );
     request.headers['Content-type'] ='multipart/form-data';
-    request.headers["Authorization"] = "$token";
+    request.headers["Authorization"] = myToken;
 
     print("${editedImage.path}");
 

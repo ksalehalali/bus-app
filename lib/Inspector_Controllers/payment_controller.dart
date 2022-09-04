@@ -26,18 +26,16 @@ class PaymentController extends GetxController {
 
   Future<bool> pay(bool isDirect) async {
     var headers = {
-      'Authorization': '$myToken',
+      'Authorization': myToken,
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://route.click68.com/api/PaymentMyWallet'));
+    var request = http.Request('POST', Uri.parse('https://route.click68.com/api/ChargeWalletByInspector'));
 
     if(isDirect ==false){
       request.body = json.encode({
         "api_key": "\$FhlF]3;.OIic&{>H;_DeW}|:wQ,A8",
         "api_secret": "Z~P7-_/i!=}?BIwAd*S67LBzUo4O^G",
-       // "Value":   paymentSaved.value,
-       // "TripID": tripToSave.id,
-       // "BusId": paymentSaved.busId
+        "UserId":''
       });
     }else{
       request.body = json.encode({

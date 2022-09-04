@@ -2,11 +2,14 @@ import 'dart:ui';
 import 'package:bus_driver/bus_promoter_src/view/charge_wallet/payment_method_dialog.dart';
 import 'package:bus_driver/bus_promoter_src/view/home_page/promoter_home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:myfatoorah_flutter/model/initsession/SDKInitSessionResponse.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
+import '../../../Inspector_Controllers/current_data.dart';
+import '../../../Inspector_View/widgets/QRCodeScanner.dart';
 import '../../../common_src/constants/app_colors.dart';
 
 const Color colorDark = Color(0xFF374352);
@@ -261,14 +264,14 @@ class _BalanceCalculatorState extends State<BalanceCalculator> {
         onPressed: () {
           if(isSend==true&&isDelete==false && amount >= 1){
 
-          // paySaved.value = amount.toDouble()/1000;
+           paySaved.value = amount.toDouble()/1000;
             //go payment
            if(widget.chargeAmount ==true){
              showD(context, amount.toDouble());
              //Navigator.push(context, MaterialPageRoute(builder: (context)=>CreditCardScreen(isPay: true,)));
              return;
            }else{
-           //  Get.to(()=>QRScanner(context: context,scanType: 'Send',));
+             Get.to(()=>QRScanner(context: context,scanType: 'Send',));
              return;
            }
 
