@@ -109,11 +109,15 @@ class CustomDialog extends StatelessWidget {
                       )),
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Close'),
+                        child: Container(
+                          height: 30,
+                          width: 50,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Close'),
+                          ),
                         ),
                       )
                     ],
@@ -274,11 +278,15 @@ class CustomDialogTickets extends StatelessWidget {
                           )),
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Close'),
+                        child: Container(
+                          height: 30,
+                          width: 50,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Close'),
+                          ),
                         ),
                       )
                     ],

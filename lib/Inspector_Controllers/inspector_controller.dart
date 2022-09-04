@@ -18,7 +18,7 @@ class InspectorController extends GetxController{
   var paymentsForBus = [].obs;
   var gotBusesChecked =false.obs;
   var gotTicketsChecked =false.obs;
-var ticketIdScanned =''.obs;
+  var ticketIdScanned =''.obs;
 
 
   Future getBusData(String busId,BuildContext context)async{
@@ -179,7 +179,7 @@ update();
     };
     var request = http.Request('POST', Uri.parse('https://route.click68.com/api/InspectionBus'));
     request.body = json.encode({
-      "id":'299053ab-4f9b-4d44-52c9-08da1620ad87'
+      "id":busId
     });
     request.headers.addAll(headers);
 

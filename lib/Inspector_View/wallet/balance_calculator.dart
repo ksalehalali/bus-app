@@ -63,27 +63,27 @@ class _BalanceCalculatorState extends State<BalanceCalculator> {
       });
     }
   }
-  Widget buildButton(
-      String buttonText, double buttonHeight, Color buttonColor) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.1 * buttonHeight,
-      color: buttonColor,
-      child: FlatButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
-              side: const BorderSide(
-                  color: Colors.white, width: 1, style: BorderStyle.solid)),
-          padding: EdgeInsets.all(16.0),
-          onPressed: null,
-          child: Text(
-            buttonText,
-            style: const TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.normal,
-                color: Colors.white),
-          )),
-    );
-  }
+  // Widget buildButton(
+  //     String buttonText, double buttonHeight, Color buttonColor) {
+  //   return Container(
+  //     height: MediaQuery.of(context).size.height * 0.1 * buttonHeight,
+  //     color: buttonColor,
+  //     child: FlatButton(
+  //         shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(0.0),
+  //             side: const BorderSide(
+  //                 color: Colors.white, width: 1, style: BorderStyle.solid)),
+  //         padding: EdgeInsets.all(16.0),
+  //         onPressed: null,
+  //         child: Text(
+  //           buttonText,
+  //           style: const TextStyle(
+  //               fontSize: 30.0,
+  //               fontWeight: FontWeight.normal,
+  //               color: Colors.white),
+  //         )),
+  //   );
+  // }
 
 
   @override
