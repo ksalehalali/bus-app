@@ -41,11 +41,11 @@ class _TransactionListWidget extends State<TransactionListWidget> {
             color: Colors.white,
             child: SizedBox(
                 height: widget.widgetHeight,
-                child: new ListView.separated(
+                child: ListView.separated(
                   reverse: false,
                   itemCount: widget.transactionList.length,
                   controller: _scrollController,
-                  separatorBuilder: (BuildContext context, int index) => Divider(height: 1,),
+                  separatorBuilder: (BuildContext context, int index) => const Divider(height: 1,),
                   itemBuilder: (BuildContext context, int index) {return TransactionRow(transaction: widget.transactionList[index],);},
                 )
             )
@@ -59,13 +59,13 @@ class TransactionRow extends StatelessWidget {
   final Transaction? transaction;
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextStyle(color: AppColors.rainBlueDark);
+    const textStyle = TextStyle(color: AppColors.rainBlueDark);
     return Expanded(
         flex: 1,
         child: ListTile(
-          title: new Text(transaction!.username!, style: textStyle,),
-          subtitle: new Text(transaction!.time, style: textStyle,),
-          leading: new Image(image: AssetImage(transaction!.statusIconPath)),
+          title: Text(transaction!.username!, style: textStyle,),
+          subtitle: Text(transaction!.time, style: textStyle,),
+          leading: Image(image: AssetImage(transaction!.statusIconPath)),
       )
     );
   }
