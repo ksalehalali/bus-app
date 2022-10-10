@@ -22,7 +22,6 @@ Future<void> main() async{
   final inspectorController =  Get.putAsync(() async => InspectorController(),permanent: true);
   final paymentController =  Get.putAsync(() async => PaymentController(),permanent: true);
   //await PushNotificationService().setupInteractedMessage();
-
   AppData _appData = AppData();
   await _appData.getSharedPreferencesInstance().then((pref){
     String? accountType = _appData.getAccountType(pref!);

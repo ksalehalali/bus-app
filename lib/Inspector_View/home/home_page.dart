@@ -171,8 +171,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ElevatedButton(
                 onPressed: () async {
                   scanType = 'Bus';
-
-                  inspectorController.openCam.value = true;
+                  Get.to(()=>QRScanner(context: context,scanType: scanType,));
                 },
                 child: const Text(
                   "Scan Bus",
@@ -191,7 +190,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ElevatedButton(
                 onPressed: () async {
                   scanType = 'Ticket';
-                  inspectorController.openCam.value = true;
+                  Get.to(()=>QRScanner(context: context,scanType: scanType,));
                 },
                 child: const Text(
                   "Scan Ticket",
@@ -289,8 +288,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         body: Padding(
           padding: const EdgeInsets.only(top:0),
-          child: Obx(
-            () => Stack(
+          child: Stack(
               children: [
                 Column(
                   children: [
@@ -459,7 +457,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         4),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(24),
                                       ),
                                       boxShadow: [
@@ -494,14 +492,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-                inspectorController.openCam.value == true
-                    ? QRScanner(
-                        scanType: scanType,
-                      )
-                    : Container(),
               ],
             ),
-          ),
         ),
       ),
     );
